@@ -63,7 +63,7 @@ const HeroSection = () => {
       switch (part.style) {
         case 'gradient':
           return (
-            <span key={index} className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
+            <span key={index} className="bg-gradient-to-r from-[#DC3C22] via-red-600 to-orange-600 bg-clip-text text-transparent">
               {part.text}
             </span>
           );
@@ -97,7 +97,7 @@ const HeroSection = () => {
     );
 
     return (
-      <h1 className={`font-bold leading-tight text-gray-900 dark:text-white ${textSizeClass}`}>
+      <h1 className={`font-bold leading-tight text-[#182641] dark:text-white ${textSizeClass}`}>
         {renderStyledParts(parts)}
       </h1>
     );
@@ -112,17 +112,17 @@ const HeroSection = () => {
   );
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-red-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 text-[#182641] dark:text-white">
       <div className="absolute inset-0">
-        <div className="absolute right-0 top-0 h-1/3 w-1/3 rounded-full bg-gradient-to-bl from-blue-100/50 to-transparent blur-3xl dark:from-blue-900/20"></div>
-        <div className="absolute bottom-0 left-0 h-1/4 w-1/4 rounded-full bg-gradient-to-tr from-purple-100/50 to-transparent blur-3xl dark:from-purple-900/20"></div>
+        <div className="absolute right-0 top-0 h-1/3 w-1/3 rounded-full bg-gradient-to-bl from-red-100/40 to-transparent blur-3xl dark:from-red-900/20"></div>
+        <div className="absolute bottom-0 left-0 h-1/4 w-1/4 rounded-full bg-gradient-to-tr from-orange-100/40 to-transparent blur-3xl dark:from-orange-900/20"></div>
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 pt-10 pb-0 sm:px-6 lg:px-8">
         <div className="grid min-h-[calc(100vh-6rem)] grid-cols-1 items-start gap-12 lg:grid-cols-2">
           <div className="space-y-8 lg:pr-8">
-            <div className="inline-flex items-center space-x-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-800 shadow-sm dark:bg-blue-900/30 dark:text-blue-200">
-              <div className="h-2 w-2 animate-pulse rounded-full bg-blue-600"></div>
+            <div className="inline-flex items-center space-x-2 rounded-full bg-gradient-to-r from-red-50 to-orange-50 px-4 py-2 text-sm font-medium text-[#182641] shadow-sm dark:bg-gradient-to-r dark:from-red-900/20 dark:to-orange-900/20 dark:text-white">
+              <div className="h-2 w-2 animate-pulse rounded-full bg-[#DC3C22]"></div>
               <span>Revolutionary Automotive Solutions</span>
             </div>
 
@@ -131,15 +131,15 @@ const HeroSection = () => {
                 <HeadingSkeleton />
               ) : (
                 processHeading() || (
-                  <h1 className="text-4xl font-bold leading-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl">
+                  <h1 className="text-4xl font-bold leading-tight text-[#182641] dark:text-white sm:text-5xl lg:text-6xl">
                     Website for{" "}
-                    <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#DC3C22] via-red-600 to-orange-600 bg-clip-text text-transparent">
                       Automotive Dealers
                     </span>{" "}
                     Built to{" "}
                     <span className="relative">
-                      <span className="relative">Sell Cars</span>
-                      <div className="absolute -bottom-2 left-0 right-0 h-3 -skew-x-12 transform bg-gradient-to-r from-yellow-200 to-yellow-300 dark:from-yellow-400/30 dark:to-yellow-500/30"></div>
+                      <span className="relative text-[#182641] dark:text-white">Sell Cars</span>
+                      <div className="absolute -bottom-2 left-0 right-0 h-3 -skew-x-12 transform bg-gradient-to-r from-[#DC3C22]/30 to-orange-300/50 dark:from-[#DC3C22]/40 dark:to-orange-500/40"></div>
                     </span>
                   </h1>
                 )
@@ -149,7 +149,7 @@ const HeroSection = () => {
             <div className="flex flex-col gap-4 pt-4 sm:flex-row">
               <button
                 onClick={() => router.push("/car-for-sale")}
-                className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 via-blue-700 to-purple-700 px-6 py-3 text-base text-white shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 sm:px-8 sm:py-4"
+                className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-[#DC3C22] via-red-600 to-red-700 px-6 py-3 text-base text-white shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:from-[#c23319] hover:via-red-700 hover:to-red-800 focus:outline-none focus:ring-4 focus:ring-[#DC3C22]/50 dark:focus:ring-[#DC3C22]/60 sm:px-8 sm:py-4"
               >
                 <span className="relative mr-3">Explore Our Vehicles</span>
                 <FaArrowRight className="relative h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1 sm:h-5 sm:w-5" />
@@ -157,7 +157,7 @@ const HeroSection = () => {
               
               <button
                 onClick={() => router.push("/liked-cars")}
-                className="sm:hidden group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-5 py-2.5 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:focus:ring-indigo-800"
+                className="sm:hidden group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-r from-[#DC3C22] via-red-600 to-orange-600 px-5 py-2.5 font-medium text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl hover:from-[#c23319] hover:via-red-700 hover:to-orange-700 focus:outline-none focus:ring-4 focus:ring-[#DC3C22]/50 dark:focus:ring-[#DC3C22]/60"
               >
                 <span className="relative mr-5">Your Favorite Cars</span>
                 <FaArrowRight className="relative h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1 sm:h-5 sm:w-5" />

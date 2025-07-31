@@ -11,7 +11,7 @@ import "./globals.css"
 import LayoutRenderer from "./components/LayoutRenderer"
 import Cookiebox from "./components/Cookiebox"
 import GoogleAnalytics from "./components/GoogleAnalytics"
-import GoogleRecaptcha from "./components/GoogleRecaptcha"
+// import GoogleRecaptcha from "./components/GoogleRecaptcha"
 import { CurrencyProvider } from "./context/CurrencyContext"
 import { AuthProvider } from "./context/UserContext"
 import { SidebarProvider } from './context/SidebarContext'
@@ -119,7 +119,7 @@ export default async function RootLayout({
         <SidebarProvider>
         <ThemeModeScript />
         <GoogleAnalytics />
-        <GoogleRecaptcha />
+        {/* <GoogleRecaptcha /> */}
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <LayoutRenderer>

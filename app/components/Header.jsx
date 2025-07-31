@@ -88,7 +88,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="fixed left-0 right-0 top-0 z-50 border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur-lg transition-all duration-300 dark:border-gray-700 dark:bg-gray-900/95">
+      <nav className="fixed left-0 right-0 top-0 z-50 border-b border-gray-200/50 bg-white/95 shadow-sm backdrop-blur-lg transition-all duration-300 dark:border-gray-700/50 dark:bg-gray-900/95">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4">
           <div className="flex h-16 items-center justify-between">
             {!topSettings.hideLogo && (
@@ -106,10 +106,10 @@ const Header = () => {
                       onError={() => setLogo("")}
                     />
                     <div className="flex flex-col">
-                      <span className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-                        FrontSeat
+                      <span className="bg-gradient-to-r from-[#182641] to-[#2a3851] bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-white dark:to-gray-200">
+                        CruiseControl
                       </span>
-                      <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                      <span className="text-xs font-medium text-[#182641]/70 dark:text-gray-400">
                         Built to Sell Cars
                       </span>
                     </div>
@@ -117,10 +117,10 @@ const Header = () => {
                 ) : (
                   <Link href="/" className="flex items-center space-x-3">
                     <div className="flex flex-col">
-                      <span className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-                        FrontSeat
+                      <span className="bg-gradient-to-r from-[#182641] to-[#2a3851] bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-white dark:to-gray-200">
+                         CruiseControl
                       </span>
-                      <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                      <span className="text-xs font-medium text-[#182641]/70 dark:text-gray-400">
                         Built to Sell Cars
                       </span>
                     </div>
@@ -135,7 +135,7 @@ const Header = () => {
                   <Link
                     key={index}
                     href={link.href}
-                    className="group flex items-center space-x-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-blue-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-blue-400"
+                    className="group flex items-center space-x-2 rounded-lg px-3 py-2 text-sm font-medium text-[#182641] transition-all duration-200 hover:bg-gradient-to-r hover:from-[#DC3C22]/10 hover:to-red-50 hover:text-[#DC3C22] dark:text-gray-300 dark:hover:bg-gradient-to-r dark:hover:from-[#DC3C22]/20 dark:hover:to-red-900/20 dark:hover:text-[#DC3C22]"
                   >
                     <IconComponent className="h-4 w-4 transition-colors duration-200" />
                     <span>{link.name}</span>
@@ -148,10 +148,10 @@ const Header = () => {
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
                 aria-label="Open Menu"
-                className="group relative rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-gray-800 dark:hover:bg-gray-700 lg:hidden"
+                className="group relative rounded-xl bg-gradient-to-br from-gray-100 to-gray-50 p-3 transition-all duration-300 hover:scale-105 hover:from-[#DC3C22]/10 hover:to-red-50 focus:outline-none focus:ring-2 focus:ring-[#DC3C22]/50 focus:ring-offset-2 dark:from-gray-800 dark:to-gray-700 dark:hover:from-[#DC3C22]/20 dark:hover:to-red-900/20 lg:hidden"
               >
                 <svg
-                  className="h-5 w-5 text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:group-hover:text-blue-400"
+                  className="h-5 w-5 text-[#182641] transition-colors duration-300 group-hover:text-[#DC3C22] dark:text-gray-300 dark:group-hover:text-[#DC3C22]"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -163,34 +163,34 @@ const Header = () => {
                     d="M4 6h16M4 12h16M4 18h16"
                   />
                 </svg>
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/0 to-purple-500/0 transition-all duration-300 group-hover:from-blue-500/10 group-hover:to-purple-500/10"></div>
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#DC3C22]/0 to-red-500/0 transition-all duration-300 group-hover:from-[#DC3C22]/10 group-hover:to-red-500/10"></div>
               </button>
 
               {/* Search Button - Hidden on smaller screens */}
               <button
                 onClick={toggleSearchSidebar}
                 aria-label="Open Search"
-                className="group relative hidden rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-gray-800 dark:hover:bg-gray-700 lg:block"
+                className="group relative hidden rounded-xl bg-gradient-to-br from-gray-100 to-gray-50 p-3 transition-all duration-300 hover:scale-105 hover:from-[#DC3C22]/10 hover:to-red-50 focus:outline-none focus:ring-2 focus:ring-[#DC3C22]/50 focus:ring-offset-2 dark:from-gray-800 dark:to-gray-700 dark:hover:from-[#DC3C22]/20 dark:hover:to-red-900/20 lg:block"
               >
-                <FaSearch className="h-5 w-5 text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:group-hover:text-blue-400" />
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/0 to-purple-500/0 transition-all duration-300 group-hover:from-blue-500/10 group-hover:to-purple-500/10"></div>
+                <FaSearch className="h-5 w-5 text-[#182641] transition-colors duration-300 group-hover:text-[#DC3C22] dark:text-gray-300 dark:group-hover:text-[#DC3C22]" />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#DC3C22]/0 to-red-500/0 transition-all duration-300 group-hover:from-[#DC3C22]/10 group-hover:to-red-500/10"></div>
               </button>
 
               {!topSettings.hideFavourite && (
                 <button
                   onClick={() => router.push("/liked-cars")}
                   aria-label="Liked Cars"
-                  className="group relative hidden rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-gray-800 dark:hover:bg-gray-700 md:flex"
+                  className="group relative hidden rounded-xl bg-gradient-to-br from-gray-100 to-gray-50 p-3 transition-all duration-300 hover:scale-105 hover:from-[#DC3C22]/10 hover:to-red-50 focus:outline-none focus:ring-2 focus:ring-[#DC3C22]/50 focus:ring-offset-2 dark:from-gray-800 dark:to-gray-700 dark:hover:from-[#DC3C22]/20 dark:hover:to-red-900/20 md:flex"
                 >
-                  <FaHeart className="h-5 w-5 text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:group-hover:text-blue-400" />
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/0 to-purple-500/0 transition-all duration-300 group-hover:from-blue-500/10 group-hover:to-purple-500/10"></div>
+                  <FaHeart className="h-5 w-5 text-[#182641] transition-colors duration-300 group-hover:text-[#DC3C22] dark:text-gray-300 dark:group-hover:text-[#DC3C22]" />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#DC3C22]/0 to-red-500/0 transition-all duration-300 group-hover:from-[#DC3C22]/10 group-hover:to-red-500/10"></div>
                 </button>
               )}
               <div className="hidden items-center space-x-3 md:flex">
                 {!topSettings.hideDarkMode && (
                   <button
                     onClick={toggleDarkMode}
-                    className="group relative rounded-xl bg-gray-100/70 p-3 text-gray-700 ring-1 ring-gray-300/50 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gray-200/80 hover:text-gray-900 hover:ring-gray-400/70 dark:bg-gray-700/70 dark:text-gray-300 dark:ring-gray-600/50 dark:hover:bg-gray-600/80 dark:hover:text-white dark:hover:ring-gray-500/70"
+                    className="group relative rounded-xl bg-gradient-to-br from-gray-100/70 to-gray-50/70 p-3 text-[#182641] ring-1 ring-gray-300/30 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:from-[#DC3C22]/10 hover:to-red-50/80 hover:text-[#DC3C22] hover:ring-[#DC3C22]/30 dark:from-gray-700/70 dark:to-gray-600/70 dark:text-gray-300 dark:ring-gray-600/30 dark:hover:from-[#DC3C22]/20 dark:hover:to-red-900/20 dark:hover:text-[#DC3C22] dark:hover:ring-[#DC3C22]/40"
                     aria-label="Toggle dark mode"
                   >
                     {darkMode ? (
@@ -205,7 +205,7 @@ const Header = () => {
                 {!topSettings.hideDarkMode && (
                   <button
                     onClick={toggleDarkMode}
-                    className="rounded-xl bg-gray-100/70 p-3 text-gray-700 ring-1 ring-gray-300/50 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gray-200/80 hover:text-white"
+                    className="rounded-xl bg-gradient-to-br from-gray-100/70 to-gray-50/70 p-3 text-[#182641] ring-1 ring-gray-300/30 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:from-[#DC3C22]/10 hover:to-red-50/80 hover:text-[#DC3C22]"
                     aria-label="Toggle dark mode"
                   >
                     {darkMode ? (
@@ -235,16 +235,16 @@ const Header = () => {
         } scrollbar-hide lg:hidden`}
       >
         <div className="flex h-full flex-col">
-          <div className="flex items-center justify-between border-b border-gray-200 p-3 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <div className="flex items-center justify-between border-b border-gray-200/50 bg-gradient-to-r from-gray-50 to-white p-3 dark:border-gray-700/50 dark:from-gray-800 dark:to-gray-900">
+            <h2 className="bg-gradient-to-r from-[#182641] to-[#2a3851] bg-clip-text text-lg font-semibold text-transparent dark:from-white dark:to-gray-200">
               Quick Links
             </h2>
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               aria-label="Close Menu"
-              className="rounded-lg p-1.5 transition-colors duration-200 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:hover:bg-gray-800"
+              className="rounded-lg p-1.5 text-[#182641] transition-colors duration-200 hover:bg-gradient-to-r hover:from-[#DC3C22]/10 hover:to-red-50 hover:text-[#DC3C22] focus:outline-none focus:ring-2 focus:ring-[#DC3C22]/50 dark:text-gray-300 dark:hover:from-[#DC3C22]/20 dark:hover:to-red-900/20 dark:hover:text-[#DC3C22]"
             >
-              <FaTimes className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+              <FaTimes className="h-4 w-4" />
             </button>
           </div>
           <div className="flex-1 space-y-2 p-4">
@@ -255,7 +255,7 @@ const Header = () => {
                   key={index}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)} // Close menu on link click
-                  className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-blue-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-blue-400"
+                  className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-[#182641] transition-all duration-200 hover:bg-gradient-to-r hover:from-[#DC3C22]/10 hover:to-red-50 hover:text-[#DC3C22] dark:text-gray-300 dark:hover:from-[#DC3C22]/20 dark:hover:to-red-900/20 dark:hover:text-[#DC3C22]"
                 >
                   <IconComponent className="h-5 w-5" />
                   <span>{link.name}</span>

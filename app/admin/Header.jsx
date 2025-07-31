@@ -60,7 +60,7 @@ const Header = ({ isDarkMode }) => {
           </div>
           <div className="flex flex-col items-start justify-center">
             <span className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-              FrontSeat
+              CruiseControl
             </span>
             <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
               Built to sell cars
