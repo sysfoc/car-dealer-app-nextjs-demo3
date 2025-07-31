@@ -168,7 +168,7 @@ const HeroSection = () => {
           <div className="relative flex items-start lg:pl-8">
             <div className="relative w-full">
               <Image
-                src="/sysfoc1.webp"
+                src="/cruisecontrol1.webp"
                 alt="Automotive Web Solutions - Professional Dealer Websites"
                 width={800}
                 height={600}

@@ -1,8 +1,7 @@
-"use client"
-
+// "use client"
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight } from 'lucide-react'
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 
@@ -27,6 +26,7 @@ const Blog = () => {
         setLoading(false)
       }
     }
+
     fetchBlogs()
   }, [])
 
@@ -37,8 +37,12 @@ const Blog = () => {
         <div className="relative px-4 py-12 sm:px-8">
           <div className="max-w-7xl mx-auto text-center">
             <div className="backdrop-blur-md bg-red-50/70 dark:bg-red-950/20 border border-red-200/50 dark:border-red-500/20 rounded-3xl p-6">
-              <h3 className="text-xl font-semibold text-red-600 dark:text-red-400 mb-2">Error Loading Blogs</h3>
-              <p className="text-red-500 dark:text-red-300">{error}</p>
+              <h3 className="text-xl font-semibold mb-2 text-app-button">
+                Error Loading Blogs
+              </h3>
+              <p className="text-app-text/80 dark:text-red-300">
+                {error}
+              </p>
             </div>
           </div>
         </div>
@@ -50,11 +54,12 @@ const Blog = () => {
     <section className="relative overflow-hidden">
       {/* Background with gradient and pattern */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-850"></div>
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width=%2260%22%20height=%2260%22%20viewBox=%220%200%2060%2060%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg%20fill=%22none%22%20fill-rule=%22evenodd%22%3E%3Cg%20fill=%22%23000000%22%20fill-opacity=%220.03%22%3E%3Ccircle%20cx=%2230%22%20cy=%2230%22%20r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] dark:bg-[url('data:image/svg+xml,%3Csvg%20width=%2260%22%20height=%2260%22%20viewBox=%220%200%2060%2060%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg%20fill=%22none%22%20fill-rule=%22evenodd%22%3E%3Cg%20fill=%22%231a1a1a%22%20fill-opacity=%220.03%22%3E%3Ccircle%20cx=%2230%22%20cy=%2230%22%20r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+      {/* <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width=%2260%22%20height=%2260%22%20viewBox=%220%200%2060%2060%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg%20fill=%22none%22%20fillRule=%22evenodd%22%3E%3Cg%20fill=%22%23000000%22%20fillOpacity=%220.03%22%3E%3Ccircle%20cx=%2230%22%20cy=%2230%22%20r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] dark:bg-[url('data:image/svg+xml,%3Csvg%20width=%2260%22%20height=%2260%22%20viewBox=%220%200%2060%2060%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg%20fill=%22none%22%20fillRule=%22evenodd%22%3E%3Cg%20fill=%22%231a1a1a%22%20fillOpacity=%220.03%22%3E%3Ccircle%20cx=%2230%22%20cy=%2230%22%20r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div> */}
+      
       {/* Animated background elements */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-blue-500/10 dark:bg-gray-700/10 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/10 dark:bg-gray-800/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-
+      
       <div className="relative px-4 py-12 sm:px-8 md:py-16">
         <div className="max-w-7xl mx-auto">
           {/* Header Section */}
@@ -63,35 +68,35 @@ const Blog = () => {
               <div className="space-y-3">
                 <div className="inline-block">
                   <div className="bg-white/80 dark:bg-white/10 backdrop-blur-sm border border-gray-200/50 dark:border-white/20 rounded-full px-6 py-2">
-                    <span className="text-blue-600 dark:text-blue-200 text-sm font-semibold tracking-wider uppercase">
+                    <span className="text-sm font-semibold tracking-wider uppercase text-app-button">
                       Latest Updates
                     </span>
                   </div>
                 </div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
-                  <span className="bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-100 dark:to-purple-100 bg-clip-text text-transparent">
-                    {t("blogHeading")}
-                  </span>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-app-text dark:text-gray-100 leading-tight">
+                  {t("blogHeading")}
                 </h2>
               </div>
               <Link href={"/blogs"} className="group">
-                <div className="flex items-center gap-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                <div className="flex items-center gap-3 text-white font-semibold px-6 py-3 rounded-2xl bg-app-button hover:bg-app-button-hover transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
                   <span>{t("viewAll")}</span>
                   <ArrowUpRight className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </div>
               </Link>
             </div>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></div>
+            <div className="w-24 h-1 rounded-full bg-app-button"></div>
           </div>
+          
           {/* Loading State */}
           {loading && (
             <div className="flex justify-center items-center py-16">
               <div className="relative">
-                <div className="w-20 h-20 border-4 border-blue-200 dark:border-blue-800 rounded-full animate-spin border-t-blue-600 dark:border-t-blue-400"></div>
-                <div className="absolute inset-0 w-20 h-20 border-4 border-transparent rounded-full animate-ping border-t-blue-400/50"></div>
+                <div className="w-20 h-20 border-4 border-app-button/30 border-t-app-button rounded-full animate-spin"></div>
+                <div className="absolute inset-0 w-20 h-20 border-4 border-transparent border-t-app-button/50 rounded-full animate-ping"></div>
               </div>
             </div>
           )}
+          
           {/* Blog Content */}
           {!loading && blogs.length >= 1 && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -112,7 +117,7 @@ const Blog = () => {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                         {/* Featured badge */}
                         <div className="absolute top-4 left-4">
-                          <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                          <div className="text-white px-4 py-2 rounded-full text-sm font-semibold bg-app-button">
                             Featured
                           </div>
                         </div>
@@ -121,18 +126,21 @@ const Blog = () => {
                   </div>
                   <div className="p-6 space-y-3">
                     <Link href={`/blog/${blogs[0].slug}`} className="group/title">
-                      <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white group-hover/title:text-blue-600 dark:group-hover/title:text-blue-400 transition-colors duration-300 line-clamp-2">
+                      <h3 className="text-xl md:text-2xl font-bold text-app-text hover:text-app-button dark:text-gray-100 dark:hover:text-app-button transition-colors duration-300 line-clamp-2">
                         {blogs[0].slug}
                       </h3>
                     </Link>
                     {/* Hover indicator */}
                     <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <div className="w-8 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-                      <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">Read Article</span>
+                      <div className="w-8 h-0.5 rounded-full bg-app-button"></div>
+                      <span className="text-sm font-medium text-app-button">
+                        Read Article
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
+              
               {/* Blog Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {blogs.slice(1, 5).map((blog, index) => (
@@ -158,14 +166,16 @@ const Blog = () => {
                       </div>
                       <div className="p-4 space-y-2">
                         <Link href={`/blog/${blog.slug}`} className="group/title">
-                          <h3 className="text-base font-bold text-gray-900 dark:text-white group-hover/title:text-blue-600 dark:group-hover/title:text-blue-400 transition-colors duration-300 line-clamp-2">
+                          <h3 className="text-base font-bold text-app-text hover:text-app-button dark:text-gray-100 dark:hover:text-app-button transition-colors duration-300 line-clamp-2">
                             {blog.slug}
                           </h3>
                         </Link>
                         {/* Hover indicator */}
                         <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
-                          <div className="w-6 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-                          <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">Read More</span>
+                          <div className="w-6 h-0.5 rounded-full bg-app-button"></div>
+                          <span className="text-xs font-medium text-app-button">
+                            Read More
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -174,11 +184,12 @@ const Blog = () => {
               </div>
             </div>
           )}
+          
           {/* No blogs state */}
           {!loading && blogs.length === 0 && (
             <div className="text-center py-16">
               <div className="backdrop-blur-md bg-white/70 dark:bg-white/10 border border-gray-200/50 dark:border-white/20 rounded-3xl p-10 max-w-2xl mx-auto">
-                <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 bg-app-button">
                   <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -188,8 +199,10 @@ const Blog = () => {
                     />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">No Blogs Available</h3>
-                <p className="text-gray-600 dark:text-blue-100/80 text-lg">
+                <h3 className="text-2xl font-bold text-app-text dark:text-gray-100 mb-4">
+                  No Blogs Available
+                </h3>
+                <p className="text-app-text/80 dark:text-blue-100/80 text-lg">
                   We are working on bringing you fresh content. Check back soon!
                 </p>
               </div>
@@ -197,7 +210,7 @@ const Blog = () => {
           )}
         </div>
       </div>
-      {/* Top wave decoration */}
+      
       <div className="absolute top-0 left-0 right-0">
         <svg
           viewBox="0 0 1200 120"

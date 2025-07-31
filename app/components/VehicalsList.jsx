@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 import { useCurrency } from "../context/CurrencyContext";
 import { useDistance } from "../context/DistanceContext";
 import { FaRegHeart } from "react-icons/fa6";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 const VehicalsList = ({ loadingState }) => {
   const t = useTranslations("HomePage");
@@ -40,7 +40,6 @@ const VehicalsList = ({ loadingState }) => {
         console.error("Error fetching listing data:", error);
       }
     };
-
     fetchListingData();
   }, []);
 
@@ -49,10 +48,12 @@ const VehicalsList = ({ loadingState }) => {
     const numericKm = Number.parseFloat(km);
     return isNaN(numericKm) ? km : (numericKm * 0.621371).toFixed(1);
   };
+
   const convertMilesToKm = (miles) => {
     const numericMiles = Number.parseFloat(miles);
     return isNaN(numericMiles) ? miles : (numericMiles * 1.60934).toFixed(1);
   };
+
   // Function to convert car values based on default unit
   const getConvertedValues = (vehicle) => {
     if (distanceLoading || !defaultUnit || !vehicle.unit) {
@@ -88,6 +89,7 @@ const VehicalsList = ({ loadingState }) => {
       unit: defaultUnit,
     };
   };
+
   const fetchVehicles = async () => {
     try {
       const response = await fetch("/api/cars");
@@ -103,6 +105,7 @@ const VehicalsList = ({ loadingState }) => {
       setIsLoading(false);
     }
   };
+
   const fetchUserData = async () => {
     try {
       const response = await fetch("/api/users/me");
@@ -117,6 +120,7 @@ const VehicalsList = ({ loadingState }) => {
       return;
     }
   };
+
   const handleLikeToggle = async (carId) => {
     try {
       const response = await fetch("/api/users/liked-cars", {
@@ -179,15 +183,15 @@ const VehicalsList = ({ loadingState }) => {
     <section className=" my-7 rounded-xl bg-slate-50 py-7 dark:bg-slate-900 sm:mx-8 md:my-10 md:py-10">
       <div className="mb-16">
         <div className="mx-auto max-w-4xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#DC3C22]/10 px-4 py-2 text-sm font-medium text-[#DC3C22] dark:bg-[#DC3C22]/20 dark:text-[#DC3C22]">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-app-button/10 px-4 py-2 text-sm font-medium text-app-button dark:bg-app-button/20 dark:text-app-button">
             <BiTachometer className="h-4 w-4" />
             <span>Premium Collection</span>
           </div>
-          <h2 className="mb-6 bg-gradient-to-br from-[#182641] via-[#182641]/90 to-[#182641]/70 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:via-slate-100 dark:to-slate-300 md:text-5xl lg:text-6xl">
+          <h2 className="mb-6 bg-gradient-to-br from-app-text via-app-text/90 to-app-text/70 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:via-slate-100 dark:to-slate-300 md:text-5xl lg:text-6xl">
             {listingData?.heading}
           </h2>
           <Link href={"/car-for-sale"}>
-            <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-[#DC3C22] to-[#DC3C22]/90 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-[#DC3C22]/90 hover:to-[#DC3C22] hover:shadow-2xl dark:from-[#DC3C22] dark:to-[#DC3C22]/90 dark:hover:from-[#DC3C22]/90 dark:hover:to-[#DC3C22]">
+            <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-button to-app-button/90 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-button-hover hover:to-app-button-hover hover:shadow-2xl dark:from-app-button dark:to-app-button/90 dark:hover:from-app-button-hover dark:hover:to-app-button-hover">
               <span>{t("viewAll")}</span>
               <MdOutlineArrowOutward className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
             </div>
@@ -236,7 +240,7 @@ const VehicalsList = ({ loadingState }) => {
                   <div className="relative overflow-hidden bg-slate-50 dark:bg-slate-900">
                     <div className="relative aspect-[16/10]">
                       <Image
-                        src={vehicle.imageUrls?.[0]}
+                        src={vehicle.imageUrls?.[0] || "/placeholder.svg"}
                         fill
                         alt={`${vehicle.make} ${vehicle.model}`}
                         className="object-cover transition-all duration-700 group-hover:scale-110"
@@ -251,7 +255,7 @@ const VehicalsList = ({ loadingState }) => {
                             </div>
                           </div>
                         ) : (
-                          <div className="rounded-full bg-[#DC3C22] px-3 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-sm">
+                          <div className="rounded-full bg-app-button px-3 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-sm">
                             <div className="flex items-center gap-1.5">
                               <div className="h-2 w-2 animate-pulse rounded-full bg-white"></div>
                               AVAILABLE
@@ -259,7 +263,7 @@ const VehicalsList = ({ loadingState }) => {
                           </div>
                         )}
                         {vehicle.tag && vehicle.tag !== "default" && (
-                          <div className="rounded-full bg-gradient-to-r from-[#182641] to-[#182641]/90 px-3 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-sm">
+                          <div className="rounded-full bg-gradient-to-r from-app-text to-app-text/90 px-3 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-sm">
                             <div className="flex items-center gap-1.5">
                               <div className="h-2 w-2 rounded-full bg-white"></div>
                               {vehicle.tag.toUpperCase()}
@@ -278,23 +282,23 @@ const VehicalsList = ({ loadingState }) => {
                               ? "Unlike Car"
                               : "Like Car"
                           }
-                          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-[#182641] shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:shadow-xl hover:text-[#DC3C22]"
+                          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-app-text shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:shadow-xl hover:text-app-button"
                         >
                           {userLikedCars &&
                           Array.isArray(userLikedCars) &&
                           userLikedCars.includes(vehicle._id) ? (
-                            <FaHeart className="h-4 w-4 text-[#DC3C22]" />
+                            <FaHeart className="h-4 w-4 text-app-button" />
                           ) : (
-                            <FaRegHeart className="h-4 w-4 hover:text-[#DC3C22]" />
+                            <FaRegHeart className="h-4 w-4 hover:text-app-button" />
                           )}
                         </button>
                       </div>
                       <div className="absolute bottom-4 right-4 rounded-2xl bg-white/95 px-4 py-2 shadow-lg backdrop-blur-md dark:bg-slate-800/95">
                         <div className="text-right">
-                          <p className="text-xs font-medium text-[#182641]/60 dark:text-slate-400">
+                          <p className="text-xs font-medium text-app-text/60 dark:text-slate-400">
                             From
                           </p>
-                          <p className="bg-gradient-to-r from-[#182641] to-[#182641]/70 bg-clip-text text-lg font-bold text-transparent dark:from-white dark:to-slate-300">
+                          <p className="bg-gradient-to-r from-app-text to-app-text/70 bg-clip-text text-lg font-bold text-transparent dark:from-white dark:to-slate-300">
                             {selectedCurrency?.symbol}{" "}
                             {Math.round(
                               (vehicle?.price *
@@ -308,45 +312,45 @@ const VehicalsList = ({ loadingState }) => {
                   </div>
                   <div className="p-6">
                     <div className="mb-4">
-                      <h3 className="mb-2 text-xl font-bold text-[#182641] transition-colors duration-300 group-hover:text-[#DC3C22] dark:text-white dark:group-hover:text-[#DC3C22]">
+                      <h3 className="mb-2 text-xl font-bold text-app-text transition-colors duration-300 group-hover:text-app-button dark:text-white dark:group-hover:text-app-button">
                         {vehicle.make} {vehicle.model}
                       </h3>
-                      <p className="line-clamp-2 text-sm leading-relaxed text-[#182641]/60 dark:text-slate-400">
+                      <p className="line-clamp-2 text-sm leading-relaxed text-app-text/60 dark:text-slate-400">
                         {vehicle?.description?.slice(0, 80)}...
                       </p>
                     </div>
                     <div className="mb-6 space-y-3">
                       <div className="flex items-center gap-3 text-sm">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#DC3C22]/10 dark:bg-[#DC3C22]/20">
-                          <IoSpeedometer className="h-4 w-4 text-[#DC3C22] dark:text-[#DC3C22]" />
+                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-button/10 dark:bg-app-button/20">
+                          <IoSpeedometer className="h-4 w-4 text-app-button dark:text-app-button" />
                         </div>
-                        <span className="text-[#182641]/60 dark:text-slate-400">
+                        <span className="text-app-text/60 dark:text-slate-400">
                           Mileage:
                         </span>
-                        <span className="font-semibold text-[#182641] dark:text-white">
+                        <span className="font-semibold text-app-text dark:text-white">
                           {convertedValues.kms}{" "}
                           {convertedValues.unit?.toUpperCase()}
                         </span>
                       </div>
                       <div className="flex items-center gap-3 text-sm">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#DC3C22]/10 dark:bg-[#DC3C22]/20">
-                          <GiGasPump className="h-4 w-4 text-[#DC3C22] dark:text-[#DC3C22]" />
+                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-button/10 dark:bg-app-button/20">
+                          <GiGasPump className="h-4 w-4 text-app-button dark:text-app-button" />
                         </div>
-                        <span className="text-[#182641]/60 dark:text-slate-400">
+                        <span className="text-app-text/60 dark:text-slate-400">
                           Fuel Type:
                         </span>
-                        <span className="font-semibold text-[#182641] dark:text-white">
+                        <span className="font-semibold text-app-text dark:text-white">
                           {vehicle?.fuelType}
                         </span>
                       </div>
                       <div className="flex items-center gap-3 text-sm">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#DC3C22]/10 dark:bg-[#DC3C22]/20">
-                          <TbManualGearbox className="h-4 w-4 text-[#DC3C22] dark:text-[#DC3C22]" />
+                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-button/10 dark:bg-app-button/20">
+                          <TbManualGearbox className="h-4 w-4 text-app-button dark:text-app-button" />
                         </div>
-                        <span className="text-[#182641]/60 dark:text-slate-400">
+                        <span className="text-app-text/60 dark:text-slate-400">
                           Transmission:
                         </span>
-                        <span className="font-semibold text-[#182641] dark:text-white">
+                        <span className="font-semibold text-app-text dark:text-white">
                           {vehicle?.gearbox}
                         </span>
                       </div>
@@ -356,7 +360,7 @@ const VehicalsList = ({ loadingState }) => {
                       href={`/car-detail/${vehicle.slug || vehicle._id}`}
                       className="group/cta block w-full"
                     >
-                      <div className="transform rounded-2xl bg-gradient-to-r from-[#DC3C22] to-[#DC3C22]/90 px-6 py-3.5 text-center font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-[#DC3C22]/90 hover:to-[#DC3C22] hover:shadow-xl dark:from-[#DC3C22] dark:to-[#DC3C22]/90 dark:hover:from-[#DC3C22]/90 dark:hover:to-[#DC3C22]">
+                      <div className="transform rounded-2xl bg-gradient-to-r from-app-button to-app-button/90 px-6 py-3.5 text-center font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-app-button-hover hover:to-app-button-hover hover:shadow-xl dark:from-app-button dark:to-app-button/90 dark:hover:from-app-button-hover dark:hover:to-app-button-hover">
                         <div className="flex items-center justify-center gap-2">
                           <span>View Details</span>
                           <MdOutlineArrowOutward className="h-4 w-4 transition-transform duration-300 group-hover/cta:-translate-y-1 group-hover/cta:translate-x-1" />
@@ -372,7 +376,7 @@ const VehicalsList = ({ loadingState }) => {
         <div className="mt-10 text-center">
           <button
             onClick={handleToggleVisibility}
-            className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-[#DC3C22] to-[#DC3C22]/90 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-[#DC3C22]/90 hover:to-[#DC3C22] hover:shadow-2xl dark:from-[#DC3C22] dark:to-[#DC3C22]/90 dark:hover:from-[#DC3C22]/90 dark:hover:to-[#DC3C22]"
+            className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-button to-app-button/90 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-button-hover hover:to-app-button-hover hover:shadow-2xl dark:from-app-button dark:to-app-button/90 dark:hover:from-app-button-hover dark:hover:to-app-button-hover"
           >
             <span>
               {visibleVehiclesCount >= vehicles.length
@@ -405,10 +409,10 @@ const VehicalsList = ({ loadingState }) => {
               />
             </svg>
           </div>
-          <h3 className="mb-4 text-2xl font-bold text-[#182641] dark:text-white">
+          <h3 className="mb-4 text-2xl font-bold text-app-text dark:text-white">
             No Vehicles Available
           </h3>
-          <p className="mx-auto max-w-md text-lg text-[#182641]/60 dark:text-slate-400">
+          <p className="mx-auto max-w-md text-lg text-app-text/60 dark:text-slate-400">
             Our premium collection is currently being updated. Please check back
             soon for the latest additions.
           </p>
@@ -417,4 +421,5 @@ const VehicalsList = ({ loadingState }) => {
     </section>
   );
 };
+
 export default VehicalsList;

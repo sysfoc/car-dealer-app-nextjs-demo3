@@ -1,17 +1,7 @@
-// "use client";
-
+"use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Car,
-  Truck,
-  Bus,
-  CarFront,
-  CarTaxiFront,
-  TruckIcon as TruckOpen,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Car, Truck, Bus, CarFront, CarTaxiFront, TruckIcon as TruckOpen } from 'lucide-react';
 import { MdOutlineArrowOutward } from "react-icons/md";
 
 // Array of Lucide vehicle icons for random assignment
@@ -90,6 +80,7 @@ const BrandsList = () => {
         setLoading(false);
       }
     };
+
     fetchBrands();
   }, []);
 
@@ -105,11 +96,11 @@ const BrandsList = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 p-4 sm:p-6">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-6">
         <div className="mx-auto max-w-7xl">
           <div className="flex h-32 sm:h-64 items-center justify-center">
-            <div className="h-8 w-8 sm:h-12 sm:w-12 animate-spin rounded-full border-b-2 border-indigo-600"></div>
-            <span className="ml-3 text-sm sm:text-base font-medium text-slate-600">
+            <div className="h-8 w-8 sm:h-12 sm:w-12 animate-spin rounded-full border-b-2 border-indigo-600 dark:border-app-button"></div>
+            <span className="ml-3 text-sm sm:text-base font-medium text-app-text dark:text-gray-100">
               Loading brands...
             </span>
           </div>
@@ -123,28 +114,27 @@ const BrandsList = () => {
   }
 
   return (
-    <section className="relative mx-2 sm:mx-4 my-4 sm:my-6 overflow-hidden rounded-xl sm:rounded-2xl border border-gray-200 bg-gray-100 px-2 sm:px-4 py-8 sm:py-12 shadow-lg dark:bg-gray-950">
+    <section className="relative mx-2 sm:mx-4 my-4 sm:my-6 overflow-hidden rounded-xl sm:rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 sm:px-4 py-8 sm:py-12 shadow-lg">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -right-16 sm:-right-32 -top-20 sm:-top-40 h-48 w-48 sm:h-96 sm:w-96 animate-pulse rounded-full bg-blue-200/15 to-purple-200/15 blur-3xl dark:bg-blue-900/10 dark:to-purple-900/10"></div>
-        <div className="absolute -bottom-16 sm:-bottom-32 -left-20 sm:-left-40 h-40 w-40 sm:h-80 sm:w-80 animate-pulse rounded-full bg-orange-200/15 to-red-200/15 blur-3xl delay-1000 dark:bg-orange-900/10 dark:to-red-900/10"></div>
+        <div className="absolute -right-16 sm:-right-32 -top-20 sm:-top-40 h-48 w-48 sm:h-96 sm:w-96 animate-pulse rounded-full bg-blue-200/15 to-purple-200/15 blur-3xl dark:bg-blue-900/20 dark:to-purple-900/20"></div>
+        <div className="absolute -bottom-16 sm:-bottom-32 -left-20 sm:-left-40 h-40 w-40 sm:h-80 sm:w-80 animate-pulse rounded-full bg-orange-200/15 to-red-200/15 blur-3xl delay-1000 dark:bg-orange-900/20 dark:to-red-900/20"></div>
       </div>
       
       <div className="relative mx-auto max-w-7xl translate-y-0 opacity-100 transition-all duration-1000">
         <div className="mb-8 sm:mb-16 text-center px-2">
-          <h2 className="mb-2 sm:mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
+          <h2 className="mb-2 sm:mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold text-app-text dark:text-gray-100">
             {brandData?.heading || "Browse Cars by Brands"}
           </h2>
-
-          <p className="mx-auto mb-4 sm:mb-8 max-w-xl sm:max-w-2xl text-center text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-300 px-4">
+          <p className="mx-auto mb-4 sm:mb-8 max-w-xl sm:max-w-2xl text-center text-sm sm:text-base lg:text-lg text-app-text/80 dark:text-gray-300 px-4">
             {brandData?.description}
           </p>
           
           <div className="flex justify-center">
             <Link href="/brands">
-              <div className="transform rounded-xl sm:rounded-2xl bg-gradient-to-r from-slate-900 to-slate-700 px-4 sm:px-6 py-2.5 sm:py-3.5 text-center text-sm sm:text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-slate-800 hover:to-slate-600 hover:shadow-xl dark:from-slate-100 dark:to-slate-300 dark:text-slate-900 dark:hover:from-white dark:hover:to-slate-200">
+              <div className="group transform rounded-xl sm:rounded-2xl bg-app-button hover:bg-app-button-hover px-4 sm:px-6 py-2.5 sm:py-3.5 text-center text-sm sm:text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
                 <div className="flex items-center justify-center gap-2">
                   <span>View All Brands</span>
-                  <MdOutlineArrowOutward className="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-300 group-hover/cta:-translate-y-1 group-hover/cta:translate-x-1" />
+                  <MdOutlineArrowOutward className="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
                 </div>
               </div>
             </Link>
@@ -175,17 +165,14 @@ const BrandsList = () => {
                           key={`${brand.name}-${index}`}
                           className="group"
                         >
-                          <div
-                            className="animate-fade-in-up relative flex flex-col items-center justify-center rounded-lg sm:rounded-xl border border-gray-300 bg-white p-2 sm:p-3 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-600"
-                            style={{ animationDelay: `${index * 50}ms` }}
-                          >
-                            <div className="relative h-10 w-10 sm:h-12 sm:w-12 lg:h-16 lg:w-16 overflow-hidden rounded-md sm:rounded-lg bg-gray-100 p-2 sm:p-3 shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:shadow-md dark:bg-gray-700">
-                              <Icon className="h-full w-full text-gray-500 dark:text-gray-300" />
+                          <div className="animate-fade-in-up relative flex flex-col items-center justify-center rounded-lg sm:rounded-xl border border-gray-300 hover:border-app-button dark:border-gray-600 dark:hover:border-app-button bg-white dark:bg-gray-800 p-2 sm:p-3 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-xl">
+                            <div className="relative h-10 w-10 sm:h-12 sm:w-12 lg:h-16 lg:w-16 overflow-hidden rounded-md sm:rounded-lg bg-gray-100 dark:bg-gray-700 p-2 sm:p-3 shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:shadow-md">
+                              <Icon className="h-full w-full text-gray-500 dark:text-gray-300 group-hover:text-app-button dark:group-hover:text-app-button transition-colors duration-300" />
                             </div>
-                            <h3 className="mt-2 sm:mt-3 w-full truncate px-1 text-center text-xs sm:text-sm lg:text-base font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-700 dark:text-white dark:group-hover:text-blue-400">
+                            <h3 className="mt-2 sm:mt-3 w-full truncate px-1 text-center text-xs sm:text-sm lg:text-base font-bold text-app-text group-hover:text-app-button dark:text-gray-100 dark:group-hover:text-app-button transition-colors duration-300">
                               {brand.name}
                             </h3>
-                            <div className="mx-auto mt-1 sm:mt-2 h-0.5 sm:h-1 w-0 rounded-full bg-blue-600 transition-all duration-500 dark:bg-blue-400"></div>
+                            <div className="mx-auto mt-1 sm:mt-2 h-0.5 sm:h-1 w-0 bg-app-button rounded-full transition-all duration-500 group-hover:w-8"></div>
                           </div>
                         </Link>
                       );
@@ -200,14 +187,14 @@ const BrandsList = () => {
             <>
               <button
                 onClick={handlePrev}
-                className="absolute left-0 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-white p-2 sm:p-3 text-gray-700 shadow-lg transition-all duration-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                className="absolute left-0 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-white dark:bg-gray-800 text-app-text dark:text-gray-100 hover:text-app-button dark:hover:text-app-button p-2 sm:p-3 shadow-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600"
                 aria-label="Previous brands"
               >
                 <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
               </button>
               <button
                 onClick={handleNext}
-                className="absolute right-0 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-white p-2 sm:p-3 text-gray-700 shadow-lg transition-all duration-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                className="absolute right-0 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-white dark:bg-gray-800 text-app-text dark:text-gray-100 hover:text-app-button dark:hover:text-app-button p-2 sm:p-3 shadow-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600"
                 aria-label="Next brands"
               >
                 <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />

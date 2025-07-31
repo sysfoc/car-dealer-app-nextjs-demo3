@@ -9,9 +9,15 @@ const config: Config = {
     flowbite.content(),
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'app-text': '#182641',
+        'app-button': '#DC3C22',
+        'app-button-hover': '#B8321C',
+      },
+    },
   },
-  plugins:  [flowbite.plugin()],
-
+  plugins: [flowbite.plugin()],
 };
+
 export default config;
