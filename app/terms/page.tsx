@@ -22,7 +22,7 @@ export async function generateMetadata(
   { params }: { params: { slug: string } },
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const headersList = headers()
+  const headersList = await headers()
   const host = headersList.get("host")
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https"
   const baseUrl = `${protocol}://${host}`
@@ -36,7 +36,7 @@ export async function generateMetadata(
 }
 
 const TermsPage = async () => {
-  const headersList = headers()
+  const headersList = await headers()
   const host = headersList.get("host")
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https"
   const baseUrl = `${protocol}://${host}`

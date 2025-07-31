@@ -2,7 +2,7 @@ import { getRequestConfig } from "next-intl/server";
 import { cookies } from "next/headers";
 
 export default getRequestConfig(async () => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const language = cookieStore.get("language")?.value || "en";
 
   const messages = await import(`../../messages/${language}.json`);

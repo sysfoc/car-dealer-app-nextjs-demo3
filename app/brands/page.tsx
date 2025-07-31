@@ -22,7 +22,7 @@ async function getBrandsMetaData(baseUrl: string): Promise<MetaPageData | null> 
 
 // Dynamic metadata generation
 export async function generateMetadata(): Promise<Metadata> {
-  const headersList = headers()
+  const headersList = await headers()
   const host = headersList.get("host")
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https"
   const siteUrl = `${protocol}://${host}`
