@@ -42,7 +42,7 @@ const SearchCallToAction = () => {
                 "Search through thousands of quality vehicles with our advanced filtering system. Find the car that matches your needs and budget."}
             </p>
           </div>
-          <div className="mb-10">
+          {/* <div className="mb-10">
             <div className="grid grid-cols-2 gap-4 sm:gap-6 justify-items-center mb-4 sm:mb-0 sm:grid-cols-3">
               <div className="flex flex-col items-center">
                 <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-app-button/10 dark:bg-app-button/20">
@@ -92,7 +92,7 @@ const SearchCallToAction = () => {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="flex flex-col items-center space-y-4">
             <button
               onClick={handleSearchClick}

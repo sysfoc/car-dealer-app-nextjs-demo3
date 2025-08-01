@@ -2,7 +2,7 @@
 import Herosection from "./components/Herosection"
 import VehicalsList from "./components/VehicalsList"
 import BrandsList from "./components/BrandsList"
-import Services from "./components/Services"
+// import Services from "./components/Services"
 import BrowseCars from "./components/BrowseCars"
 import Blog from "./components/Blog"
 import Link from "next/link"
@@ -30,7 +30,7 @@ export default function Home() {
       <VehicalsList loadingState={loading} />
       <BrandsList />
       <BrowseCars />
-      <Services />
+      {/* <Services /> */}
       <Blog />
     </div>
   )

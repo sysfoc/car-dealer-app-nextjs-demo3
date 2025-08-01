@@ -189,7 +189,7 @@ const BrowseCars = () => {
           </div>
         )}
         
-        {filteredItems.length > 0 && (
+        {/* {filteredItems.length > 0 && (
           <div className="mt-10 border-t border-gray-300 dark:border-gray-700 pt-6">
             <div className="grid grid-cols-2 gap-4 text-center sm:grid-cols-4">
               <div className="rounded-lg border border-app-button bg-blue-100 dark:bg-blue-900/30 p-4 shadow-md">
@@ -226,7 +226,7 @@ const BrowseCars = () => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </section>
   )
