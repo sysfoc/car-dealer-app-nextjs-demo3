@@ -1,4 +1,4 @@
-// "use client"
+// // "use client"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -130,9 +130,7 @@ const Footerr = ({ isDarkMode }) => {
           />
         </svg>
       </div>
-      
-      {/* <footer className="relative bg-gray-200 dark:bg-gray-800 shadow-inner pt-8 pb-3 rounded-t-3xl"> */}
-        <footer className="relative bg-gradient-to-r from-red-100/80 via-orange-100/70 to-red-100/80 dark:bg-gradient-to-r dark:from-gray-800 dark:via-[#DC3C22]/35 dark:to-gray-800 shadow-inner pt-8 pb-3 rounded-t-3xl">
+      <footer className="relative bg-app-text shadow-inner pt-8 pb-3 rounded-t-3xl">
         <div className="mx-auto w-full max-w-7xl px-4">
           <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {/* Logo Section */}
@@ -153,7 +151,7 @@ const Footerr = ({ isDarkMode }) => {
 
             {/* Quick Links */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-app-text dark:text-gray-100">
+              <h3 className="text-lg font-semibold text-white dark:text-gray-100">
                 {footerSettings?.col1Heading || t("quickLinks")}
               </h3>
               <div className="mb-2 h-0.5 w-10 rounded-full bg-app-button"></div>
@@ -161,7 +159,7 @@ const Footerr = ({ isDarkMode }) => {
                 <li>
                   <Link 
                     href="/about" 
-                    className="text-sm text-app-text/70 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
+                    className="text-sm text-white/80 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
                   >
                     {t("about")}
                   </Link>
@@ -169,7 +167,7 @@ const Footerr = ({ isDarkMode }) => {
                 <li>
                   <Link 
                     href="/contact" 
-                    className="text-sm text-app-text/70 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
+                    className="text-sm text-white/80 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
                   >
                     {t("contact")}
                   </Link>
@@ -177,7 +175,7 @@ const Footerr = ({ isDarkMode }) => {
                 <li>
                   <Link 
                     href="/terms" 
-                    className="text-sm text-app-text/70 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
+                    className="text-sm text-white/80 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
                   >
                     {t("terms")}
                   </Link>
@@ -185,7 +183,7 @@ const Footerr = ({ isDarkMode }) => {
                 <li>
                   <Link 
                     href="/privacy" 
-                    className="text-sm text-app-text/70 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
+                    className="text-sm text-white/80 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
                   >
                     {t("privacy")}
                   </Link>
@@ -195,20 +193,20 @@ const Footerr = ({ isDarkMode }) => {
 
             {/* Trading Hours */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-app-text dark:text-gray-100">
+              <h3 className="text-lg font-semibold text-white dark:text-gray-100">
                 {footerSettings?.col2Heading || t("tradingHours")}
               </h3>
               <div className="mb-2 h-0.5 w-10 rounded-full bg-green-500"></div>
               <div className="space-y-2">
                 {tradingHours.map((schedule, index) => (
                   <div key={index} className="flex items-center justify-between py-1">
-                    <span className="text-sm text-app-text/80 dark:text-gray-300">
+                    <span className="text-sm text-white/90 dark:text-gray-300">
                       {schedule.day}
                     </span>
                     <span className={`text-sm font-medium ${
                       schedule.hours === t("closedHours")
-                        ? "text-red-500 dark:text-red-400"
-                        : "text-green-600 dark:text-green-400"
+                        ? "text-red-400 dark:text-red-400"
+                        : "text-green-400 dark:text-green-400"
                     }`}>
                       {schedule.hours}
                     </span>
@@ -219,7 +217,7 @@ const Footerr = ({ isDarkMode }) => {
 
             {/* Language & Social */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-app-text dark:text-gray-100">
+              <h3 className="text-lg font-semibold text-white dark:text-gray-100">
                 {footerSettings?.col3Heading || t("language")}
               </h3>
               <div className="mb-2 h-0.5 w-10 rounded-full bg-purple-500"></div>
@@ -227,7 +225,7 @@ const Footerr = ({ isDarkMode }) => {
                 <LanguageSwitching />
                 
                 <div className="pt-2">
-                  <h4 className="text-sm font-medium text-app-text dark:text-gray-200 mb-3">
+                  <h4 className="text-sm font-medium text-white dark:text-gray-200 mb-3">
                     Follow us:
                   </h4>
                   <div className="flex items-center space-x-3 flex-wrap gap-2">
@@ -242,7 +240,7 @@ const Footerr = ({ isDarkMode }) => {
                             href={platform.url}
                             target="_blank"
                             aria-label={`Follow us on ${platform.iconValue}`}
-                            className="text-app-text/60 dark:text-gray-400 hover:text-app-button dark:hover:text-app-button transform text-xl transition-all duration-300 hover:-translate-y-0.5 hover:scale-110"
+                            className="text-white/70 dark:text-gray-400 hover:text-app-button dark:hover:text-app-button transform text-xl transition-all duration-300 hover:-translate-y-0.5 hover:scale-110"
                             rel="noreferrer"
                           >
                             {IconComponent ? (
@@ -250,13 +248,13 @@ const Footerr = ({ isDarkMode }) => {
                             ) : platform.iconType === "svg-code" ? (
                               <div className="h-5 w-5" dangerouslySetInnerHTML={{ __html: platform.iconValue }} />
                             ) : (
-                              <div className="h-5 w-5 text-gray-500 dark:text-gray-400">?</div>
+                              <div className="h-5 w-5 text-white/50 dark:text-gray-400">?</div>
                             )}
                           </a>
                         )
                       })
                     ) : (
-                      <p className="text-xs text-app-text/50 dark:text-gray-400">
+                      <p className="text-xs text-white/60 dark:text-gray-400">
                         No social media links configured yet.
                       </p>
                     )}
@@ -267,10 +265,10 @@ const Footerr = ({ isDarkMode }) => {
           </div>
 
           {/* Copyright Section */}
-          <div className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6 mb-3 sm:mb-2">
+          <div className="mt-8 border-t border-white/20 dark:border-gray-700 pt-6 mb-3 sm:mb-2">
             <div className="flex flex-col items-center justify-center space-y-2 text-center">
               <div className="flex flex-col items-center space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0">
-                <p className="text-sm text-app-text/70 dark:text-gray-400">
+                <p className="text-sm text-white/80 dark:text-gray-400">
                   &copy; {2024} {t("copyright")} by Sysfoc. All Rights Reserved.
                 </p>
               </div>
