@@ -116,156 +116,155 @@ export default function CreateUser() {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-xl">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">Create New User</h1>
-            <p className="text-gray-600">Add new users to the dealership management system</p>
+  <div className="flex-1 flex items-center justify-center p-6">
+    <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-xl">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-app-text mb-2">Create New User</h1>
+        <p className="text-gray-600">Add new users to the dealership management system</p>
+      </div>
+      {errors.general && (
+        <div className="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+          <strong className="font-bold">Error!</strong>
+          <span className="block sm:inline"> {errors.general}</span>
+        </div>
+      )}
+
+      {isSuccess && (
+        <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+          <strong className="font-bold">Success!</strong>
+          <span className="block sm:inline"> User created successfully.</span>
+        </div>
+      )}
+
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Email Field - Full Width */}
+          <div className="form-group md:col-span-2">
+            <label htmlFor="email" className="block text-sm font-medium text-app-text mb-1">
+              Email
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaEnvelope className="text-gray-400" />
+              </div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className={`w-full border ${errors.email ? "border-red-500" : "border-gray-300"} rounded-md pl-10 pr-3 py-3 focus:outline-none focus:ring-1 focus:ring-app-button`}
+                placeholder="user@example.com"
+              />
+            </div>
+            {errors.email && <div className="text-red-500 text-sm mt-1">{errors.email}</div>}
           </div>
 
-          {errors.general && (
-            <div className="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-              <strong className="font-bold">Error!</strong>
-              <span className="block sm:inline"> {errors.general}</span>
+          {/* Password Field - Full Width */}
+          <div className="form-group md:col-span-2">
+            <label htmlFor="password" className="block text-sm font-medium text-app-text mb-1">
+              Password
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaLock className="text-gray-400" />
+              </div>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                className={`w-full border ${errors.password ? "border-red-500" : "border-gray-300"} rounded-md pl-10 pr-3 py-3 focus:outline-none focus:ring-1 focus:ring-app-button`}
+                placeholder="••••••••"
+              />
             </div>
-          )}
+            {errors.password && <div className="text-red-500 text-sm mt-1">{errors.password}</div>}
+          </div>
 
-          {isSuccess && (
-            <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
-              <strong className="font-bold">Success!</strong>
-              <span className="block sm:inline"> User created successfully.</span>
-            </div>
-          )}
-
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Email Field - Full Width */}
-              <div className="form-group md:col-span-2">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FaEnvelope className="text-gray-400" />
-                  </div>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`w-full border ${errors.email ? "border-red-500" : "border-gray-300"} rounded-md pl-10 pr-3 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500`}
-                    placeholder="user@example.com"
-                  />
-                </div>
-                {errors.email && <div className="text-red-500 text-sm mt-1">{errors.email}</div>}
+          {/* Role Selection - Left Column */}
+          <div className="form-group">
+            <label htmlFor="role" className="block text-sm font-medium text-app-text mb-1">
+              Role
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaUserTag className="text-gray-400" />
               </div>
-
-              {/* Password Field - Full Width */}
-              <div className="form-group md:col-span-2">
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                  Password
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FaLock className="text-gray-400" />
-                  </div>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    required
-                    value={formData.password}
-                    onChange={handleChange}
-                    className={`w-full border ${errors.password ? "border-red-500" : "border-gray-300"} rounded-md pl-10 pr-3 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500`}
-                    placeholder="••••••••"
-                  />
-                </div>
-                {errors.password && <div className="text-red-500 text-sm mt-1">{errors.password}</div>}
-              </div>
-
-              {/* Role Selection - Left Column */}
-              <div className="form-group">
-                <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
-                  Role
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FaUserTag className="text-gray-400" />
-                  </div>
-                  <select
-                    id="role"
-                    name="role"
-                    required
-                    value={formData.role}
-                    onChange={handleChange}
-                    className={`w-full border ${errors.role ? "border-red-500" : "border-gray-300"} rounded-md pl-10 pr-3 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 appearance-none bg-white`}
-                  >
-                    <option value="" disabled>
-                      Select a role
-                    </option>
-                    <option value="superadmin">Super Admin</option>
-                    <option value="user">User</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <FaChevronDown className="text-gray-400" />
-                  </div>
-                </div>
-                {errors.role && <div className="text-red-500 text-sm mt-1">{errors.role}</div>}
-              </div>
-
-              {/* PIN Input - Right Column */}
-              <div className="form-group">
-                <label htmlFor="pin" className="block text-sm font-medium text-gray-700 mb-1">
-                  PIN (For Internal Use)
-                  <span className="inline-block ml-1 text-gray-500">
-                    <FaInfoCircle size={14} title="This PIN is auto-generated" />
-                  </span>
-                </label>
-                <div className="relative flex group">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FaKey className="text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    id="pin"
-                    name="pin"
-                    required
-                    value={formData.pin}
-                    onChange={handleChange}
-                    className={`w-full border ${errors.pin ? "border-red-500" : "border-gray-300"} rounded-l-md pl-10 pr-3 py-3 focus:outline-none focus:ring-inset focus:ring-1 focus:ring-blue-500`}
-                    placeholder="Auto-generated PIN"
-                    maxLength={6}
-                  />
-                  <button
-                    type="button"
-                    onClick={generateRandomPin}
-                    className="bg-gray-200 hover:bg-gray-300 px-3 rounded-r-md border-y border-r border-gray-300 flex items-center justify-center focus:outline-none"
-                    title="Generate new PIN"
-                  >
-                    <FaRandom className="text-gray-600" />
-                  </button>
-                </div>
-                {errors.pin && <div className="text-red-500 text-sm mt-1">{errors.pin}</div>}
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <div className="pt-4">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-md transition duration-200 flex items-center justify-center disabled:opacity-50"
+              <select
+                id="role"
+                name="role"
+                required
+                value={formData.role}
+                onChange={handleChange}
+                className={`w-full border ${errors.role ? "border-red-500" : "border-gray-300"} rounded-md pl-10 pr-3 py-3 focus:outline-none focus:ring-1 focus:ring-app-button appearance-none bg-white`}
               >
-                <FaUserPlus className="mr-2" />
-                {isSubmitting ? "Creating..." : "Create User"}
+                <option value="" disabled>
+                  Select a role
+                </option>
+                <option value="superadmin">Super Admin</option>
+                <option value="user">User</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <FaChevronDown className="text-gray-400" />
+              </div>
+            </div>
+            {errors.role && <div className="text-red-500 text-sm mt-1">{errors.role}</div>}
+          </div>
+
+          {/* PIN Input - Right Column */}
+          <div className="form-group">
+            <label htmlFor="pin" className="block text-sm font-medium text-app-text mb-1">
+              PIN (For Internal Use)
+              <span className="inline-block ml-1 text-gray-500">
+                <FaInfoCircle size={14} title="This PIN is auto-generated" />
+              </span>
+            </label>
+            <div className="relative flex group">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaKey className="text-gray-400" />
+              </div>
+              <input
+                type="text"
+                id="pin"
+                name="pin"
+                required
+                value={formData.pin}
+                onChange={handleChange}
+                className={`w-full border ${errors.pin ? "border-red-500" : "border-gray-300"} rounded-l-md pl-10 pr-3 py-3 focus:outline-none focus:ring-inset focus:ring-1 focus:ring-app-button`}
+                placeholder="Auto-generated PIN"
+                maxLength={6}
+              />
+              <button
+                type="button"
+                onClick={generateRandomPin}
+                className="bg-gray-200 hover:bg-gray-300 px-3 rounded-r-md border-y border-r border-gray-300 flex items-center justify-center focus:outline-none"
+                title="Generate new PIN"
+              >
+                <FaRandom className="text-gray-600" />
               </button>
             </div>
-          </form>
+            {errors.pin && <div className="text-red-500 text-sm mt-1">{errors.pin}</div>}
+          </div>
         </div>
-      </div>
+
+        {/* Submit Button */}
+        <div className="pt-4">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-app-button hover:bg-app-button-hover text-white py-3 rounded-md transition duration-200 flex items-center justify-center disabled:opacity-50"
+          >
+            <FaUserPlus className="mr-2" />
+            {isSubmitting ? "Creating..." : "Create User"}
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
+</div>
   )
 }
 

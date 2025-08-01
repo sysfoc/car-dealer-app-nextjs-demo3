@@ -185,15 +185,15 @@ const AdminSidebar = () => {
   }
 
   return (
-    <div className="flex h-screen w-64 flex-col border-r border-slate-200 bg-white">
+   <div className="flex h-screen w-64 flex-col border-r border-slate-200 bg-white">
       {/* Header */}
       <div className="flex-shrink-0 border-b border-slate-200 p-6">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-blue-700">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-app-text to-slate-700">
             <HiChartPie className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-slate-800">Admin Panel</h2>
+            <h2 className="text-lg font-bold text-app-text">Admin Panel</h2>
             <p className="text-xs capitalize text-slate-500">
               {userRole || "Loading..."}
             </p>
@@ -210,9 +210,9 @@ const AdminSidebar = () => {
               <a
                 key={item.href}
                 href={item.href}
-                className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition-colors duration-200 hover:bg-slate-50 hover:text-blue-600"
+                className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-app-text transition-colors duration-200 hover:bg-slate-50 hover:text-app-button"
               >
-                <item.icon className="h-5 w-5 text-slate-500 transition-colors duration-200 group-hover:text-blue-600" />
+                <item.icon className="h-5 w-5 text-slate-500 transition-colors duration-200 group-hover:text-app-button" />
                 <span className="text-sm font-medium">{item.label}</span>
               </a>
             ))}
@@ -222,16 +222,16 @@ const AdminSidebar = () => {
               <div key={group.label} className="space-y-1">
                 <button
                   onClick={() => toggleGroup(group.label)}
-                  className="group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition-colors duration-200 hover:bg-slate-50 hover:text-blue-600"
+                  className="group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-app-text transition-colors duration-200 hover:bg-slate-50 hover:text-app-button"
                 >
-                  <group.icon className="h-5 w-5 text-slate-500 transition-colors duration-200 group-hover:text-blue-600" />
+                  <group.icon className="h-5 w-5 text-slate-500 transition-colors duration-200 group-hover:text-app-button" />
                   <span className="flex-1 text-left text-sm font-medium">
                     {group.label}
                   </span>
                   {expandedGroups[group.label] ? (
-                    <ChevronDown className="h-4 w-4 text-slate-400 transition-colors duration-200 group-hover:text-blue-600" />
+                    <ChevronDown className="h-4 w-4 text-slate-400 transition-colors duration-200 group-hover:text-app-button" />
                   ) : (
-                    <ChevronRight className="h-4 w-4 text-slate-400 transition-colors duration-200 group-hover:text-blue-600" />
+                    <ChevronRight className="h-4 w-4 text-slate-400 transition-colors duration-200 group-hover:text-app-button" />
                   )}
                 </button>
 
@@ -241,7 +241,7 @@ const AdminSidebar = () => {
                       <a
                         key={link.href}
                         href={link.href}
-                        className="block rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors duration-200 hover:bg-slate-50 hover:text-blue-600"
+                        className="block rounded-lg px-3 py-2 text-sm text-app-text/70 transition-colors duration-200 hover:bg-slate-50 hover:text-app-button"
                       >
                         {link.label}
                       </a>
@@ -258,7 +258,7 @@ const AdminSidebar = () => {
           <button
             onClick={handleLogout}
             disabled={isLoggingOut}
-            className="group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-red-600 transition-colors duration-200 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-app-button transition-colors duration-200 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <MdLogout className="h-5 w-5" />
             <span className="text-sm font-medium">

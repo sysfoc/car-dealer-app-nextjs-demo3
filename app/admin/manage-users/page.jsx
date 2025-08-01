@@ -97,7 +97,7 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 sm:p-6 lg:p-8">
+   <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 sm:p-6 lg:p-8">
       <div className="mx-auto max-w-7xl">
      
         <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
@@ -117,7 +117,7 @@ export default function Page() {
           {loading && (
             <div className="p-8 text-center">
               <div className="inline-flex items-center justify-center w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-              <p className="mt-2 text-slate-600">Loading users...</p>
+              <p className="mt-2 text-app-text">Loading users...</p>
             </div>
           )}
 
@@ -127,19 +127,19 @@ export default function Page() {
               <table className="w-full">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-app-text uppercase tracking-wider">
                       User Information
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-app-text uppercase tracking-wider">
                       Email Address
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-app-text uppercase tracking-wider">
                       Password
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-app-text uppercase tracking-wider">
                       Role & Status
                     </th>
-                    <th className="px-6 py-4 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-center text-xs font-semibold text-app-text uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -161,7 +161,7 @@ export default function Page() {
                               </span>
                             </div>
                             <div>
-                              <p className="font-semibold text-slate-800">
+                              <p className="font-semibold text-app-text">
                                 {user.username || "No username found"}
                               </p>
                               <p className="text-sm text-slate-500">ID: {user._id}</p>
@@ -169,7 +169,7 @@ export default function Page() {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-slate-800 font-medium">{user.email}</div>
+                          <div className="text-app-text font-medium">{user.email}</div>
                           {/* <div className="text-sm text-slate-500">Primary contact</div> */}
                         </td>
                         <td className="px-6 py-4">
@@ -187,7 +187,7 @@ export default function Page() {
                               <span className="font-semibold text-sm">Super Admin</span>
                             </div>
                           ) : (
-                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-100 to-gray-100 text-slate-700 px-3 py-2 rounded-full border border-slate-200">
+                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-100 to-gray-100 text-app-text px-3 py-2 rounded-full border border-slate-200">
                               <User className="h-4 w-4" />
                               <span className="font-medium text-sm">User</span>
                             </div>
@@ -196,7 +196,7 @@ export default function Page() {
                         <td className="px-6 py-4 text-center">
                           <button
                             onClick={() => handleDelete(user._id)}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors duration-200 font-medium text-sm shadow-md hover:shadow-lg transform hover:scale-105"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-app-button hover:bg-app-button-hover text-white rounded-lg transition-colors duration-200 font-medium text-sm shadow-md hover:shadow-lg transform hover:scale-105"
                           >
                             <Trash2 className="h-4 w-4" />
                             Delete
@@ -212,7 +212,7 @@ export default function Page() {
                             <Users className="h-8 w-8 text-slate-400" />
                           </div>
                           <div>
-                            <h3 className="text-lg font-semibold text-slate-600 mb-1">No users found</h3>
+                            <h3 className="text-lg font-semibold text-app-text mb-1">No users found</h3>
                             <p className="text-slate-500">There are currently no users to display</p>
                           </div>
                         </div>
@@ -228,7 +228,7 @@ export default function Page() {
           {!loading && users.length > 0 && (
             <div className="bg-slate-50 px-6 py-4 border-t border-slate-200">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-sm text-slate-600">
+                <div className="text-sm text-app-text">
                   Showing page <span className="font-semibold">{currentPage}</span> of{" "}
                   <span className="font-semibold">{totalPages}</span>
                 </div>
@@ -237,7 +237,7 @@ export default function Page() {
                   <button
                     onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
-                    className="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium text-sm shadow-sm"
+                    className="px-4 py-2 bg-white border border-slate-300 text-app-text rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium text-sm shadow-sm"
                   >
                     Previous
                   </button>
@@ -252,7 +252,7 @@ export default function Page() {
                           className={`w-10 h-10 rounded-lg font-medium text-sm transition-colors duration-200 ${
                             currentPage === pageNum
                               ? 'bg-blue-600 text-white shadow-md'
-                              : 'bg-white text-slate-700 border border-slate-300 hover:bg-slate-50'
+                              : 'bg-white text-app-text border border-slate-300 hover:bg-slate-50'
                           }`}
                         >
                           {pageNum}
@@ -266,7 +266,7 @@ export default function Page() {
                       setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                     }
                     disabled={currentPage === totalPages}
-                    className="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium text-sm shadow-sm"
+                    className="px-4 py-2 bg-white border border-slate-300 text-app-text rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium text-sm shadow-sm"
                   >
                     Next
                   </button>

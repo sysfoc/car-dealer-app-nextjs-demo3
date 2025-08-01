@@ -71,14 +71,14 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 p-6">
+  <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="mb-8">
           <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-8">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-slate-800 mb-2">
+                <h1 className="text-3xl font-bold text-app-text mb-2">
                   Manage Car Listings
                 </h1>
                 <p className="text-slate-600">
@@ -88,7 +88,7 @@ export default function Page() {
               <div className="flex items-center space-x-4">
                 <div className="text-right">
                   <p className="text-sm text-slate-500">Total Listings</p>
-                  <p className="text-2xl font-bold text-indigo-600">{cars.length}</p>
+                  <p className="text-2xl font-bold text-app-button">{cars.length}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-slate-500">Approved</p>
@@ -116,29 +116,29 @@ export default function Page() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-slate-700 mb-2">No car listings found</h3>
+              <h3 className="text-xl font-semibold text-app-text mb-2">No car listings found</h3>
               <p className="text-slate-500">There are currently no cars pending approval.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <Table hoverable className="min-w-full">
                 <TableHead className="bg-slate-50">
-                  <TableHeadCell className="text-slate-700 font-semibold py-4 px-6">
+                  <TableHeadCell className="text-app-text font-semibold py-4 px-6">
                     Featured Photo
                   </TableHeadCell>
-                  <TableHeadCell className="text-slate-700 font-semibold py-4 px-6">
+                  <TableHeadCell className="text-app-text font-semibold py-4 px-6">
                     Vehicle Details
                   </TableHeadCell>
-                  <TableHeadCell className="text-slate-700 font-semibold py-4 px-6">
+                  <TableHeadCell className="text-app-text font-semibold py-4 px-6">
                     Location
                   </TableHeadCell>
-                  <TableHeadCell className="text-slate-700 font-semibold py-4 px-6">
+                  <TableHeadCell className="text-app-text font-semibold py-4 px-6">
                     User Info
                   </TableHeadCell>
-                  <TableHeadCell className="text-slate-700 font-semibold py-4 px-6">
+                  <TableHeadCell className="text-app-text font-semibold py-4 px-6">
                     Status
                   </TableHeadCell>
-                  <TableHeadCell className="text-slate-700 font-semibold py-4 px-6">
+                  <TableHeadCell className="text-app-text font-semibold py-4 px-6">
                     Actions
                   </TableHeadCell>
                 </TableHead>
@@ -162,7 +162,7 @@ export default function Page() {
                       
                       <TableCell className="py-4 px-6">
                         <div className="space-y-1">
-                          <h4 className="font-semibold text-slate-800 text-lg">
+                          <h4 className="font-semibold text-app-text text-lg">
                             {car.model}
                           </h4>
                           <p className="text-slate-600 font-medium">
@@ -180,7 +180,7 @@ export default function Page() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                           </svg>
-                          <span className="text-slate-700 font-medium">
+                          <span className="text-app-text font-medium">
                             {car.location || "Unknown"}
                           </span>
                         </div>
@@ -193,7 +193,7 @@ export default function Page() {
                               {car.userId?.charAt(0)?.toUpperCase() || 'U'}
                             </span>
                           </div>
-                          <span className="text-slate-700 font-mono text-sm">
+                          <span className="text-app-text font-mono text-sm">
                             {car.userId}
                           </span>
                         </div>
@@ -236,7 +236,7 @@ export default function Page() {
                               color="success"
                               size="sm"
                               onClick={() => handleStatusChange(car._id, 1)}
-                              className="bg-green-500 hover:bg-green-600 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                              className="bg-app-button hover:bg-app-button-hover text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
                             >
                               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />

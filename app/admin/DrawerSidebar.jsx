@@ -84,8 +84,8 @@ const DrawerSidebar = () => {
   return (
     <div>
       <Button
-        className="mx-3 mt-3"
-        color={"dark"}
+        className="mx-3 mt-3 bg-app-text hover:bg-app-text/90 border-app-text text-white"
+        color={"none"}
         size={"sm"}
         onClick={() => setIsDrawerOpen(true)}
       >
@@ -102,104 +102,206 @@ const DrawerSidebar = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <Button
-              className="absolute right-3 top-3"
+              className="absolute right-3 top-3 text-app-text hover:text-app-button hover:bg-slate-50"
               color={"none"}
               onClick={handleCloseDrawer}
             >
               <IoMdClose fontSize={20} />
             </Button>
-            <Sidebar aria-label="Sidebar for the dashboard to control and manage the overall functionality">
+            <Sidebar 
+              aria-label="Sidebar for the dashboard to control and manage the overall functionality"
+              className="[&_.sidebar-item]:text-app-text [&_.sidebar-item:hover]:text-app-button [&_.sidebar-item:hover]:bg-slate-50 [&_.sidebar-collapse-button]:text-app-text [&_.sidebar-collapse-button:hover]:text-app-button [&_.sidebar-collapse-button:hover]:bg-slate-50"
+            >
               <SidebarItems>
                 <SidebarItemGroup>
                   {/* Single Items */}
-                  <SidebarItem href="/admin/dashboard" icon={HiChartPie}>
+                  <SidebarItem 
+                    href="/admin/dashboard" 
+                    icon={HiChartPie}
+                    className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button"
+                  >
                     Dashboard
                   </SidebarItem>
-                  <SidebarItem href="/admin/contact" icon={IoIosContact}>
+                  <SidebarItem 
+                    href="/admin/contact" 
+                    icon={IoIosContact}
+                    className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button"
+                  >
                     Contact Submissions
                   </SidebarItem>
-                  <SidebarItem href="/admin/valuation" icon={BiMessageSquareEdit}>
+                  <SidebarItem 
+                    href="/admin/valuation" 
+                    icon={BiMessageSquareEdit}
+                    className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button"
+                  >
                     Value Submissions
                   </SidebarItem>
-                  <SidebarItem href="/admin/enquiries" icon={TbCalendarSearch}>
+                  <SidebarItem 
+                    href="/admin/enquiries" 
+                    icon={TbCalendarSearch}
+                    className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button"
+                  >
                     Car Enquiry
                   </SidebarItem>
-                  <SidebarItem href="/admin/meta-editor" icon={MdOutlineSubtitles}>
+                  <SidebarItem 
+                    href="/admin/meta-editor" 
+                    icon={MdOutlineSubtitles}
+                    className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button"
+                  >
                     Meta Editor
                   </SidebarItem>
-                  <SidebarItem href="/admin/blog" icon={FaPencilAlt}>
+                  <SidebarItem 
+                    href="/admin/blog" 
+                    icon={FaPencilAlt}
+                    className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button"
+                  >
                     Manage Blogs
                   </SidebarItem>
 
                   {/* Collapsible Groups - Only show user management for superadmin */}
                   {userRole === "superadmin" && (
                     <>
-                      <SidebarCollapse icon={FaUser} label="Manage Users">
-                        <SidebarItem href="/admin/manage-users">
+                      <SidebarCollapse 
+                        icon={FaUser} 
+                        label="Manage Users"
+                        className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button [&_.sidebar-collapse-button]:text-app-text [&_.sidebar-collapse-button:hover]:text-app-button [&_.sidebar-collapse-button:hover]:bg-slate-50"
+                      >
+                        <SidebarItem 
+                          href="/admin/manage-users"
+                          className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                        >
                           All users
                         </SidebarItem>
-                        <SidebarItem href="/admin/createUser">
+                        <SidebarItem 
+                          href="/admin/createUser"
+                          className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                        >
                           Create User
                         </SidebarItem>
                       </SidebarCollapse>
-                      <SidebarCollapse icon={FaIdeal} label="Manage Dealers">
-                        <SidebarItem href="/admin/view-dealer">
+                      <SidebarCollapse 
+                        icon={FaIdeal} 
+                        label="Manage Dealers"
+                        className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button [&_.sidebar-collapse-button]:text-app-text [&_.sidebar-collapse-button:hover]:text-app-button [&_.sidebar-collapse-button:hover]:bg-slate-50"
+                      >
+                        <SidebarItem 
+                          href="/admin/view-dealer"
+                          className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                        >
                           All Dealers
                         </SidebarItem>
-                        <SidebarItem href="/admin/create-dealer">
+                        <SidebarItem 
+                          href="/admin/create-dealer"
+                          className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                        >
                           Create Dealers
                         </SidebarItem>
                       </SidebarCollapse>
                     </>
                   )}
 
-                  <SidebarCollapse icon={FaList} label="Manage Listings">
-                    <SidebarItem href="/admin/listing/brand">
+                  <SidebarCollapse 
+                    icon={FaList} 
+                    label="Manage Listings"
+                    className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button [&_.sidebar-collapse-button]:text-app-text [&_.sidebar-collapse-button:hover]:text-app-button [&_.sidebar-collapse-button:hover]:bg-slate-50"
+                  >
+                    <SidebarItem 
+                      href="/admin/listing/brand"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       Listing Brands
                     </SidebarItem>
-                    <SidebarItem href="/admin/listing/add">
+                    <SidebarItem 
+                      href="/admin/listing/add"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       Add Listings
                     </SidebarItem>
-                    <SidebarItem href="/admin/listing/view">
+                    <SidebarItem 
+                      href="/admin/listing/view"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       Listings
                     </SidebarItem>
-                    <SidebarItem href="/admin/listing/approved">
+                    <SidebarItem 
+                      href="/admin/listing/approved"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       Pending Listings
                     </SidebarItem>
                   </SidebarCollapse>
 
-                  <SidebarCollapse icon={TiWorld} label="Manage Website">
-                    <SidebarItem href="/admin/manage-website/faq">
+                  <SidebarCollapse 
+                    icon={TiWorld} 
+                    label="Manage Website"
+                    className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button [&_.sidebar-collapse-button]:text-app-text [&_.sidebar-collapse-button:hover]:text-app-button [&_.sidebar-collapse-button:hover]:bg-slate-50"
+                  >
+                    <SidebarItem 
+                      href="/admin/manage-website/faq"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       FAQ
                     </SidebarItem>
-                    <SidebarItem href="/admin/manage-website/testimonial">
+                    <SidebarItem 
+                      href="/admin/manage-website/testimonial"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       Testimonial
                     </SidebarItem>
                   </SidebarCollapse>
 
-                  <SidebarCollapse icon={IoSettingsSharp} label="Settings">
-                    <SidebarItem href="/admin/setting/general">
+                  <SidebarCollapse 
+                    icon={IoSettingsSharp} 
+                    label="Settings"
+                    className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button [&_.sidebar-collapse-button]:text-app-text [&_.sidebar-collapse-button:hover]:text-app-button [&_.sidebar-collapse-button:hover]:bg-slate-50"
+                  >
+                    <SidebarItem 
+                      href="/admin/setting/general"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       General Settings
                     </SidebarItem>
-                    <SidebarItem href="/admin/setting/default">
+                    <SidebarItem 
+                      href="/admin/setting/default"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       Default Settings
                     </SidebarItem>
-                    <SidebarItem href="/admin/setting/currency">
+                    <SidebarItem 
+                      href="/admin/setting/currency"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       Currency
                     </SidebarItem>
-                    <SidebarItem href="/admin/setting/social">
+                    <SidebarItem 
+                      href="/admin/setting/social"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       Social Media
                     </SidebarItem>
                   </SidebarCollapse>
 
-                  <SidebarCollapse icon={MdAppSettingsAlt} label="Page Settings">
-                    <SidebarItem href="/admin/setting/page/home">
+                  <SidebarCollapse 
+                    icon={MdAppSettingsAlt} 
+                    label="Page Settings"
+                    className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button [&_.sidebar-collapse-button]:text-app-text [&_.sidebar-collapse-button:hover]:text-app-button [&_.sidebar-collapse-button:hover]:bg-slate-50"
+                  >
+                    <SidebarItem 
+                      href="/admin/setting/page/home"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       Home
                     </SidebarItem>
-                    <SidebarItem href="/admin/setting/page/contact">
+                    <SidebarItem 
+                      href="/admin/setting/page/contact"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       Contact
                     </SidebarItem>
-                    <SidebarItem href="/admin/setting/page/about">
+                    <SidebarItem 
+                      href="/admin/setting/page/about"
+                      className="text-app-text/70 hover:text-app-button hover:bg-slate-50"
+                    >
                       Utility pages
                     </SidebarItem>
                   </SidebarCollapse>

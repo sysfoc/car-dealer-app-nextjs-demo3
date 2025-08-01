@@ -305,28 +305,29 @@ const Page = () => {
 
   return (
     <section className="my-10">
-      <h2 className="text-xl font-semibold">Add Listing</h2>
+      <h2 className="text-xl font-semibold text-app-text">Add Listing</h2>
       <div className="mt-5">
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div>
-            <Label htmlFor="image">Add Vehical Images Or Videos</Label>
+            <Label htmlFor="image" className="text-app-text">Add Vehical Images Or Videos</Label>
             <FileInput type="file" name="images" multiple className="mt-1" />
           </div>
           <div>
-            <h3 className="mt-3 text-sm font-semibold text-blue-950 dark:text-red-500">
+            <h3 className="mt-3 text-sm font-semibold text-app-text dark:text-app-button">
               General Details:
             </h3>
             <div className="mb-3 mt-1 border border-gray-300"></div>
           </div>
           <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
             <div>
-              <Label htmlFor="brand-make">Vehicle Make:</Label>
+              <Label htmlFor="brand-make" className="text-app-text">Vehicle Make:</Label>
               <Select
                 id="brand-make"
                 name="make"
                 value={selectedMake}
                 onChange={(e) => setSelectedMake(e.target.value)}
                 aria-label="Select Make"
+                className="focus:border-app-button focus:ring-app-button"
               >
                 <option value="">Select Make</option>
                 {makes.map((make, index) => (
@@ -337,7 +338,7 @@ const Page = () => {
               </Select>
             </div>
             <div>
-              <Label htmlFor="brand-Model">Brand Model:</Label>
+              <Label htmlFor="brand-Model" className="text-app-text">Brand Model:</Label>
               <Select
                 id="brand-Model"
                 name="model"
@@ -345,6 +346,7 @@ const Page = () => {
                 onChange={(e) => setSelectedModel(e.target.value)}
                 aria-label="Select Model"
                 disabled={!selectedMake}
+                className="focus:border-app-button focus:ring-app-button"
               >
                 <option value="">Select Model</option>
                 {models.map((model, index) => (
@@ -355,7 +357,7 @@ const Page = () => {
               </Select>
             </div>
             <div>
-              <Label htmlFor="price">Price:</Label>
+              <Label htmlFor="price" className="text-app-text">Price:</Label>
               <TextInput
                 id="price"
                 name="price"
@@ -363,15 +365,17 @@ const Page = () => {
                 value={formData.price}
                 onChange={handleChange}
                 addon={selectedCurrency?.name}
+                className="focus:border-app-button focus:ring-app-button"
               />
             </div>
             <div>
-              <Label htmlFor="type">Type:</Label>
+              <Label htmlFor="type" className="text-app-text">Type:</Label>
               <Select
                 id="type"
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
+                className="focus:border-app-button focus:ring-app-button"
               >
                 <option value="used">Used</option>
                 <option value="new">New</option>
@@ -387,17 +391,19 @@ const Page = () => {
                       isLease: e.target.checked,
                     }))
                   }
+                  className="text-app-button focus:ring-app-button"
                 />
-                <Label htmlFor="isLease">Available for Lease</Label>
+                <Label htmlFor="isLease" className="text-app-text">Available for Lease</Label>
               </div>
             </div>
             <div>
-              <Label htmlFor="tag">Tag:</Label>
+              <Label htmlFor="tag" className="text-app-text">Tag:</Label>
               <Select
                 id="tag"
                 name="tag"
                 value={formData.tag}
                 onChange={handleChange}
+                className="focus:border-app-button focus:ring-app-button"
               >
                 <option value="default">Default</option>
                 <option value="featured">Featured</option>
@@ -405,10 +411,10 @@ const Page = () => {
               </Select>
             </div>
             <div>
-              <Label htmlFor="description">Description:</Label>
+              <Label htmlFor="description" className="text-app-text">Description:</Label>
               <Textarea
                 id="description"
-                className="mb-4 h-28"
+                className="mb-4 h-28 focus:border-app-button focus:ring-app-button"
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
@@ -418,29 +424,31 @@ const Page = () => {
           </div>
           <div className="mt-5">
             <div>
-              <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
+              <h3 className="text-sm font-semibold text-app-text dark:text-app-button">
                 Driving Details:
               </h3>
               <div className="mb-3 mt-1 border border-gray-300"></div>
             </div>
             <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
               <div>
-                <Label htmlFor="total-driven">Total Driven (in km):</Label>
+                <Label htmlFor="total-driven" className="text-app-text">Total Driven (in km):</Label>
                 <TextInput
                   id="total-driven"
                   type="number"
                   name="kms"
                   value={formData.kms}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="fuel-type">Fuel Type:</Label>
+                <Label htmlFor="fuel-type" className="text-app-text">Fuel Type:</Label>
                 <Select
                   id="fuel-type"
                   name="fuelType"
                   value={formData.fuelType}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 >
                   <option value="petrol"> Petrol (Gasoline)</option>
                   <option value="diesel">Diesel</option>
@@ -464,7 +472,7 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="fuel-capacity">Fuel Capacity Per Tank:</Label>
+                <Label htmlFor="fuel-capacity" className="text-app-text">Fuel Capacity Per Tank:</Label>
                 <TextInput
                   id="fuel-capacity"
                   type="number"
@@ -472,10 +480,11 @@ const Page = () => {
                   value={formData.fuelCapacityPerTank}
                   onChange={handleChange}
                   min="0"
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="filling-cost">Fuel Tank Fill Price:</Label>
+                <Label htmlFor="filling-cost" className="text-app-text">Fuel Tank Fill Price:</Label>
                 <TextInput
                   id="filling-cost"
                   name="fuelTankFillPrice"
@@ -484,15 +493,17 @@ const Page = () => {
                   onChange={handleChange}
                   min="0"
                   addon={selectedCurrency?.name}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="gearbox">Gear Box:</Label>
+                <Label htmlFor="gearbox" className="text-app-text">Gear Box:</Label>
                 <Select
                   id="gearbox"
                   name="gearbox"
                   value={formData.gearbox}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 >
                   <option value="manual">Manual</option>
                   <option value="automatic">Automatic</option>
@@ -500,12 +511,13 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="noOfGears">No of Gears:</Label>
+                <Label htmlFor="noOfGears" className="text-app-text">No of Gears:</Label>
                 <Select
                   id="noOfGears"
                   name="noOfGears"
                   value={formData.noOfGears}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 >
                   <option value="">Select</option>
                   <option value="4">4-speed Manual</option>
@@ -523,12 +535,13 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="doors">No of Doors:</Label>
+                <Label htmlFor="doors" className="text-app-text">No of Doors:</Label>
                 <Select
                   id="doors"
                   name="doors"
                   value={formData.doors}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 >
                   <option value="">Select</option>
                   <option value="2">2 Doors</option>
@@ -540,12 +553,13 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="seats">No of Seats:</Label>
+                <Label htmlFor="seats" className="text-app-text">No of Seats:</Label>
                 <Select
                   id="seats"
                   name="seats"
                   value={formData.seats}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 >
                   <option value="">Select</option>
                   <option value="2">2</option>
@@ -562,12 +576,13 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="cylinder">Cylinders:</Label>
+                <Label htmlFor="cylinder" className="text-app-text">Cylinders:</Label>
                 <Select
                   id="cylinder"
                   name="cylinder"
                   value={formData.cylinder}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 >
                   <option value="">Select</option>
                   <option value="2">2 Cylinders</option>
@@ -582,12 +597,13 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="condition">Condition:</Label>
+                <Label htmlFor="condition" className="text-app-text">Condition:</Label>
                 <Select
                   id="condition"
                   name="condition"
                   value={formData.condition}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 >
                   <option value="">Select</option>
                   <option value="new">New</option>
@@ -595,12 +611,13 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="BodyType">Body Type:</Label>
+                <Label htmlFor="BodyType" className="text-app-text">Body Type:</Label>
                 <Select
                   id="BodyType"
                   name="bodyType"
                   value={formData.bodyType}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 >
                   <option value="">Select Body Type</option>
                   <option value="Sedan">Sedan</option>
@@ -626,57 +643,62 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="color">Color:</Label>
+                <Label htmlFor="color" className="text-app-text">Color:</Label>
                 <TextInput
                   id="color"
                   type="text"
                   name="color"
                   value={formData.color}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="location">Location:</Label>
+                <Label htmlFor="location" className="text-app-text">Location:</Label>
                 <TextInput
                   id="location"
                   type="text"
                   name="location"
                   value={formData.location}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="year">Build Date:</Label>
+                <Label htmlFor="year" className="text-app-text">Build Date:</Label>
                 <TextInput
                   id="year"
                   type="text"
                   name="year"
                   value={formData.year}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="modelYear">Model Year:</Label>
+                <Label htmlFor="modelYear" className="text-app-text">Model Year:</Label>
                 <TextInput
                   id="modelYear"
                   type="text"
                   name="modelYear"
                   value={formData.modelYear}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="registerationPlate">Registeration Plate:</Label>
+                <Label htmlFor="registerationPlate" className="text-app-text">Registeration Plate:</Label>
                 <TextInput
                   id="registerationPlate"
                   type="text"
                   name="registerationPlate"
                   value={formData.registerationPlate}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="registerationExpire">
+                <Label htmlFor="registerationExpire" className="text-app-text">
                   Registeration Expiry Date:
                 </Label>
                 <TextInput
@@ -685,39 +707,41 @@ const Page = () => {
                   name="registerationExpire"
                   value={formData.registerationExpire}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="mileage">Mileage:</Label>
+                <Label htmlFor="mileage" className="text-app-text">Mileage:</Label>
                 <TextInput
                   id="mileage"
                   type="text"
                   name="mileage"
                   value={formData.mileage}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="unit">Select Default Unit:</Label>
+                <Label htmlFor="unit" className="text-app-text">Select Default Unit:</Label>
                 <Select
                   id="unit"
                   name="unit"
                   value={formData.unit}
                   onChange={handleChange}
-                  className="mt-1"
+                  className="mt-1 focus:border-app-button focus:ring-app-button"
                 >
                   <option value="km">Kilometers (km)</option>
                   <option value="miles">Miles</option>
                 </Select>
               </div>
               <div>
-                <Label htmlFor="batteryRange">Battery Range:</Label>
+                <Label htmlFor="batteryRange" className="text-app-text">Battery Range:</Label>
                 <Select
                   id="batteryRange"
                   name="batteryRange"
                   value={formData.batteryRange}
                   onChange={handleChange}
-                  className="mt-1"
+                  className="mt-1 focus:border-app-button focus:ring-app-button"
                 >
                   <option value="">Select Battery Range</option>
                   {batteryRangeOptions[formData.unit].map((range, index) => (
@@ -728,112 +752,121 @@ const Page = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="chargingTime">Charging Time:</Label>
+                <Label htmlFor="chargingTime" className="text-app-text">Charging Time:</Label>
                 <TextInput
                   id="chargingTime"
                   type="number"
                   name="chargingTime"
                   value={formData.chargingTime}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="engineSize">Engine Size:</Label>
+                <Label htmlFor="engineSize" className="text-app-text">Engine Size:</Label>
                 <TextInput
                   id="engineSize"
                   type="number"
                   name="engineSize"
                   value={formData.engineSize}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="enginePower">Engine Power:</Label>
+                <Label htmlFor="enginePower" className="text-app-text">Engine Power:</Label>
                 <TextInput
                   id="enginePower"
                   type="number"
                   name="enginePower"
                   value={formData.enginePower}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="fuelConsumption">Fuel Consumption:</Label>
+                <Label htmlFor="fuelConsumption" className="text-app-text">Fuel Consumption:</Label>
                 <TextInput
                   id="fuelConsumption"
                   type="number"
                   name="fuelConsumption"
                   value={formData.fuelConsumption}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="isFinance">Select Finance status:</Label>
+                <Label htmlFor="isFinance" className="text-app-text">Select Finance status:</Label>
                 <Select
                   id="isFinance"
                   name="isFinance"
                   value={formData.isFinance}
                   onChange={handleChange}
-                  className="mt-1"
+                  className="mt-1 focus:border-app-button focus:ring-app-button"
                 >
                   <option value="finance">On Finance</option>
                   <option value="paid">Paid in Full</option>
                 </Select>
               </div>
               <div>
-                <Label htmlFor="co2Emission">Co2 Emission</Label>
+                <Label htmlFor="co2Emission" className="text-app-text">Co2 Emission</Label>
                 <TextInput
                   id="co2Emission"
                   type="number"
                   name="co2Emission"
                   value={formData.co2Emission}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="driveType">drive Type</Label>
+                <Label htmlFor="driveType" className="text-app-text">drive Type</Label>
                 <TextInput
                   id="driveType"
                   type="text"
                   name="driveType"
                   value={formData.driveType}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="engineCapacity">Engine Capacity:</Label>
+                <Label htmlFor="engineCapacity" className="text-app-text">Engine Capacity:</Label>
                 <TextInput
                   id="engineCapacity"
                   type="text"
                   name="engineCapacity"
                   value={formData.engineCapacity}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="video">Video URL:</Label>
+                <Label htmlFor="video" className="text-app-text">Video URL:</Label>
                 <TextInput
                   id="video"
                   type="url"
                   name="video"
                   value={formData.video}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
               <div>
-                <Label htmlFor="slug">Slug (Optional):</Label>
+                <Label htmlFor="slug" className="text-app-text">Slug (Optional):</Label>
                 <TextInput
                   id="slug"
                   type="text"
                   name="slug"
                   value={formData.slug}
                   onChange={handleChange}
+                  className="focus:border-app-button focus:ring-app-button"
                 />
               </div>
             </div>
           </div>
           <div className="mt-5">
-            <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
+            <h3 className="text-sm font-semibold text-app-text dark:text-app-button">
               Vehicle Features:
             </h3>
             <div className="mb-3 mt-1 border border-gray-300"></div>
@@ -845,14 +878,15 @@ const Page = () => {
                     name={feature.id}
                     checked={formData.features[feature.id] || false}
                     onChange={handleChange}
+                    className="text-app-button focus:ring-app-button"
                   />
-                  <Label htmlFor={feature.id}>{feature.label}</Label>
+                  <Label htmlFor={feature.id} className="text-app-text">{feature.label}</Label>
                 </div>
               ))}
             </div>
           </div>
           <div className="mt-5">
-            <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
+            <h3 className="text-sm font-semibold text-app-text dark:text-app-button">
               Dealor Comments:
             </h3>
             <div className="mb-3 mt-1 border border-gray-300"></div>
@@ -862,7 +896,7 @@ const Page = () => {
               </Label>
               <Textarea
                 id="comment"
-                className="mb-12 h-72"
+                className="mb-12 h-72 focus:border-app-button focus:ring-app-button"
                 name="sellerComments"
                 value={formData.sellerComments}
                 onChange={handleChange}
@@ -870,19 +904,19 @@ const Page = () => {
             </div>
           </div>
           <div className="mt-8">
-            <h3 className="text-sm font-semibold text-blue-950 dark:text-red-500">
+            <h3 className="text-sm font-semibold text-app-text dark:text-app-button">
               Contact Details
             </h3>
             <div className="mb-3 mt-1 border border-gray-300"></div>
             <div className="grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
               <div>
-                <Label htmlFor="dealerId">Select Dealer</Label>
+                <Label htmlFor="dealerId" className="text-app-text">Select Dealer</Label>
                 <Select
                   id="dealerId"
                   name="dealerId"
                   value={formData.dealerId}
                   onChange={handleChange}
-                  className="mt-1"
+                  className="mt-1 focus:border-app-button focus:ring-app-button"
                   required // Add this line
                 >
                   <option value="">-- Select Dealer --</option>
@@ -896,12 +930,16 @@ const Page = () => {
             </div>
           </div>
           <div className="my-8">
-            <Button type="submit" size={"md"} color={"dark"} className="w-full">
+            <Button 
+              type="submit" 
+              size={"md"} 
+              className="w-full bg-app-button hover:bg-app-button-hover text-white border-app-button hover:border-app-button-hover"
+            >
               Submit
             </Button>
             <div className="mt-5 text-sm text-gray-600">
               By submitting this form, you agree to the Car Dealer App{" "}
-              <Link href="/terms" className="text-blue-600 hover:text-blue-700">
+              <Link href="/terms" className="text-app-button hover:text-app-button-hover">
                 Terms of Service
               </Link>
             </div>

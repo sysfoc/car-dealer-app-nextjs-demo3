@@ -122,7 +122,7 @@ export default function Listing() {
         <div className="mb-8 rounded-2xl bg-white p-6 shadow-xl">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h1 className="mb-2 text-3xl font-bold text-slate-800">
+              <h1 className="mb-2 text-3xl font-bold text-app-text">
                 Vehicle Inventory
               </h1>
               <p className="text-slate-600">
@@ -132,7 +132,7 @@ export default function Listing() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/admin/listing/add"
-                className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:bg-blue-700 hover:shadow-xl"
+                className="inline-flex items-center justify-center rounded-xl bg-app-button px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:bg-app-button-hover hover:shadow-xl"
               >
                 <svg
                   className="mr-2 h-5 w-5"
@@ -176,7 +176,7 @@ export default function Listing() {
                   placeholder="Search by make or model..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 py-3 pl-10 pr-4 outline-none transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-xl border border-slate-200 py-3 pl-10 pr-4 outline-none transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-app-button"
                 />
               </div>
             </div>
@@ -188,7 +188,7 @@ export default function Listing() {
                   aria-label="Switch to Grid View"
                   className={`rounded-md p-2 transition-all duration-200 ${
                     viewMode === "grid"
-                      ? "bg-white text-blue-600 shadow-sm"
+                      ? "bg-white text-app-button shadow-sm"
                       : "text-slate-400 hover:text-slate-600"
                   }`}
                 >
@@ -210,7 +210,7 @@ export default function Listing() {
                   onClick={() => setViewMode("table")}
                   className={`rounded-md p-2 transition-all duration-200 ${
                     viewMode === "table"
-                      ? "bg-white text-blue-600 shadow-sm"
+                      ? "bg-white text-app-button shadow-sm"
                       : "text-slate-400 hover:text-slate-600"
                   }`}
                 >
@@ -256,7 +256,7 @@ export default function Listing() {
                   />
                   <div className="absolute right-4 top-4 flex flex-col gap-2">
                     <div className="rounded-lg bg-white/90 px-3 py-1 backdrop-blur-sm">
-                      <span className="text-sm font-bold text-slate-800">
+                      <span className="text-sm font-bold text-app-text">
                         {car.modelYear}
                       </span>
                     </div>
@@ -271,10 +271,10 @@ export default function Listing() {
                 </div>
                 <div className="p-6">
                   <div className="mb-4">
-                    <h3 className="mb-1 text-xl font-bold text-slate-800">
+                    <h3 className="mb-1 text-xl font-bold text-app-text">
                       {car.make} {car.model}
                     </h3>
-                    <p className="text-2xl font-bold text-blue-600">
+                    <p className="text-2xl font-bold text-app-button">
                       {selectedCurrency?.symbol} {car.price?.toLocaleString()}
                     </p>
                   </div>
@@ -317,7 +317,7 @@ export default function Listing() {
                   <div className="flex gap-3">
                     <Link
                       href={`/admin/listing/edit/${car._id}`}
-                      className="inline-flex flex-1 items-center justify-center rounded-lg bg-slate-100 px-4 py-2 font-medium text-slate-700 transition-all duration-200 hover:bg-slate-200"
+                      className="inline-flex flex-1 items-center justify-center rounded-lg bg-slate-100 px-4 py-2 font-medium text-app-text transition-all duration-200 hover:bg-slate-200"
                     >
                       <svg
                         className="mr-2 h-4 w-4"
@@ -365,25 +365,25 @@ export default function Listing() {
               <table className="w-full">
                 <thead className="border-b border-slate-200 bg-slate-50">
                   <tr>
-                    <th className="px-6 py-4 text-left font-semibold text-slate-700">
+                    <th className="px-6 py-4 text-left font-semibold text-app-text">
                       Vehicle
                     </th>
-                    <th className="px-6 py-4 text-left font-semibold text-slate-700">
+                    <th className="px-6 py-4 text-left font-semibold text-app-text">
                       Make & Model
                     </th>
-                    <th className="px-6 py-4 text-left font-semibold text-slate-700">
+                    <th className="px-6 py-4 text-left font-semibold text-app-text">
                       Price
                     </th>
-                    <th className="px-6 py-4 text-left font-semibold text-slate-700">
+                    <th className="px-6 py-4 text-left font-semibold text-app-text">
                       Year
                     </th>
-                    <th className="px-6 py-4 text-left font-semibold text-slate-700">
+                    <th className="px-6 py-4 text-left font-semibold text-app-text">
                       User ID
                     </th>
-                    <th className="px-6 py-4 text-left font-semibold text-slate-700">
+                    <th className="px-6 py-4 text-left font-semibold text-app-text">
                       Slug
                     </th>
-                    <th className="px-6 py-4 text-left font-semibold text-slate-700">
+                    <th className="px-6 py-4 text-left font-semibold text-app-text">
                       Actions
                     </th>
                   </tr>
@@ -408,21 +408,21 @@ export default function Listing() {
                       </td>
                       <td className="px-6 py-4">
                         <div>
-                          <p className="font-semibold text-slate-800">
+                          <p className="font-semibold text-app-text">
                             {car.make}
                           </p>
                           <p className="text-sm text-slate-600">{car.model}</p>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="font-bold text-blue-600">
+                        <span className="font-bold text-app-button">
                           {selectedCurrency?.symbol}{" "}
                           {car.price?.toLocaleString()}
                         </span>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-800">
+                          <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-app-text">
                             {car.modelYear}
                           </span>
                           {car.sold && (
@@ -446,7 +446,7 @@ export default function Listing() {
                         <div className="flex items-center gap-2">
                           <Link
                             href={`/admin/listing/edit/${car._id}`}
-                            className="inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-slate-200"
+                            className="inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-medium text-app-text transition-all duration-200 hover:bg-slate-200"
                           >
                             <svg
                               className="mr-1.5 h-4 w-4"

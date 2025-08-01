@@ -22,8 +22,8 @@
 //   };
 
 //   return (
-//     <div 
-//       className="w-full bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 dark:bg-slate-800 dark:shadow-slate-900/20" 
+//     <div
+//       className="w-full bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 dark:bg-slate-800 dark:shadow-slate-900/20"
 //       onClick={handleCardClick}
 //     >
 //       {/* Image Section */}
@@ -36,7 +36,7 @@
 //             className="object-cover transition-all duration-500 hover:scale-105"
 //           />
 //         </div>
-        
+
 //         {/* Special/Tag Badge - Top Left Corner */}
 //         {vehicle.tag && vehicle.tag !== "default" && (
 //           <div className="absolute top-0 left-0 z-10">
@@ -45,7 +45,7 @@
 //             </div>
 //           </div>
 //         )}
-        
+
 //         {/* Status Badge - Top Right */}
 //         <div className="absolute top-3 right-3 z-10">
 //           {vehicle.sold ? (
@@ -60,7 +60,7 @@
 //         </div>
 
 //         {/* Like Button - Bottom Right */}
-//         <button 
+//         <button
 //           onClick={(e) => {
 //             e.preventDefault();
 //             e.stopPropagation();
@@ -109,7 +109,7 @@
 //               {convertedValues.unit && convertedValues.unit.toUpperCase()}
 //             </div>
 //           </div>
-          
+
 //           <div className="flex flex-col items-center">
 //             <div className="w-10 h-10 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-2">
 //               <GiGasPump className="w-5 h-5 text-gray-600 dark:text-gray-300" />
@@ -119,7 +119,7 @@
 //             </div>
 //             <div className="text-xs text-gray-500 dark:text-gray-400">Fuel</div>
 //           </div>
-          
+
 //           <div className="flex flex-col items-center">
 //             <div className="w-10 h-10 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-2">
 //               <TbManualGearbox className="w-5 h-5 text-gray-600 dark:text-gray-300" />
@@ -313,7 +313,7 @@
 //           </Link>
 //         </div>
 //       </div>
-      
+
 //       <div className="grid grid-cols-1 gap-6 px-4 sm:grid-cols-2 sm:px-8 md:grid-cols-3 lg:gap-8">
 //         {loading
 //           ? Array(3)
@@ -358,7 +358,7 @@
 //               );
 //             })}
 //       </div>
-      
+
 //       {!loading && vehicles.length > 3 && (
 //         <div className="mt-10 text-center">
 //           <button
@@ -378,7 +378,7 @@
 //           </button>
 //         </div>
 //       )}
-      
+
 //       {vehicles.length === 0 && !loading && (
 //         <div className="py-20 text-center">
 //           <div className="mx-auto mb-8 flex h-32 w-32 items-center justify-center rounded-full bg-slate-50 shadow-inner dark:bg-slate-800">
@@ -427,40 +427,49 @@ import { useTranslations } from "next-intl";
 import { useCurrency } from "../context/CurrencyContext";
 import { useDistance } from "../context/DistanceContext";
 import { FaRegHeart } from "react-icons/fa6";
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-const VehicleCard = ({ vehicle, userLikedCars, handleLikeToggle, convertedValues, selectedCurrency, currency }) => {
+const VehicleCard = ({
+  vehicle,
+  userLikedCars,
+  handleLikeToggle,
+  convertedValues,
+  selectedCurrency,
+  currency,
+}) => {
   const handleCardClick = () => {
     window.location.href = `/car-detail/${vehicle.slug || vehicle._id}`;
   };
 
   return (
-    <div 
-      className="w-full bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 dark:bg-slate-800 dark:shadow-slate-900/20" 
+    <div
+      className="w-full transform cursor-pointer overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:bg-slate-800 dark:shadow-slate-900/20"
       onClick={handleCardClick}
     >
       {/* Image Section - Reduced height */}
       <div className="relative">
-        <div className="aspect-[4/2.8] relative overflow-hidden">
+        <div className="relative aspect-[4/2.8] overflow-hidden">
           <Image
-            src={vehicle.imageUrls && vehicle.imageUrls[0] || "/placeholder.svg"}
+            src={
+              (vehicle.imageUrls && vehicle.imageUrls[0]) || "/placeholder.svg"
+            }
             fill
             alt={`${vehicle.make} ${vehicle.model}`}
             className="object-cover transition-all duration-500 hover:scale-105"
           />
         </div>
-        
+
         {/* Tag Badge - Top Right Corner (if exists) */}
         {vehicle.tag && vehicle.tag !== "default" && (
-          <div className="absolute top-3 right-3 z-20">
-            <span className="bg-blue-500 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg">
+          <div className="absolute right-3 top-3 z-20">
+            <span className="rounded-full bg-blue-500 px-3 py-1.5 text-xs font-semibold text-white shadow-lg">
               {vehicle.tag.toUpperCase()}
             </span>
           </div>
         )}
-        
+
         {/* Diagonal Status Banner - Top Left Corner */}
-        <div className="absolute top-0 left-0 z-10 overflow-hidden">
+        {/* <div className="absolute top-0 left-0 z-10 overflow-hidden">
           <div className={`transform -rotate-45 -translate-x-6 -translate-y-2 origin-bottom-left shadow-lg ${
             vehicle.sold 
               ? 'bg-red-500' 
@@ -470,21 +479,37 @@ const VehicleCard = ({ vehicle, userLikedCars, handleLikeToggle, convertedValues
               {vehicle.sold ? 'SOLD' : 'AVAILABLE'}
             </div>
           </div>
+        </div> */}
+
+        {/* Diagonal Status Banner - Top Left Corner */}
+        <div className="absolute left-0 top-0 z-10">
+          {" "}
+          <div
+            className={`origin-bottom-left -translate-x-6 -translate-y-2 -rotate-45 transform shadow-lg ${
+              vehicle.sold ? "bg-red-500" : "bg-green-500"
+            }`}
+          >
+            <div className="whitespace-nowrap px-8 py-2 text-xs font-bold text-white">
+              {vehicle.sold ? "SOLD" : "AVAILABLE"}
+            </div>
+          </div>
         </div>
 
         {/* Like Button - Bottom Right */}
-        <button 
+        <button
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             handleLikeToggle(vehicle._id);
           }}
-          className="absolute bottom-3 right-3 w-9 h-9 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 dark:bg-slate-800/95"
+          className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:shadow-xl dark:bg-slate-800/95"
         >
-          {userLikedCars && Array.isArray(userLikedCars) && userLikedCars.includes(vehicle._id) ? (
-            <FaHeart className="w-3.5 h-3.5 text-red-500" />
+          {userLikedCars &&
+          Array.isArray(userLikedCars) &&
+          userLikedCars.includes(vehicle._id) ? (
+            <FaHeart className="h-3.5 w-3.5 text-red-500" />
           ) : (
-            <FaRegHeart className="w-3.5 h-3.5 text-gray-600 hover:text-red-500" />
+            <FaRegHeart className="h-3.5 w-3.5 text-gray-600 hover:text-red-500" />
           )}
         </button>
       </div>
@@ -492,18 +517,20 @@ const VehicleCard = ({ vehicle, userLikedCars, handleLikeToggle, convertedValues
       {/* Content Section - Reduced padding */}
       <div className="p-5">
         {/* Title and Price */}
-        <div className="flex justify-between items-start mb-4">
+        <div className="mb-4 flex items-start justify-between">
           <div className="flex-1">
-            <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-1 leading-tight">
+            <h3 className="mb-1 text-lg font-bold leading-tight text-gray-800 dark:text-white">
               {vehicle.make} {vehicle.model}
             </h3>
           </div>
-          <div className="text-right ml-4">
+          <div className="ml-4 text-right">
             <div className="text-xl font-bold text-blue-600 dark:text-blue-400">
               {selectedCurrency && selectedCurrency.symbol}{" "}
               {Math.round(
-                (vehicle && vehicle.price * (selectedCurrency && selectedCurrency.value || 1)) /
-                  (currency && currency.value || 1)
+                (vehicle &&
+                  vehicle.price *
+                    ((selectedCurrency && selectedCurrency.value) || 1)) /
+                  ((currency && currency.value) || 1),
               ).toLocaleString()}
             </div>
           </div>
@@ -512,8 +539,8 @@ const VehicleCard = ({ vehicle, userLikedCars, handleLikeToggle, convertedValues
         {/* Specifications Grid - Smaller icons */}
         <div className="grid grid-cols-3 gap-3 text-center">
           <div className="flex flex-col items-center">
-            <div className="w-8 h-8 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-2">
-              <IoSpeedometer className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+            <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+              <IoSpeedometer className="h-4 w-4 text-gray-600 dark:text-gray-300" />
             </div>
             <div className="text-sm font-semibold text-gray-800 dark:text-white">
               {convertedValues.kms}
@@ -522,25 +549,27 @@ const VehicleCard = ({ vehicle, userLikedCars, handleLikeToggle, convertedValues
               {convertedValues.unit && convertedValues.unit.toUpperCase()}
             </div>
           </div>
-          
+
           <div className="flex flex-col items-center">
-            <div className="w-8 h-8 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-2">
-              <GiGasPump className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+            <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+              <GiGasPump className="h-4 w-4 text-gray-600 dark:text-gray-300" />
             </div>
             <div className="text-sm font-semibold text-gray-800 dark:text-white">
               {vehicle && vehicle.fuelType}
             </div>
             <div className="text-xs text-gray-500 dark:text-gray-400">Fuel</div>
           </div>
-          
+
           <div className="flex flex-col items-center">
-            <div className="w-8 h-8 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-2">
-              <TbManualGearbox className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+            <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+              <TbManualGearbox className="h-4 w-4 text-gray-600 dark:text-gray-300" />
             </div>
             <div className="text-sm font-semibold text-gray-800 dark:text-white">
               {vehicle && vehicle.gearbox}
             </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Trans</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">
+              Trans
+            </div>
           </div>
         </div>
       </div>
@@ -703,7 +732,7 @@ const VehicalsList = ({ loadingState }) => {
     );
   }
 
-  if (listingData && listingData.status === 'inactive') {
+  if (listingData && listingData.status === "inactive") {
     return null;
   }
 
@@ -726,7 +755,7 @@ const VehicalsList = ({ loadingState }) => {
           </Link>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 gap-6 px-4 sm:grid-cols-2 sm:px-8 md:grid-cols-3 lg:gap-8">
         {loading
           ? Array(3)
@@ -740,7 +769,7 @@ const VehicalsList = ({ loadingState }) => {
                     <Skeleton className="h-40 w-full" />
                   </div>
                   <div className="space-y-4 p-5">
-                    <div className="flex justify-between items-start">
+                    <div className="flex items-start justify-between">
                       <Skeleton height={24} width="60%" />
                       <Skeleton height={28} width="30%" />
                     </div>
@@ -771,7 +800,7 @@ const VehicalsList = ({ loadingState }) => {
               );
             })}
       </div>
-      
+
       {!loading && vehicles.length > 3 && (
         <div className="mt-10 text-center">
           <button
@@ -791,7 +820,7 @@ const VehicalsList = ({ loadingState }) => {
           </button>
         </div>
       )}
-      
+
       {vehicles.length === 0 && !loading && (
         <div className="py-20 text-center">
           <div className="mx-auto mb-8 flex h-32 w-32 items-center justify-center rounded-full bg-slate-50 shadow-inner dark:bg-slate-800">

@@ -57,12 +57,12 @@ const Page = () => {
   };
 
   return (
-    <section className="my-10">
+   <section className="my-10">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Update FAQ</h2>
+        <h2 className="text-2xl font-bold text-app-text">Update FAQ</h2>
         <Link
           href="/admin/manage-website/faq"
-          className="rounded-lg bg-blue-500 p-3 text-sm text-white"
+          className="rounded-lg bg-app-button hover:bg-app-button-hover p-3 text-sm text-white transition-colors duration-200"
         >
           Go Back
         </Link>
@@ -70,18 +70,19 @@ const Page = () => {
 
       <form onSubmit={handleUpdate} className="mt-5 flex flex-col gap-3">
         <div>
-          <Label htmlFor="title">Title:</Label>
+          <Label htmlFor="title" className="text-app-text">Title:</Label>
           <TextInput
             id="title"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            className="text-app-text"
           />
         </div>
 
         <div>
-          <p className="text-sm">Content:</p>
-          <Suspense fallback={<p>Loading editor...</p>}>
+          <p className="text-sm text-app-text">Content:</p>
+          <Suspense fallback={<p className="text-app-text">Loading editor...</p>}>
             <LazyJoditEditor
               value={content}
               tabIndex={1}
@@ -91,11 +92,12 @@ const Page = () => {
         </div>
 
         <div>
-          <Label htmlFor="order">Order:</Label>
+          <Label htmlFor="order" className="text-app-text">Order:</Label>
           <Select
             id="order"
             value={order}
             onChange={(e) => setOrder(e.target.value)}
+            className="text-app-text"
           >
             {[...Array(6).keys()].map((num) => (
               <option key={num} value={num}>
@@ -105,8 +107,13 @@ const Page = () => {
           </Select>
         </div>
 
-        <Button type="submit" className="mt-3 w-full" color="dark">
-          Update Changes
+        <Button 
+          type="submit" 
+          className="mt-3 w-full bg-app-button hover:bg-app-button-hover border-app-button hover:border-app-button-hover"
+        >
+          <span className="text-white">
+            Update Changes
+          </span>
         </Button>
       </form>
     </section>

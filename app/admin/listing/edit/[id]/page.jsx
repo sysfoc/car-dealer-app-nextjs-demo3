@@ -309,10 +309,10 @@ const CarEditPage = ({ params }) => {
   return (
     <section className="my-10">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Edit Car Listing</h2>
+        <h2 className="text-2xl font-bold text-app-text">Edit Car Listing</h2>
         <Link
           href={"/admin/listing/view"}
-          className="rounded-lg bg-blue-500 p-3 text-sm text-white"
+          className="rounded-lg bg-app-button hover:bg-app-button-hover p-3 text-sm text-white transition-colors duration-200"
         >
           View All
         </Link>
@@ -320,7 +320,7 @@ const CarEditPage = ({ params }) => {
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
           <div>
-            <Label htmlFor="make">Make:</Label>
+            <Label htmlFor="make" className="text-app-text">Make:</Label>
             <Select
               id="make"
               name="make"
@@ -338,7 +338,7 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="model">Model:</Label>
+            <Label htmlFor="model" className="text-app-text">Model:</Label>
             <Select
               id="model"
               name="model"
@@ -356,7 +356,7 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="price">Price:</Label>
+            <Label htmlFor="price" className="text-app-text">Price:</Label>
             <TextInput
               id="price"
               name="price"
@@ -367,7 +367,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="type">Vehicle Type:</Label>
+            <Label htmlFor="type" className="text-app-text">Vehicle Type:</Label>
             <Select
               id="type"
               name="type"
@@ -383,7 +383,7 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="fuelType">Fuel Type:</Label>
+            <Label htmlFor="fuelType" className="text-app-text">Fuel Type:</Label>
             <Select
               id="fuelType"
               name="fuelType"
@@ -411,7 +411,7 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="kms">Kilometers:</Label>
+            <Label htmlFor="kms" className="text-app-text">Kilometers:</Label>
             <TextInput
               id="kms"
               name="kms"
@@ -421,7 +421,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="gearbox">Gearbox:</Label>
+            <Label htmlFor="gearbox" className="text-app-text">Gearbox:</Label>
             <Select
               id="gearbox"
               name="gearbox"
@@ -435,7 +435,7 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="condition">Condition:</Label>
+            <Label htmlFor="condition" className="text-app-text">Condition:</Label>
             <Select
               id="condition"
               name="condition"
@@ -448,7 +448,7 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="year">Year:</Label>
+            <Label htmlFor="year" className="text-app-text">Year:</Label>
             <Select
               id="year"
               name="modelYear"
@@ -466,7 +466,7 @@ const CarEditPage = ({ params }) => {
         </div>
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
           <div>
-            <Label htmlFor="fuelTankFillPrice">Fuel Tank Fill Price:</Label>
+            <Label htmlFor="fuelTankFillPrice" className="text-app-text">Fuel Tank Fill Price:</Label>
             <TextInput
               id="fuelTankFillPrice"
               name="fuelTankFillPrice"
@@ -476,7 +476,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="fuelCapacityPerTank">Fuel Capacity Per Tank:</Label>
+            <Label htmlFor="fuelCapacityPerTank" className="text-app-text">Fuel Capacity Per Tank:</Label>
             <TextInput
               id="fuelCapacityPerTank"
               name="fuelCapacityPerTank"
@@ -486,7 +486,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="noOfGears">Number of Gears:</Label>
+            <Label htmlFor="noOfGears" className="text-app-text">Number of Gears:</Label>
             <TextInput
               id="noOfGears"
               name="noOfGears"
@@ -496,7 +496,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="cylinder">Cylinder:</Label>
+            <Label htmlFor="cylinder" className="text-app-text">Cylinder:</Label>
             <TextInput
               id="cylinder"
               name="cylinder"
@@ -506,7 +506,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="batteryRange">Battery Range:</Label>
+            <Label htmlFor="batteryRange" className="text-app-text">Battery Range:</Label>
             <TextInput
               id="batteryRange"
               name="batteryRange"
@@ -516,7 +516,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="chargingTime">Charging Time:</Label>
+            <Label htmlFor="chargingTime" className="text-app-text">Charging Time:</Label>
             <TextInput
               id="chargingTime"
               name="chargingTime"
@@ -526,7 +526,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="engineSize">Engine Size:</Label>
+            <Label htmlFor="engineSize" className="text-app-text">Engine Size:</Label>
             <TextInput
               id="engineSize"
               name="engineSize"
@@ -536,7 +536,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="enginePower">Engine Power:</Label>
+            <Label htmlFor="enginePower" className="text-app-text">Engine Power:</Label>
             <TextInput
               id="enginePower"
               name="enginePower"
@@ -546,7 +546,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="fuelConsumption">Fuel Consumption:</Label>
+            <Label htmlFor="fuelConsumption" className="text-app-text">Fuel Consumption:</Label>
             <TextInput
               id="fuelConsumption"
               name="fuelConsumption"
@@ -556,7 +556,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="co2Emission">CO2 Emission:</Label>
+            <Label htmlFor="co2Emission" className="text-app-text">CO2 Emission:</Label>
             <TextInput
               id="co2Emission"
               name="co2Emission"
@@ -566,7 +566,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="vehicleFullName">Vehicle Full Name:</Label>
+            <Label htmlFor="vehicleFullName" className="text-app-text">Vehicle Full Name:</Label>
             <TextInput
               id="vehicleFullName"
               name="vehicleFullName"
@@ -575,7 +575,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="sellerComments">Seller Comments:</Label>
+            <Label htmlFor="sellerComments" className="text-app-text">Seller Comments:</Label>
             <Textarea
               id="sellerComments"
               name="sellerComments"
@@ -584,7 +584,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="tag">Tag:</Label>
+            <Label htmlFor="tag" className="text-app-text">Tag:</Label>
             <Select
               id="tag"
               name="tag"
@@ -597,7 +597,7 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div className="sm:col-span-1">
-            <Label htmlFor="description">Description:</Label>
+            <Label htmlFor="description" className="text-app-text">Description:</Label>
             <Textarea
               id="description"
               name="description"
@@ -608,7 +608,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="location">Location:</Label>
+            <Label htmlFor="location" className="text-app-text">Location:</Label>
             <TextInput
               id="location"
               name="location"
@@ -617,7 +617,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="mileage">Mileage:</Label>
+            <Label htmlFor="mileage" className="text-app-text">Mileage:</Label>
             <TextInput
               id="mileage"
               name="mileage"
@@ -626,7 +626,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="bodyType">Body Type:</Label>
+            <Label htmlFor="bodyType" className="text-app-text">Body Type:</Label>
             <TextInput
               id="bodyType"
               name="bodyType"
@@ -635,7 +635,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="color">Color:</Label>
+            <Label htmlFor="color" className="text-app-text">Color:</Label>
             <TextInput
               id="color"
               name="color"
@@ -644,7 +644,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="driveType">Drive Type:</Label>
+            <Label htmlFor="driveType" className="text-app-text">Drive Type:</Label>
             <TextInput
               id="driveType"
               name="driveType"
@@ -653,7 +653,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="doors">Doors:</Label>
+            <Label htmlFor="doors" className="text-app-text">Doors:</Label>
             <TextInput
               id="doors"
               name="doors"
@@ -663,7 +663,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="seats">Seats:</Label>
+            <Label htmlFor="seats" className="text-app-text">Seats:</Label>
             <TextInput
               id="seats"
               name="seats"
@@ -673,7 +673,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="isFinance">Finance:</Label>
+            <Label htmlFor="isFinance" className="text-app-text">Finance:</Label>
             <Select
               id="isFinance"
               name="isFinance"
@@ -686,7 +686,7 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="unit">Unit:</Label>
+            <Label htmlFor="unit" className="text-app-text">Unit:</Label>
             <Select
               id="unit"
               name="unit"
@@ -698,7 +698,7 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="registerationPlate">Registration Plate:</Label>
+            <Label htmlFor="registerationPlate" className="text-app-text">Registration Plate:</Label>
             <TextInput
               id="registerationPlate"
               name="registerationPlate"
@@ -707,7 +707,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="registerationExpire">Registration Expiry:</Label>
+            <Label htmlFor="registerationExpire" className="text-app-text">Registration Expiry:</Label>
             <TextInput
               id="registerationExpire"
               name="registerationExpire"
@@ -717,7 +717,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="year">Build Date:</Label>
+            <Label htmlFor="year" className="text-app-text">Build Date:</Label>
             <TextInput
               id="year"
               name="year"
@@ -726,7 +726,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="engineCapacity">Engine Capacity:</Label>
+            <Label htmlFor="engineCapacity" className="text-app-text">Engine Capacity:</Label>
             <TextInput
               id="engineCapacity"
               name="engineCapacity"
@@ -735,7 +735,7 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="dealerId">Dealer ID:</Label>
+            <Label htmlFor="dealerId" className="text-app-text">Dealer ID:</Label>
             <TextInput
               id="dealerId"
               name="dealerId"
@@ -751,7 +751,7 @@ const CarEditPage = ({ params }) => {
               checked={formData.isLease || false}
               onChange={handleInputChange}
             />
-            <Label htmlFor="isLease" className="ml-2">
+            <Label htmlFor="isLease" className="ml-2 text-app-text">
               Available for Lease
             </Label>
           </div>
@@ -762,13 +762,13 @@ const CarEditPage = ({ params }) => {
               checked={formData.sold || false}
               onChange={handleInputChange}
             />
-            <Label htmlFor="sold" className="ml-2">
+            <Label htmlFor="sold" className="ml-2 text-app-text">
               Mark as Sold
             </Label>
           </div>
         </div>
         <div className="mt-5">
-          <h3 className="text-sm font-semibold">Features:</h3>
+          <h3 className="text-sm font-semibold text-app-text">Features:</h3>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
             {[
               "Air Conditioning",
@@ -802,7 +802,7 @@ const CarEditPage = ({ params }) => {
                   checked={formData.features.includes(feature)}
                   onChange={handleFeatureChange}
                 />
-                <Label htmlFor={feature} className="ml-2">
+                <Label htmlFor={feature} className="ml-2 text-app-text">
                   {feature}
                 </Label>
               </div>
@@ -810,7 +810,7 @@ const CarEditPage = ({ params }) => {
           </div>
         </div>
         <div className="mt-5">
-          <Label>Existing Images:</Label>
+          <Label className="text-app-text">Existing Images:</Label>
           <div className="flex gap-2">
             {formData.images &&
             Array.isArray(formData.images) &&
@@ -830,12 +830,12 @@ const CarEditPage = ({ params }) => {
                 />
               ))
             ) : (
-              <p>No images available.</p>
+              <p className="text-app-text">No images available.</p>
             )}
           </div>
         </div>
         <div className="mt-5">
-          <Label>Existing Video:</Label>
+          <Label className="text-app-text">Existing Video:</Label>
           {formData.video && typeof formData.video === "string" && (
             <video controls width="300" className="mt-2">
               <source src={formData.video} type="video/mp4" />
@@ -844,7 +844,7 @@ const CarEditPage = ({ params }) => {
           )}
         </div>
         <div className="mt-5">
-          <Label htmlFor="images">Upload Images:</Label>
+          <Label htmlFor="images" className="text-app-text">Upload Images:</Label>
           <FileInput
             id="images"
             name="images"
@@ -856,7 +856,7 @@ const CarEditPage = ({ params }) => {
           />
         </div>
         <div className="mt-5">
-          <Label htmlFor="video">Upload Video:</Label>
+          <Label htmlFor="video" className="text-app-text">Upload Video:</Label>
           <FileInput
             id="video"
             name="video"
@@ -867,7 +867,9 @@ const CarEditPage = ({ params }) => {
           />
         </div>
         <div className="mt-5">
-          <Button type="submit">Update Car</Button>
+          <Button type="submit" className="bg-app-button hover:bg-app-button-hover text-white transition-colors duration-200">
+            Update Car
+          </Button>
         </div>
       </form>
     </section>
@@ -875,3 +877,4 @@ const CarEditPage = ({ params }) => {
 };
 
 export default CarEditPage;
+

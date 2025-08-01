@@ -252,7 +252,7 @@ const Blog = () => {
   const [showAll, setShowAll] = useState(false)
   const [isTransitioning, setIsTransitioning] = useState(false)
 
-  const INITIAL_DISPLAY_COUNT = 6 // Show 6 blogs initially (2 rows of 3)
+  const INITIAL_DISPLAY_COUNT = 3 // Show 6 blogs initially (2 rows of 3)
 
   useEffect(() => {
     const fetchBlogs = async () => {

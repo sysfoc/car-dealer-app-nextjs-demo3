@@ -116,7 +116,7 @@ export default function Page() {
   <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-6 lg:p-8">
     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-6 lg:space-y-0">
       <div className="flex-1">
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-app-text mb-2">
           Testimonials Management
         </h1>
         <p className="text-slate-600 text-sm sm:text-base">
@@ -126,11 +126,11 @@ export default function Page() {
       <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
         <div className="text-center sm:text-right">
           <p className="text-sm text-slate-500">Total Testimonials</p>
-          <p className="text-xl sm:text-2xl font-bold text-indigo-600">{testimonials.length}</p>
+          <p className="text-xl sm:text-2xl font-bold text-app-text">{testimonials.length}</p>
         </div>
         <Link
           href="/admin/manage-website/testimonial/add"
-          className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold px-4 sm:px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
+          className="bg-app-button hover:bg-app-button-hover text-white font-semibold px-4 sm:px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
         >
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
@@ -151,11 +151,11 @@ export default function Page() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-slate-700 mb-2">No testimonials found</h3>
+              <h3 className="text-xl font-semibold text-app-text mb-2">No testimonials found</h3>
               <p className="text-slate-500 mb-6">Get started by adding your first customer testimonial.</p>
               <Link
                 href="/admin/manage-website/testimonial/add"
-                className="bg-indigo-500 hover:bg-indigo-600 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
+                className="bg-app-button hover:bg-app-button-hover text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
               >
                 Add First Testimonial
               </Link>
@@ -164,7 +164,7 @@ export default function Page() {
             <div className="overflow-x-auto">
               <Table hoverable className="min-w-full">
                 <TableHead className="bg-slate-50">
-                  <TableHeadCell className="text-slate-700 font-semibold py-4 px-6">
+                  <TableHeadCell className="text-app-text font-semibold py-4 px-6">
                     <div className="flex items-center space-x-2">
                       <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -172,16 +172,16 @@ export default function Page() {
                       <span>Customer</span>
                     </div>
                   </TableHeadCell>
-                  <TableHeadCell className="text-slate-700 font-semibold py-4 px-6">
+                  <TableHeadCell className="text-app-text font-semibold py-4 px-6">
                     Customer Details
                   </TableHeadCell>
-                  <TableHeadCell className="text-slate-700 font-semibold py-4 px-6">
+                  <TableHeadCell className="text-app-text font-semibold py-4 px-6">
                     Testimonial
                   </TableHeadCell>
-                  <TableHeadCell className="text-slate-700 font-semibold py-4 px-6">
+                  <TableHeadCell className="text-app-text font-semibold py-4 px-6">
                     Date Added
                   </TableHeadCell>
-                  <TableHeadCell className="text-slate-700 font-semibold py-4 px-6">
+                  <TableHeadCell className="text-app-text font-semibold py-4 px-6">
                     Actions
                   </TableHeadCell>
                 </TableHead>
@@ -217,7 +217,7 @@ export default function Page() {
                       
                       <TableCell className="py-4 px-6">
                         <div className="space-y-2">
-                          <h4 className="font-semibold text-slate-800 text-lg">
+                          <h4 className="font-semibold text-app-text text-lg">
                             {testimonial.name}
                           </h4>
                           <div className="flex items-center space-x-2">
@@ -263,7 +263,7 @@ export default function Page() {
                           <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a4 4 0 118 0v4m-9 4h10l2 8H5l2-8z" />
                           </svg>
-                          <span className="text-slate-700 font-medium">
+                          <span className="text-app-text font-medium">
                             {testimonial.createdAt ? new Date(testimonial.createdAt).toLocaleDateString('en-US', {
                               year: 'numeric',
                               month: 'short',
@@ -286,7 +286,7 @@ export default function Page() {
                           </Link>
                           <button
                             onClick={() => handleDelete(testimonial._id)}
-                            className="bg-red-500 hover:bg-red-600 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
+                            className="bg-app-button hover:bg-app-button-hover text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

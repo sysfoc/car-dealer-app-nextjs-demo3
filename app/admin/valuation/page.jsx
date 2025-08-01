@@ -370,19 +370,19 @@ const AdminValuationPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100">
+   <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100">
       <div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 sm:py-8 lg:px-8">
         {/* Header Section */}
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Car Valuations</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-app-text">Car Valuations</h1>
               <p className="mt-2 text-sm sm:text-base text-gray-600">Manage and respond to car valuation requests</p>
             </div>
             <div className="flex items-center gap-3">
               <button
                 onClick={fetchValuations}
-                className="flex items-center gap-2 rounded-lg border border-gray-300 bg-blue-700 px-3 py-2 sm:px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500"
+                className="flex items-center gap-2 rounded-lg border border-gray-300 bg-app-button px-3 py-2 sm:px-4 text-sm font-medium text-white transition-colors hover:bg-app-button-hover"
               >
                 <RefreshCw size={16} />
                 <span className="hidden sm:inline">Refresh</span>
@@ -397,7 +397,7 @@ const AdminValuationPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">Total Requests</p>
-                <p className="text-2xl sm:text-3xl font-bold text-gray-900">{stats.total}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-app-text">{stats.total}</p>
               </div>
               <div className="rounded-xl bg-blue-100 p-2 sm:p-3">
                 <Car className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
@@ -442,13 +442,13 @@ const AdminValuationPage = () => {
                   placeholder="Search valuations..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 text-sm focus:border-transparent focus:ring-2 focus:ring-app-button"
                 />
               </div>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500 sm:w-auto"
+                className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:ring-2 focus:ring-app-button sm:w-auto"
               >
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
@@ -468,7 +468,7 @@ const AdminValuationPage = () => {
                   onClick={() => setFilter(tab.key)}
                   className={`rounded-lg px-3 py-2 text-xs sm:text-sm font-medium transition-all duration-200 ${
                     filter === tab.key
-                      ? "border-2 border-blue-200 bg-blue-100 text-blue-700"
+                      ? "border-2 border-red-200 bg-red-100 text-app-button"
                       : "border-2 border-transparent bg-gray-100 text-gray-600 hover:bg-gray-200"
                   }`}
                 >
@@ -486,7 +486,7 @@ const AdminValuationPage = () => {
               <div className="mx-auto mb-4 flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-gray-100">
                 <Car className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
               </div>
-              <h3 className="mb-2 text-base sm:text-lg font-semibold text-gray-900">No valuations found</h3>
+              <h3 className="mb-2 text-base sm:text-lg font-semibold text-app-text">No valuations found</h3>
               <p className="text-sm sm:text-base text-gray-500">
                 {searchTerm || filter !== "all"
                   ? "Try adjusting your search or filter criteria."
@@ -503,11 +503,11 @@ const AdminValuationPage = () => {
                   {/* Header Row */}
                   <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div className="flex items-center gap-3 sm:gap-4">
-                      <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 flex-shrink-0">
+                      <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-gradient-to-r from-app-button to-red-700 flex-shrink-0">
                         <User className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate">{valuation.name}</h3>
+                        <h3 className="text-base sm:text-lg font-semibold text-app-text truncate">{valuation.name}</h3>
                         <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
                           <Mail size={12} className="sm:w-3.5 sm:h-3.5 flex-shrink-0" />
                           <span className="truncate">{valuation.email}</span>
@@ -532,7 +532,7 @@ const AdminValuationPage = () => {
                           onClick={() => openReplyModal(valuation)}
                           className={`flex items-center justify-center gap-1 sm:gap-2 rounded-lg px-2 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium transition-colors ${
                             valuation.status === "pending"
-                              ? "bg-blue-600 text-white hover:bg-blue-700"
+                              ? "bg-app-button text-white hover:bg-app-button-hover"
                               : "bg-emerald-600 text-white hover:bg-emerald-700"
                           }`}
                         >
@@ -560,7 +560,7 @@ const AdminValuationPage = () => {
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                       <div>
                         <p className="text-xs font-medium text-gray-500">Vehicle</p>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-900">
+                        <p className="text-xs sm:text-sm font-semibold text-app-text">
                           {valuation.make} {valuation.model}
                         </p>
                       </div>
@@ -626,7 +626,7 @@ const AdminValuationPage = () => {
                       onClick={() => goToPage(page)}
                       className={`rounded-lg px-2 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium transition-colors ${
                         currentPage === page
-                          ? "bg-blue-600 text-white"
+                          ? "bg-app-button text-white"
                           : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
                       }`}
                     >
@@ -652,11 +652,11 @@ const AdminValuationPage = () => {
         <Modal show={showReplyModal} onClose={() => setShowReplyModal(false)} size="lg">
           <ModalHeader>
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-blue-100">
-                <Reply className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
+              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-red-100">
+                <Reply className="h-4 w-4 sm:h-5 sm:w-5 text-app-button" />
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+                <h3 className="text-base sm:text-lg font-semibold text-app-text">
                   {selectedValuation?.status === "pending" ? "Reply to Valuation" : "Edit Reply"}
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-500 truncate">
@@ -688,7 +688,7 @@ const AdminValuationPage = () => {
                 type="text"
                 value={estimatedValue}
                 onChange={(e) => setEstimatedValue(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 p-3 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="w-full rounded-lg border border-gray-300 p-3 text-sm focus:border-app-button focus:ring-1 focus:ring-app-button"
                 placeholder="e.g., $25,000 - $30,000"
               />
             </div>
@@ -698,7 +698,7 @@ const AdminValuationPage = () => {
                 value={adminReply}
                 onChange={(e) => setAdminReply(e.target.value)}
                 rows={6}
-                className="w-full rounded-lg border border-gray-300 p-3 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="w-full rounded-lg border border-gray-300 p-3 text-sm focus:border-app-button focus:ring-1 focus:ring-app-button"
                 placeholder="Type your reply here..."
               />
               <p className="mt-1 text-xs text-gray-500">
@@ -726,7 +726,7 @@ const AdminValuationPage = () => {
               <button
                 onClick={handleReply}
                 disabled={!adminReply.trim() || replying}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg bg-app-button px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-app-button-hover disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {replying ? (
                   <>
@@ -752,7 +752,7 @@ const AdminValuationPage = () => {
                 <Eye className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900">Valuation Details</h3>
+                <h3 className="text-base sm:text-lg font-semibold text-app-text">Valuation Details</h3>
                 <p className="text-xs sm:text-sm text-gray-500 truncate">ID: {selectedValuation?._id}</p>
               </div>
             </div>
@@ -763,7 +763,7 @@ const AdminValuationPage = () => {
                 {/* Customer & Vehicle Info */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 sm:p-4">
-                    <h4 className="mb-2 text-sm sm:text-base font-medium text-gray-900">Customer Information</h4>
+                    <h4 className="mb-2 text-sm sm:text-base font-medium text-app-text">Customer Information</h4>
                     <div className="space-y-2 text-xs sm:text-sm">
                       <div className="flex items-center gap-2">
                         <User size={12} className="sm:w-3.5 sm:h-3.5 text-gray-400 flex-shrink-0" />
@@ -776,7 +776,7 @@ const AdminValuationPage = () => {
                     </div>
                   </div>
                   <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 sm:p-4">
-                    <h4 className="mb-2 text-sm sm:text-base font-medium text-gray-900">Valuation Status</h4>
+                    <h4 className="mb-2 text-sm sm:text-base font-medium text-app-text">Valuation Status</h4>
                     <div className="space-y-2">
                       <div className="flex flex-wrap gap-2">
                         {getStatusBadge(selectedValuation.status)}
@@ -794,7 +794,7 @@ const AdminValuationPage = () => {
 
                 {/* Vehicle Details */}
                 <div className="rounded-lg border border-gray-200 bg-white p-3 sm:p-4">
-                  <h4 className="mb-3 text-sm sm:text-base font-medium text-gray-900">Vehicle Information</h4>
+                  <h4 className="mb-3 text-sm sm:text-base font-medium text-app-text">Vehicle Information</h4>
                   <div className="grid grid-cols-1 gap-4 text-xs sm:text-sm md:grid-cols-3">
                     <div>
                       <span className="font-medium text-gray-700">Make:</span>

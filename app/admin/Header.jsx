@@ -59,10 +59,10 @@ const Header = ({ isDarkMode }) => {
             ) : null}
           </div>
           <div className="flex flex-col items-start justify-center">
-            <span className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
+            <span className="text-lg font-bold tracking-tight text-app-text dark:text-white">
               CruiseControl
             </span>
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+            <span className="text-xs font-medium text-app-text/60 dark:text-gray-400">
               Built to sell cars
             </span>
           </div>
@@ -70,8 +70,12 @@ const Header = ({ isDarkMode }) => {
       </NavbarBrand>
       <div className="flex items-center gap-x-5 md:order-2">
         <div className="hidden md:block">
-          <Button color="gray" href="/">
-            <FiLogOut fontSize={20} className="text-gray-500" />
+          <Button 
+            color="none" 
+            href="/"
+            className="bg-app-text hover:bg-app-text/90 text-white border-app-text"
+          >
+            <FiLogOut fontSize={20} />
           </Button>
         </div>
         <Dropdown
@@ -80,10 +84,11 @@ const Header = ({ isDarkMode }) => {
           label={
             <Avatar alt="User settings" img={user?.profilePicture} rounded />
           }
+          className="[&_.dropdown-header]:bg-slate-50 [&_.dropdown-header_.text-sm]:text-app-text [&_.dropdown-item]:text-app-text [&_.dropdown-item:hover]:text-app-button [&_.dropdown-item:hover]:bg-slate-50"
         >
-          <DropdownHeader>
-            <span className="block text-sm">{user?.username}</span>
-            <span className="block truncate text-sm font-semibold">
+          <DropdownHeader className="bg-slate-50">
+            <span className="block text-sm text-app-text">{user?.username}</span>
+            <span className="block truncate text-sm font-semibold text-app-text/80">
               {user?.email}
             </span>
           </DropdownHeader>

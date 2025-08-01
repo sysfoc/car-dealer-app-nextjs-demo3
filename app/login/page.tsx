@@ -56,9 +56,9 @@ export default function LoginPage() {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex mt-14 md:mt-16">
+   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex mt-14 md:mt-16">
       {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 dark:from-blue-700 dark:via-indigo-700 dark:to-purple-800 flex-col justify-center items-center p-12 text-white relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-app-text via-slate-700 to-slate-800 dark:from-app-text dark:via-slate-700 dark:to-slate-800 flex-col justify-center items-center p-12 text-white relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white via-transparent to-transparent"></div>
@@ -92,26 +92,26 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           {/* Mobile Header - Only visible on small screens */}
           <div className="lg:hidden text-center mb-6">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-gradient-to-r from-app-text to-slate-700 dark:from-app-text dark:to-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <h1 className="text-3xl font-bold text-app-text dark:text-white mb-2">
               {loading ? "Signing In..." : "Welcome Back"}
             </h1>
-            <p className="text-gray-600 dark:text-gray-300">Please sign in to your account</p>
+            <p className="text-app-text/70 dark:text-gray-300">Please sign in to your account</p>
           </div>
 
           {/* Login Form Card */}
           <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/20 p-8">
             {/* Error Message */}
             {error && (
-              <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-lg flex items-start">
-                <svg className="w-5 h-5 text-red-500 dark:text-red-400 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-app-button/30 dark:border-app-button rounded-lg flex items-start">
+                <svg className="w-5 h-5 text-app-button dark:text-app-button mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
-                <span className="text-red-800 dark:text-red-200 text-sm">{error}</span>
+                <span className="text-app-button dark:text-app-button text-sm">{error}</span>
               </div>
             )}
 
@@ -119,18 +119,15 @@ export default function LoginPage() {
             <div className="space-y-5">
               {/* Email Field */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-app-text dark:text-gray-300 mb-2">
                   Email Address
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    {/* <svg className="h-5 w-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-                    </svg> */}
-                    <IoMail className="text-red-700 dark:text-red-400" />
+                    <IoMail className="text-app-button dark:text-app-button" />
                   </div>
                   <input
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/50 dark:bg-gray-700/50 text-app-text dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-app-text focus:border-transparent transition-all duration-200"
                     id="email"
                     type="email"
                     value={user.email}
@@ -145,15 +142,15 @@ export default function LoginPage() {
 
               {/* Password Field */}
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="password" className="block text-sm font-medium text-app-text dark:text-gray-300 mb-2">
                   Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <IoLockClosedOutline className="text-gray-700 dark:text-gray-400" />
+                    <IoLockClosedOutline className="text-app-text/70 dark:text-gray-400" />
                   </div>
                   <input
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/50 dark:bg-gray-700/50 text-app-text dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-app-text focus:border-transparent transition-all duration-200"
                     id="password"
                     type="password"
                     value={user.password}
@@ -168,15 +165,15 @@ export default function LoginPage() {
 
               {/* PIN Field */}
               <div>
-                <label htmlFor="pin" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="pin" className="block text-sm font-medium text-app-text dark:text-gray-300 mb-2">
                   Security PIN
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                   <MdFiberPin className="text-blue-700 dark:text-blue-400" />
+                   <MdFiberPin className="text-app-text dark:text-app-text" />
                   </div>
                   <input
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/50 dark:bg-gray-700/50 text-app-text dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-app-text focus:border-transparent transition-all duration-200"
                     id="pin"
                     type="text"
                     value={user.pin || ""}
@@ -201,7 +198,7 @@ export default function LoginPage() {
                         pin: "123456",
                       })
                     }
-                    className="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-800 dark:hover:to-blue-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    className="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-app-text to-slate-700 dark:from-app-text dark:to-slate-800 text-white text-sm font-medium rounded-lg hover:from-slate-700 hover:to-slate-800 dark:hover:from-slate-700 dark:hover:to-slate-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                   >
                     <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
@@ -218,7 +215,7 @@ export default function LoginPage() {
                         pin: "123456",
                       })
                     }
-                    className="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-gray-600 to-gray-700 dark:from-gray-700 dark:to-gray-800 text-white text-sm font-medium rounded-lg hover:from-gray-700 hover:to-gray-800 dark:hover:from-gray-800 dark:hover:to-gray-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    className="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-app-button to-app-button-hover dark:from-app-button dark:to-app-button-hover text-white text-sm font-medium rounded-lg hover:from-app-button-hover hover:to-red-700 dark:hover:from-app-button-hover dark:hover:to-red-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                   >
                     <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
@@ -232,7 +229,7 @@ export default function LoginPage() {
               <button
                 onClick={onLogin}
                 disabled={buttonDisabled || loading}
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-800 dark:hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
+                className="w-full bg-gradient-to-r from-app-text to-slate-700 dark:from-app-text dark:to-slate-700 text-white font-semibold py-3 px-6 rounded-lg hover:from-slate-700 hover:to-slate-800 dark:hover:from-slate-700 dark:hover:to-slate-800 focus:outline-none focus:ring-2 focus:ring-app-text focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
               >
                 {loading ? (
                   <div className="flex items-center justify-center">
