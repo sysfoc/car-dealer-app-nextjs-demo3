@@ -167,7 +167,7 @@ const HeroSection = () => {
   );
 
   return (
-    <section className="relative h-[calc(100vh-8rem)] w-full overflow-hidden">
+    <section className="relative h-screen w-full overflow-hidden">
       {/* Full-screen image carousel */}
       <div className="absolute inset-0 h-full w-full">
         <div

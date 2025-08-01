@@ -234,7 +234,7 @@ const SidebarFilters = () => {
     label: string;
   }) => (
     <button
-      className={`relative h-8 w-8 rounded-full border-2 ${selected ? "border-white ring-2 ring-violet-600" : "border-gray-300 dark:border-gray-600"} transition-all duration-200`}
+      className={`relative h-8 w-8 rounded-full border-2 ${selected ? "border-white" : "border-gray-300 dark:border-gray-600"} transition-all duration-200`}
       style={{ backgroundColor: color }}
       onClick={onClick}
       title={label}
@@ -270,7 +270,7 @@ const SidebarFilters = () => {
     <button
       className={`rounded-lg px-4 py-2 font-medium transition-all duration-200 ${
         selected
-          ? "bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg"
+          ? "bg-gradient-to-r from-app-button to-app-button-hover text-white shadow-lg"
           : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
       }`}
       onClick={onClick}
@@ -316,7 +316,7 @@ const SidebarFilters = () => {
                 onChange={(e) =>
                   handleInputChange("minYear", e.target.value, "minYear")
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 placeholder-gray-500 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:ring-violet-900/50"
+                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 placeholder-gray-500 shadow-lg transition-all duration-300 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400 "
               />
             </div>
             <div className="space-y-3">
@@ -324,7 +324,7 @@ const SidebarFilters = () => {
                 htmlFor="maxYear"
                 className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-purple-500"></span>
+                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 To Year
               </Label>
               <TextInput
@@ -337,7 +337,7 @@ const SidebarFilters = () => {
                 onChange={(e) =>
                   handleInputChange("maxYear", e.target.value, "maxYear")
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 placeholder-gray-500 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:ring-violet-900/50"
+                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 placeholder-gray-500 shadow-lg transition-all duration-300 focus:border-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:ring-violet-900/50"
               />
             </div>
           </div>
@@ -384,7 +384,7 @@ const SidebarFilters = () => {
                 htmlFor="millageTo"
                 className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-purple-500"></span>
+                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 {t("to")}
               </Label>
               <Select
@@ -395,7 +395,7 @@ const SidebarFilters = () => {
                 onChange={(e) =>
                   handleInputChange("millageTo", e.target.value, "millageTo")
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-app-button focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
               >
                 <option value="">Any</option>
                 <option value="24000">24,000 km</option>
@@ -424,7 +424,7 @@ const SidebarFilters = () => {
                     localFilters.location.includes(value)
                   }
                   onChange={() => handleCheckboxChange("location", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
                 <label
                   htmlFor={`location-${value}`}
@@ -531,7 +531,7 @@ const SidebarFilters = () => {
                     localFilters.model.includes(value)
                   }
                   onChange={() => handleCheckboxChange("model", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
                 <label
                   htmlFor={`model-${value}`}
@@ -562,7 +562,7 @@ const SidebarFilters = () => {
                     localFilters.gearBox.includes(value)
                   }
                   onChange={() => handleCheckboxChange("gearBox", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
                 <label
                   htmlFor={`gearbox-${value}`}
@@ -600,7 +600,7 @@ const SidebarFilters = () => {
                     localFilters.bodyType.includes(value)
                   }
                   onChange={() => handleCheckboxChange("bodyType", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
                 <label
                   htmlFor={`body-${value}`}
@@ -631,7 +631,7 @@ const SidebarFilters = () => {
                     localFilters.doors.includes(value)
                   }
                   onChange={() => handleCheckboxChange("doors", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
                 <label
                   htmlFor={`doors-${value}`}
@@ -662,7 +662,7 @@ const SidebarFilters = () => {
                     localFilters.seats.includes(value)
                   }
                   onChange={() => handleCheckboxChange("seats", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
                 <label
                   htmlFor={`seats-${value}`}
@@ -694,7 +694,7 @@ const SidebarFilters = () => {
                       localFilters.fuel.includes(value)
                     }
                     onChange={() => handleCheckboxChange("fuel", value)}
-                    className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                    className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                   />
                   <label
                     htmlFor={`fuel-${value}`}
@@ -983,7 +983,7 @@ const SidebarFilters = () => {
                     localFilters.driveType.includes(value)
                   }
                   onChange={() => handleCheckboxChange("driveType", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
                 <label
                   htmlFor={`drive-${value}`}
@@ -1013,8 +1013,7 @@ const SidebarFilters = () => {
     }
   }, [])
   return (
-    // <div className="scrollbar-thin scrollbar-thumb-violet-300 scrollbar-track-transparent max-h-screen overflow-y-auto rounded-xl bg-white p-6 shadow-lg dark:bg-gray-900">
-     <div className="max-h-screen overflow-y-auto no-scrollbar rounded-xl bg-white p-6 shadow-lg dark:bg-gray-900">
+   <div className="max-h-screen overflow-y-auto no-scrollbar rounded-xl bg-white p-6 shadow-lg dark:bg-gray-900">
      <h2 className="mb-6 border-b border-gray-200 pb-4 text-2xl font-bold text-gray-800 dark:border-gray-800 dark:text-white">
         Filter Vehicles
       </h2>
@@ -1022,7 +1021,7 @@ const SidebarFilters = () => {
       {/* Keyword Search */}
       <div className="mb-4">
         <div className="mb-4 flex items-center gap-3">
-          <VscSymbolKeyword className="text-xl text-violet-600" />
+          <VscSymbolKeyword className="text-xl text-app-button" />
           <label
             htmlFor="keyword"
             className="text-lg font-semibold text-gray-800 dark:text-gray-200"
@@ -1041,74 +1040,16 @@ const SidebarFilters = () => {
             onChange={(e) =>
               handleInputChange("keyword", e.target.value, "keyword")
             }
-            className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-gray-800 placeholder-gray-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:ring-violet-900/50"
+            className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-gray-800 placeholder-gray-500 focus:border-violet-500 focus:focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:ring-violet-900/50"
           />
           <VscSymbolKeyword className="absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-500 dark:text-gray-400" />
-        </div>
-      </div>
-
-      {/* Color Circles */}
-      <div className="mb-4">
-        <div className="mb-3 flex items-center gap-3">
-          <div className="text-xl text-violet-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-            Colors
-          </h3>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          {Object.entries(colorMap).map(([id, hex]) => {
-            const label = id.charAt(0).toUpperCase() + id.slice(1);
-            const isSelected =
-              Array.isArray(localFilters.color) &&
-              localFilters.color.includes(id);
-
-            return (
-              <button
-                key={id}
-                className={`relative h-8 w-8 rounded-full border-2 ${isSelected ? "border-white ring-2 ring-violet-600" : "border-gray-300 dark:border-gray-600"} transition-all duration-200`}
-                style={{ backgroundColor: hex }}
-                onClick={() => handleCheckboxChange("color", id)}
-                title={label}
-                aria-label={`Select ${label} color`}
-              >
-                {isSelected && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <svg
-                      className={`h-4 w-4 ${isLightColor(id) ? "text-black" : "text-white"}`}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                )}
-              </button>
-            );
-          })}
         </div>
       </div>
 
       {/* Condition Toggle Buttons */}
       <div className="mb-6">
         <div className="mb-3 flex items-center gap-3">
-          <FaRecycle className="text-xl text-violet-600" />
+          <FaRecycle className="text-xl text-app-button" />
           <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
             {t("condition")}
           </h3>
@@ -1140,12 +1081,12 @@ const SidebarFilters = () => {
             onClick={() => toggleSection("lease")}
           >
             <div className="flex items-center gap-3">
-              <FaHandshake className="text-violet-600 dark:text-violet-400" />
+              <FaHandshake className="text-app-button dark:text-app-button-hover" />
               <h3 className="text-left font-semibold text-gray-800 dark:text-gray-200">
                 Lease
               </h3>
             </div>
-            <div className="text-gray-500 group-hover:text-violet-600 dark:text-gray-400 dark:group-hover:text-violet-400">
+            <div className="text-gray-500 group-hover:text-app-button dark:text-gray-400 dark:group-hover:text-app-button-hover">
               {openSections.includes("lease") ? (
                 <IoArrowUpSharp className="h-5 w-5" />
               ) : (
@@ -1162,7 +1103,7 @@ const SidebarFilters = () => {
                   id="lease-filter"
                   checked={localFilters.lease === "true"}
                   onChange={handleLeaseChange}
-                  className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
                 <label
                   htmlFor="lease-filter"
@@ -1188,14 +1129,14 @@ const SidebarFilters = () => {
               onClick={() => toggleSection(section.content)}
             >
               <div className="flex items-center gap-3">
-                <div className="text-violet-600 dark:text-violet-400">
+                <div className="text-app-button dark:text-app-button-hover">
                   {section.symbol}
                 </div>
                 <h3 className="text-left font-semibold text-gray-800 dark:text-gray-200">
                   {section.label}
                 </h3>
               </div>
-              <div className="text-gray-500 group-hover:text-violet-600 dark:text-gray-400 dark:group-hover:text-violet-400">
+              <div className="text-gray-500 group-hover:text-app-button dark:text-gray-400 dark:group-hover:text-app-button-hover">
                 {openSections.includes(section.content) ? (
                   <IoArrowUpSharp className="h-5 w-5" />
                 ) : (
@@ -1210,6 +1151,63 @@ const SidebarFilters = () => {
           </div>
         ))}
       </div>
+        <div className="mb-4">
+        <div className="mb-3 flex items-center gap-3">
+          <div className="text-xl text-app-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+            Colors
+          </h3>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          {Object.entries(colorMap).map(([id, hex]) => {
+            const label = id.charAt(0).toUpperCase() + id.slice(1);
+            const isSelected =
+              Array.isArray(localFilters.color) &&
+              localFilters.color.includes(id);
+
+            return (
+              <button
+                key={id}
+                className={`relative h-8 w-8 rounded-full border-2 ${isSelected ? "border-white ring-text-app-button" : "border-gray-300 dark:border-gray-600"} transition-all duration-200`}
+                style={{ backgroundColor: hex }}
+                onClick={() => handleCheckboxChange("color", id)}
+                title={label}
+                aria-label={`Select ${label} color`}
+              >
+                {isSelected && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <svg
+                      className={`h-4 w-4 ${isLightColor(id) ? "text-black" : "text-white"}`}
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
     </div>
   );
 };
