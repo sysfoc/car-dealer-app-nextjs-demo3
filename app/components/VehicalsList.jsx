@@ -49,7 +49,7 @@ const VehicleCard = ({
         {/* Tag Badge - Top Right Corner (if exists) */}
         {vehicle.tag && vehicle.tag !== "default" && (
           <div className="absolute right-3 top-3 z-20">
-            <span className="rounded-full bg-blue-500 px-3 py-1.5 text-xs font-semibold text-white shadow-lg">
+            <span className="rounded-full bg-app-button px-3 py-1.5 text-xs font-semibold text-white shadow-lg">
               {vehicle.tag.toUpperCase()}
             </span>
           </div>
@@ -85,9 +85,7 @@ const VehicleCard = ({
         </button>
       </div>
 
-      {/* Content Section - Reduced padding */}
       <div className="p-5">
-        {/* Title and Price */}
         <div className="mb-4 flex items-start justify-between">
           <div className="flex-1">
             <h3 className="mb-1 text-lg font-bold leading-tight text-gray-800 dark:text-white">
@@ -95,7 +93,7 @@ const VehicleCard = ({
             </h3>
           </div>
           <div className="ml-4 text-right">
-            <div className="text-xl font-bold text-blue-600 dark:text-blue-400">
+            <div className="text-xl font-bold text-app-text dark:text-app-button-hover">
               {selectedCurrency && selectedCurrency.symbol}{" "}
               {Math.round(
                 (vehicle &&
@@ -107,7 +105,6 @@ const VehicleCard = ({
           </div>
         </div>
 
-        {/* Specifications Grid - Smaller icons */}
         <div className="grid grid-cols-3 gap-3 text-center">
           <div className="flex flex-col items-center">
             <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
