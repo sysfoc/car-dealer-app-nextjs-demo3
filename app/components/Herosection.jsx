@@ -200,7 +200,7 @@ const HeroSection = () => {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:left-8 sm:p-4"
+        className="absolute left-4 top-1/2 z-30 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:left-8 sm:p-4"
         aria-label="Previous image"
       >
         <FaChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -208,7 +208,7 @@ const HeroSection = () => {
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:right-8 sm:p-4"
+        className="absolute right-4 top-1/2 z-30 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:right-8 sm:p-4"
         aria-label="Next image"
       >
         <FaChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -282,7 +282,7 @@ const HeroSection = () => {
       </div>
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 space-x-3">
+      <div className="absolute hidden md:flex bottom-8 left-1/2 z-30 -translate-x-1/2 space-x-3">
         {carImages.map((_, index) => (
           <button
             key={index}
@@ -298,7 +298,7 @@ const HeroSection = () => {
       </div>
 
       {/* Progress Bar */}
-      <div className="absolute bottom-0 left-0 z-30 h-1 w-full bg-white/20">
+      <div className="absolute hidden md:block bottom-0 left-0 z-30 h-1 w-full bg-white/20">
         <div
           className="h-full bg-gradient-to-r from-[#DC3C22] via-red-500 to-orange-500 transition-all duration-1000 ease-in-out"
           style={{
