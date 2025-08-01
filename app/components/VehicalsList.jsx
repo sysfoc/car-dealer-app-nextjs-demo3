@@ -54,35 +54,19 @@ const VehicleCard = ({
             </span>
           </div>
         )}
-
-        {/* Diagonal Status Banner - Top Left Corner */}
-        {/* <div className="absolute top-0 left-0 z-10 overflow-hidden">
-          <div className={`transform -rotate-45 -translate-x-6 -translate-y-2 origin-bottom-left shadow-lg ${
-            vehicle.sold 
-              ? 'bg-red-500' 
-              : 'bg-green-500'
-          }`}>
-            <div className="px-8 py-2 text-white text-xs font-bold whitespace-nowrap">
-              {vehicle.sold ? 'SOLD' : 'AVAILABLE'}
-            </div>
-          </div>
-        </div> */}
-
-        {/* Diagonal Status Banner - Top Left Corner */}
         <div className="absolute left-5 top-20 z-10">
-          {" "}
-          <div
-            className={`origin-bottom-left -translate-x-6 -translate-y-5 -rotate-45 transform shadow-lg ${
-              vehicle.sold ? "bg-red-500" : "bg-green-500"
-            }`}
-          >
-            <div className="whitespace-nowrap px-8 py-2 text-xs font-bold text-white">
-              {vehicle.sold ? "SOLD" : "AVAILABLE"}
-            </div>
-          </div>
-        </div>
+  <div
+    className={`origin-bottom-left -translate-x-6 -translate-y-5 -rotate-45 transform shadow-lg ${
+      vehicle.sold ? "bg-red-500" : "bg-green-500"
+    }`}
+  >
+    <div className="w-32 px-0 py-2 text-center text-xs font-bold text-white">
+      {vehicle.sold ? "SOLD" : "AVAILABLE"}
+    </div>
+  </div>
+</div>
 
-        {/* Like Button - Bottom Right */}
+
         <button
           onClick={(e) => {
             e.preventDefault();

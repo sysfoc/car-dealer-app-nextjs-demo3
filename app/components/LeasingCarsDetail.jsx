@@ -894,22 +894,29 @@ const CardetailCard = () => {
               </Carousel>
 
               {/* Overlay Badges */}
-              <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-                <span className="rounded-full bg-blue-600 px-2.5 py-1 text-xs font-bold uppercase text-white shadow-lg backdrop-blur-sm">
-                  {car.condition && car.condition !== "Select"
-                    ? car.condition
-                    : car.type || "Used"}
-                </span>
-                {car.sold && (
-                  <span className="rounded-full bg-red-500 px-2.5 py-1 text-xs font-bold uppercase text-white shadow-lg backdrop-blur-sm">
-                    SOLD
-                  </span>
-                )}
-                {car.isFinance && car.isFinance !== "km" && (
-                  <span className="rounded-full bg-emerald-500 px-2.5 py-1 text-xs font-bold uppercase text-white shadow-lg backdrop-blur-sm">
-                    {car.isFinance}
-                  </span>
-                )}
+              <div className="absolute left-0 top-0 z-10">
+                  {!car.sold && (
+                    <div className="relative h-16 w-16 overflow-hidden">
+                      <div className="absolute left-[-18px] top-2 w-[75px] rotate-[-45deg] bg-app-button shadow-md">
+                        <span className="block py-[2px] text-center text-[10px] font-bold uppercase text-white">
+                          {(car.condition && car.condition !== "Select"
+                            ? car.condition
+                            : car.type || "Used"
+                          ).substring(0, 4)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {car.sold && (
+                    <div className="relative h-16 w-16 overflow-hidden">
+                      <div className="absolute left-0 top-0 h-6 w-14 translate-x-[-8px] translate-y-[12px] -rotate-45 transform bg-red-500 shadow-md">
+                        <span className="absolute inset-0 flex items-center justify-center text-xs font-bold uppercase text-white">
+                          SOLD
+                        </span>
+                      </div>
+                    </div>
+                  )}
               </div>
 
               {/* Wishlist & Image Counter */}
