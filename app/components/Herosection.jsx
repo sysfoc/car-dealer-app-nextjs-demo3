@@ -200,7 +200,7 @@ const HeroSection = () => {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 z-30 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:left-8 sm:p-4"
+        className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:left-8 sm:p-4"
         aria-label="Previous image"
       >
         <FaChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -208,14 +208,14 @@ const HeroSection = () => {
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 z-30 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:right-8 sm:p-4"
+        className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:right-8 sm:p-4"
         aria-label="Next image"
       >
         <FaChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
       </button>
 
       {/* Centered Content Overlay */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-6xl space-y-8 text-center">
           {/* Badge */}
           <div
