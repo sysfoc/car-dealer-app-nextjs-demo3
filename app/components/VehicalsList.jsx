@@ -16,6 +16,125 @@ import { useDistance } from "../context/DistanceContext";
 import { FaRegHeart } from "react-icons/fa6";
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
+const VehicleCard = ({ vehicle, userLikedCars, handleLikeToggle, convertedValues, selectedCurrency, currency }) => {
+  const handleCardClick = () => {
+    window.location.href = `/car-detail/${vehicle.slug || vehicle._id}`;
+  };
+
+  return (
+    <div 
+      className="w-full bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 dark:bg-slate-800 dark:shadow-slate-900/20" 
+      onClick={handleCardClick}
+    >
+      {/* Image Section */}
+      <div className="relative">
+        <div className="aspect-[4/3] relative overflow-hidden">
+          <Image
+            src={vehicle.imageUrls && vehicle.imageUrls[0] || "/placeholder.svg"}
+            fill
+            alt={`${vehicle.make} ${vehicle.model}`}
+            className="object-cover transition-all duration-500 hover:scale-105"
+          />
+        </div>
+        
+        {/* Special/Tag Badge - Top Left Corner */}
+        {vehicle.tag && vehicle.tag !== "default" && (
+          <div className="absolute top-0 left-0 z-10">
+            <div className="bg-blue-500 text-white px-6 py-2 text-sm font-bold transform -rotate-45 -translate-x-4 -translate-y-1 origin-bottom-left shadow-lg">
+              {vehicle.tag.toUpperCase()}
+            </div>
+          </div>
+        )}
+        
+        {/* Status Badge - Top Right */}
+        <div className="absolute top-3 right-3 z-10">
+          {vehicle.sold ? (
+            <span className="bg-red-500 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg">
+              SOLD
+            </span>
+          ) : (
+            <span className="bg-green-500 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg">
+              AVAILABLE
+            </span>
+          )}
+        </div>
+
+        {/* Like Button - Bottom Right */}
+        <button 
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleLikeToggle(vehicle._id);
+          }}
+          className="absolute bottom-3 right-3 w-10 h-10 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 dark:bg-slate-800/95"
+        >
+          {userLikedCars && Array.isArray(userLikedCars) && userLikedCars.includes(vehicle._id) ? (
+            <FaHeart className="w-4 h-4 text-red-500" />
+          ) : (
+            <FaRegHeart className="w-4 h-4 text-gray-600 hover:text-red-500" />
+          )}
+        </button>
+      </div>
+
+      {/* Content Section */}
+      <div className="p-6">
+        {/* Title and Price */}
+        <div className="flex justify-between items-start mb-4">
+          <div className="flex-1">
+            <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-1 leading-tight">
+              {vehicle.make} {vehicle.model}
+            </h3>
+          </div>
+          <div className="text-right ml-4">
+            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+              {selectedCurrency && selectedCurrency.symbol}{" "}
+              {Math.round(
+                (vehicle && vehicle.price * (selectedCurrency && selectedCurrency.value || 1)) /
+                  (currency && currency.value || 1)
+              ).toLocaleString()}
+            </div>
+          </div>
+        </div>
+
+        {/* Specifications Grid */}
+        <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="flex flex-col items-center">
+            <div className="w-10 h-10 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-2">
+              <IoSpeedometer className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+            </div>
+            <div className="text-sm font-semibold text-gray-800 dark:text-white">
+              {convertedValues.kms}
+            </div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">
+              {convertedValues.unit && convertedValues.unit.toUpperCase()}
+            </div>
+          </div>
+          
+          <div className="flex flex-col items-center">
+            <div className="w-10 h-10 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-2">
+              <GiGasPump className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+            </div>
+            <div className="text-sm font-semibold text-gray-800 dark:text-white">
+              {vehicle && vehicle.fuelType}
+            </div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Fuel</div>
+          </div>
+          
+          <div className="flex flex-col items-center">
+            <div className="w-10 h-10 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-2">
+              <TbManualGearbox className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+            </div>
+            <div className="text-sm font-semibold text-gray-800 dark:text-white">
+              {vehicle && vehicle.gearbox}
+            </div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Trans</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const VehicalsList = ({ loadingState }) => {
   const t = useTranslations("HomePage");
   const [vehicles, setVehicles] = useState([]);
@@ -25,7 +144,7 @@ const VehicalsList = ({ loadingState }) => {
   const { distance: defaultUnit, loading: distanceLoading } = useDistance();
   const [userLikedCars, setUserLikedCars] = useState([]);
   const [user, setUser] = useState(null);
-  const [visibleVehiclesCount, setVisibleVehiclesCount] = useState(3); // State to manage visible vehicles
+  const [visibleVehiclesCount, setVisibleVehiclesCount] = useState(6);
   const [listingData, setListingData] = useState(null);
 
   useEffect(() => {
@@ -63,7 +182,6 @@ const VehicalsList = ({ loadingState }) => {
         unit: vehicle.unit || defaultUnit,
       };
     }
-    // If car unit matches default unit, no conversion needed
     if (vehicle.unit === defaultUnit) {
       return {
         kms: vehicle.kms,
@@ -71,15 +189,12 @@ const VehicalsList = ({ loadingState }) => {
         unit: vehicle.unit,
       };
     }
-    // Convert based on units
     let convertedKms = vehicle.kms;
     let convertedMileage = vehicle.mileage;
     if (vehicle.unit === "km" && defaultUnit === "miles") {
-      // Convert from km to miles
       convertedKms = convertKmToMiles(vehicle.kms);
       convertedMileage = convertKmToMiles(vehicle.mileage);
     } else if (vehicle.unit === "miles" && defaultUnit === "km") {
-      // Convert from miles to km
       convertedKms = convertMilesToKm(vehicle.kms);
       convertedMileage = convertMilesToKm(vehicle.mileage);
     }
@@ -147,7 +262,7 @@ const VehicalsList = ({ loadingState }) => {
 
   const handleToggleVisibility = () => {
     if (visibleVehiclesCount >= vehicles.length) {
-      setVisibleVehiclesCount(3); // Show less
+      setVisibleVehiclesCount(3);
     } else {
       setVisibleVehiclesCount((prevCount) =>
         Math.min(prevCount + 3, vehicles.length),
@@ -175,12 +290,12 @@ const VehicalsList = ({ loadingState }) => {
     );
   }
 
-  if (listingData && listingData?.status === 'inactive') {
-  return null;
-}
+  if (listingData && listingData.status === 'inactive') {
+    return null;
+  }
 
   return (
-    <section className=" my-7 rounded-xl bg-slate-50 py-7 dark:bg-slate-900 sm:mx-8 md:my-10 md:py-10">
+    <section className="my-7 rounded-xl bg-slate-50 py-7 dark:bg-slate-900 sm:mx-8 md:my-10 md:py-10">
       <div className="mb-16">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-app-button/10 px-4 py-2 text-sm font-medium text-app-button dark:bg-app-button/20 dark:text-app-button">
@@ -188,7 +303,7 @@ const VehicalsList = ({ loadingState }) => {
             <span>Premium Collection</span>
           </div>
           <h2 className="mb-6 bg-gradient-to-br from-app-text via-app-text/90 to-app-text/70 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:via-slate-100 dark:to-slate-300 md:text-5xl lg:text-6xl">
-            {listingData?.heading}
+            {listingData && listingData.heading}
           </h2>
           <Link href={"/car-for-sale"}>
             <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-button to-app-button/90 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-button-hover hover:to-app-button-hover hover:shadow-2xl dark:from-app-button dark:to-app-button/90 dark:hover:from-app-button-hover dark:hover:to-app-button-hover">
@@ -198,34 +313,32 @@ const VehicalsList = ({ loadingState }) => {
           </Link>
         </div>
       </div>
+      
       <div className="grid grid-cols-1 gap-6 px-4 sm:grid-cols-2 sm:px-8 md:grid-cols-3 lg:gap-8">
         {loading
-          ? Array(3) // Show 3 skeleton cards initially
+          ? Array(3)
               .fill()
               .map((_, index) => (
                 <div
-                  className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-xl dark:border-slate-700 dark:bg-slate-800"
+                  className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-xl dark:border-slate-700 dark:bg-slate-800"
                   key={index}
                 >
                   <div className="relative">
-                    <Skeleton className="h-64 w-full" />
+                    <Skeleton className="h-48 w-full" />
                   </div>
                   <div className="space-y-4 p-6">
-                    <div className="space-y-3">
-                      <Skeleton height={28} />
-                      <Skeleton height={16} width="70%" />
+                    <div className="flex justify-between items-start">
+                      <Skeleton height={28} width="60%" />
+                      <Skeleton height={32} width="30%" />
                     </div>
-                    <div className="space-y-3">
+                    <div className="grid grid-cols-3 gap-4">
                       {[...Array(3)].map((_, i) => (
-                        <div key={i} className="flex items-center gap-3">
-                          <Skeleton circle width={32} height={32} />
-                          <Skeleton height={16} width="60%" />
+                        <div key={i} className="flex flex-col items-center">
+                          <Skeleton circle width={40} height={40} />
+                          <Skeleton height={16} width="80%" className="mt-2" />
+                          <Skeleton height={12} width="60%" className="mt-1" />
                         </div>
                       ))}
-                    </div>
-                    <div className="border-t border-slate-100 pt-4 dark:border-slate-700">
-                      <Skeleton height={32} width="50%" />
-                      <Skeleton height={40} className="mt-3" />
                     </div>
                   </div>
                 </div>
@@ -233,145 +346,19 @@ const VehicalsList = ({ loadingState }) => {
           : vehicles.slice(0, visibleVehiclesCount).map((vehicle) => {
               const convertedValues = getConvertedValues(vehicle);
               return (
-                <div
-                  className="group transform overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-xl transition-all duration-500 hover:-translate-y-1 hover:border-slate-300 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-800 dark:hover:border-slate-600"
+                <VehicleCard
                   key={vehicle._id}
-                >
-                  <div className="relative overflow-hidden bg-slate-50 dark:bg-slate-900">
-                    <div className="relative aspect-[16/10]">
-                      <Image
-                        src={vehicle.imageUrls?.[0] || "/placeholder.svg"}
-                        fill
-                        alt={`${vehicle.make} ${vehicle.model}`}
-                        className="object-cover transition-all duration-700 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
-                      <div className="absolute left-4 top-4 flex flex-wrap gap-1.5">
-                        {vehicle.sold ? (
-                          <div className="rounded-full bg-red-500 px-3 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-sm">
-                            <div className="flex items-center gap-1.5">
-                              <div className="h-2 w-2 rounded-full bg-white"></div>
-                              SOLD
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="rounded-full bg-app-button px-3 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-sm">
-                            <div className="flex items-center gap-1.5">
-                              <div className="h-2 w-2 animate-pulse rounded-full bg-white"></div>
-                              AVAILABLE
-                            </div>
-                          </div>
-                        )}
-                        {vehicle.tag && vehicle.tag !== "default" && (
-                          <div className="rounded-full bg-gradient-to-r from-app-text to-app-text/90 px-3 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-sm">
-                            <div className="flex items-center gap-1.5">
-                              <div className="h-2 w-2 rounded-full bg-white"></div>
-                              {vehicle.tag.toUpperCase()}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <div className="absolute right-4 top-4 flex translate-x-4 transform gap-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleLikeToggle(vehicle._id);
-                          }}
-                          aria-label={
-                            userLikedCars?.includes(vehicle._id)
-                              ? "Unlike Car"
-                              : "Like Car"
-                          }
-                          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-app-text shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:shadow-xl hover:text-app-button"
-                        >
-                          {userLikedCars &&
-                          Array.isArray(userLikedCars) &&
-                          userLikedCars.includes(vehicle._id) ? (
-                            <FaHeart className="h-4 w-4 text-app-button" />
-                          ) : (
-                            <FaRegHeart className="h-4 w-4 hover:text-app-button" />
-                          )}
-                        </button>
-                      </div>
-                      <div className="absolute bottom-4 right-4 rounded-2xl bg-white/95 px-4 py-2 shadow-lg backdrop-blur-md dark:bg-slate-800/95">
-                        <div className="text-right">
-                          <p className="text-xs font-medium text-app-text/60 dark:text-slate-400">
-                            From
-                          </p>
-                          <p className="bg-gradient-to-r from-app-text to-app-text/70 bg-clip-text text-lg font-bold text-transparent dark:from-white dark:to-slate-300">
-                            {selectedCurrency?.symbol}{" "}
-                            {Math.round(
-                              (vehicle?.price *
-                                (selectedCurrency?.value || 1)) /
-                                (currency?.value || 1),
-                            ).toLocaleString()}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="mb-4">
-                      <h3 className="mb-2 text-xl font-bold text-app-text transition-colors duration-300 group-hover:text-app-button dark:text-white dark:group-hover:text-app-button">
-                        {vehicle.make} {vehicle.model}
-                      </h3>
-                      <p className="line-clamp-2 text-sm leading-relaxed text-app-text/60 dark:text-slate-400">
-                        {vehicle?.description?.slice(0, 80)}...
-                      </p>
-                    </div>
-                    <div className="mb-6 space-y-3">
-                      <div className="flex items-center gap-3 text-sm">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-button/10 dark:bg-app-button/20">
-                          <IoSpeedometer className="h-4 w-4 text-app-button dark:text-app-button" />
-                        </div>
-                        <span className="text-app-text/60 dark:text-slate-400">
-                          Mileage:
-                        </span>
-                        <span className="font-semibold text-app-text dark:text-white">
-                          {convertedValues.kms}{" "}
-                          {convertedValues.unit?.toUpperCase()}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 text-sm">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-button/10 dark:bg-app-button/20">
-                          <GiGasPump className="h-4 w-4 text-app-button dark:text-app-button" />
-                        </div>
-                        <span className="text-app-text/60 dark:text-slate-400">
-                          Fuel Type:
-                        </span>
-                        <span className="font-semibold text-app-text dark:text-white">
-                          {vehicle?.fuelType}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 text-sm">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-button/10 dark:bg-app-button/20">
-                          <TbManualGearbox className="h-4 w-4 text-app-button dark:text-app-button" />
-                        </div>
-                        <span className="text-app-text/60 dark:text-slate-400">
-                          Transmission:
-                        </span>
-                        <span className="font-semibold text-app-text dark:text-white">
-                          {vehicle?.gearbox}
-                        </span>
-                      </div>
-                    </div>
-                    {/* CTA Button */}
-                    <Link
-                      href={`/car-detail/${vehicle.slug || vehicle._id}`}
-                      className="group/cta block w-full"
-                    >
-                      <div className="transform rounded-2xl bg-gradient-to-r from-app-button to-app-button/90 px-6 py-3.5 text-center font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-app-button-hover hover:to-app-button-hover hover:shadow-xl dark:from-app-button dark:to-app-button/90 dark:hover:from-app-button-hover dark:hover:to-app-button-hover">
-                        <div className="flex items-center justify-center gap-2">
-                          <span>View Details</span>
-                          <MdOutlineArrowOutward className="h-4 w-4 transition-transform duration-300 group-hover/cta:-translate-y-1 group-hover/cta:translate-x-1" />
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
+                  vehicle={vehicle}
+                  userLikedCars={userLikedCars}
+                  handleLikeToggle={handleLikeToggle}
+                  convertedValues={convertedValues}
+                  selectedCurrency={selectedCurrency}
+                  currency={currency}
+                />
               );
             })}
       </div>
+      
       {!loading && vehicles.length > 3 && (
         <div className="mt-10 text-center">
           <button
@@ -391,7 +378,7 @@ const VehicalsList = ({ loadingState }) => {
           </button>
         </div>
       )}
-      {/* Empty State */}
+      
       {vehicles.length === 0 && !loading && (
         <div className="py-20 text-center">
           <div className="mx-auto mb-8 flex h-32 w-32 items-center justify-center rounded-full bg-slate-50 shadow-inner dark:bg-slate-800">
