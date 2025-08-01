@@ -303,7 +303,7 @@ const SidebarFilters = () => {
                 htmlFor="minYear"
                 className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-violet-500"></span>
+                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 From Year
               </Label>
               <TextInput
@@ -356,7 +356,7 @@ const SidebarFilters = () => {
                 htmlFor="millageFrom"
                 className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-violet-500"></span>
+                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 {t("from")}
               </Label>
               <Select
@@ -450,7 +450,7 @@ const SidebarFilters = () => {
                 htmlFor="minPrice"
                 className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-violet-500"></span>
+                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 Minimum Price
               </Label>
               <Select
@@ -719,7 +719,7 @@ const SidebarFilters = () => {
             htmlFor="battery"
             className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
           >
-            <span className="h-2 w-2 rounded-full bg-violet-500"></span>
+            <span className="h-2 w-2 rounded-full bg-app-button"></span>
             Select Range
           </Label>
           <Select
@@ -749,7 +749,7 @@ const SidebarFilters = () => {
             htmlFor="charging"
             className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
           >
-            <span className="h-2 w-2 rounded-full bg-violet-500"></span>
+            <span className="h-2 w-2 rounded-full bg-app-button"></span>
             Maximum Charging Rate
           </Label>
           <Select
@@ -781,7 +781,7 @@ const SidebarFilters = () => {
                 htmlFor="engine-from"
                 className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-violet-500"></span>
+                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 {t("from")}
               </Label>
               <Select
@@ -846,7 +846,7 @@ const SidebarFilters = () => {
                 htmlFor="engine-power-from"
                 className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-violet-500"></span>
+                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 {t("from")}
               </Label>
               <Select
@@ -909,7 +909,7 @@ const SidebarFilters = () => {
             htmlFor="fuel-comsumption"
             className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
           >
-            <span className="h-2 w-2 rounded-full bg-violet-500"></span>
+            <span className="h-2 w-2 rounded-full bg-app-button"></span>
             Minimum MPG
           </Label>
           <Select
@@ -944,7 +944,7 @@ const SidebarFilters = () => {
             htmlFor="c02-emission"
             className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
           >
-            <span className="h-2 w-2 rounded-full bg-violet-500"></span>
+            <span className="h-2 w-2 rounded-full bg-app-button"></span>
             Maximum CO2 Output
           </Label>
           <Select
@@ -1215,37 +1215,3 @@ const SidebarFilters = () => {
 };
 
 export default SidebarFilters;
-
-
-
-// {
-    //   label: "Lease",
-    //   content: "lease",
-    //   symbol: <FaHandshake />,
-    //   render: !isLeasingPage && (
-    //     <div className="space-y-4">
-    //       <div className="flex items-center">
-    //         <input
-    //           type="checkbox"
-    //           id="lease-filter"
-    //           checked={localFilters.lease === "true"}
-    //           onChange={(e) =>
-    //             handleInputChange(
-    //               "lease",
-    //               e.target.checked ? "true" : "false",
-    //               "lease-filter",
-    //             )
-    //           }
-    //           className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
-    //         />
-    //         <label
-    //           htmlFor="lease-filter"
-    //           className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-    //         >
-    //           Show Lease Cars Only
-    //         </label>
-    //       </div>
-    //     </div>
-    //   ),
-    // },
-

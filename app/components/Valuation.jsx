@@ -1,12 +1,12 @@
-"use client";
-import { useState, useEffect } from "react";
-import BrandsList from "./BrandsList";
-import ChooseUs from "./ChooseUs";
-import { TextInput } from "flowbite-react";
-import { AiOutlineDollar } from "react-icons/ai";
-import { MdSell } from "react-icons/md";
-import { FaExchangeAlt, FaShieldAlt, FaClock } from "react-icons/fa";
-import Swal from "sweetalert2";
+"use client"
+import { useState, useEffect } from "react"
+import BrandsList from "./BrandsList"
+import ChooseUs from "./ChooseUs"
+import { TextInput } from "flowbite-react"
+import { AiOutlineDollar } from "react-icons/ai"
+import { MdSell } from "react-icons/md"
+import { FaExchangeAlt, FaShieldAlt, FaClock } from "react-icons/fa"
+import Swal from "sweetalert2"
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -15,179 +15,137 @@ export default function Home() {
     make: "",
     model: "",
     valuationType: "",
-  });
-
-  const [makes, setMakes] = useState([]);
-  const [models, setModels] = useState([]);
-  const [selectedMake, setSelectedMake] = useState("");
-  const [selectedModel, setSelectedModel] = useState("");
-  const [jsonData, setJsonData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  })
+  const [makes, setMakes] = useState([])
+  const [models, setModels] = useState([])
+  const [selectedMake, setSelectedMake] = useState("")
+  const [selectedModel, setSelectedModel] = useState("")
+  const [jsonData, setJsonData] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     const fetchJsonData = async () => {
       try {
-        setLoading(true);
-        const response = await fetch("/Vehicle make and model data (2).json");
-        const data = await response.json();
-        setJsonData(data.Sheet1);
-
-        // Extract unique makes
-        const uniqueMakes = [...new Set(data.Sheet1.map((item) => item.Maker))];
-        setMakes(uniqueMakes);
+        setLoading(true)
+        const response = await fetch("/Vehicle make and model data (2).json")
+        const data = await response.json()
+        setJsonData(data.Sheet1)
+        const uniqueMakes = [...new Set(data.Sheet1.map((item) => item.Maker))]
+        setMakes(uniqueMakes)
       } catch (error) {
-        console.error("Error loading vehicle data:", error);
+        console.error("Error loading vehicle data:", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchJsonData();
-  }, []);
+    }
+    fetchJsonData()
+  }, [])
 
   useEffect(() => {
     if (selectedMake && jsonData.length > 0) {
-      const makeData = jsonData.find((item) => item.Maker === selectedMake);
+      const makeData = jsonData.find((item) => item.Maker === selectedMake)
       if (makeData && makeData["model "]) {
-        // Split models string into array and trim whitespace
-        const modelArray = makeData["model "]
-          .split(",")
-          .map((model) => model.trim());
-        setModels(modelArray);
+        const modelArray = makeData["model "].split(",").map((model) => model.trim())
+        setModels(modelArray)
       } else {
-        setModels([]);
+        setModels([])
       }
-      setSelectedModel("");
-
-      // Update form data
+      setSelectedModel("")
       setFormData((prev) => ({
         ...prev,
         make: selectedMake,
-        model: "", // Reset model when make changes
-      }));
+        model: "",
+      }))
     }
-  }, [selectedMake, jsonData]);
+  }, [selectedMake, jsonData])
 
   useEffect(() => {
-    // Update form data when model changes
     if (selectedModel) {
       setFormData((prev) => ({
         ...prev,
         model: selectedModel,
-      }));
+      }))
     }
-  }, [selectedModel]);
+  }, [selectedModel])
 
   const handleValuationType = (type) => {
-    setFormData((prev) => ({ ...prev, valuationType: type }));
-  };
+    setFormData((prev) => ({ ...prev, valuationType: type }))
+  }
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Validation
-    if (
-      !formData.name ||
-      !formData.email ||
-      !formData.make ||
-      !formData.model ||
-      !formData.valuationType
-    ) {
-      Swal.fire(
-        "Validation Error",
-        "Please complete all required fields.",
-        "warning",
-      );
-      return;
+    e.preventDefault()
+    if (!formData.name || !formData.email || !formData.make || !formData.model || !formData.valuationType) {
+      Swal.fire("Validation Error", "Please complete all required fields.", "warning")
+      return
     }
 
-    setIsSubmitting(true);
-
+    setIsSubmitting(true)
     try {
       const response = await fetch("/api/valuation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
+      })
+      const data = await response.json()
       if (response.ok) {
-        Swal.fire(
-          "Success",
-          "Valuation request submitted successfully! We will get back to you soon.",
-          "success",
-        );
-        // Reset form
+        Swal.fire("Success", "Valuation request submitted successfully! We will get back to you soon.", "success")
         setFormData({
           name: "",
           email: "",
           make: "",
           model: "",
           valuationType: "",
-        });
-        setSelectedMake("");
-        setSelectedModel("");
-        setModels([]);
+        })
+        setSelectedMake("")
+        setSelectedModel("")
+        setModels([])
       } else {
-        throw new Error(data.error || "Failed to submit valuation request");
+        throw new Error(data.error || "Failed to submit valuation request")
       }
     } catch (error) {
-      Swal.fire("Error", error.message || "Something went wrong!", "error");
-      console.error(error);
+      Swal.fire("Error", error.message || "Something went wrong!", "error")
+      console.error(error)
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <>
       <section className="relative min-h-screen w-full overflow-hidden">
-        {/* Background with overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: "url('/sydney.jpg')",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-800/85 to-blue-900/90" />
-
-        {/* Hero Content */}
+        <div className="absolute inset-0 bg-gradient-to-br from-app-text/90 via-app-text/85 to-app-button/90" />
         <div className="relative z-10 flex min-h-screen items-center">
           <div className="container mx-auto px-4 py-8">
             <div className="mx-auto max-w-4xl">
-              {/* Header Section */}
               <div className="mb-6 mt-14 text-center">
                 <h1 className="mb-3 text-3xl font-bold leading-tight text-white md:text-4xl">
                   Get Your Cars
-                  <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-app-button to-app-button-hover bg-clip-text text-transparent">
                     True Value
                   </span>
                 </h1>
               </div>
-
-              {/* Main Form Card */}
               <div className="mx-auto max-w-xl">
                 <div className="rounded-2xl border border-white/20 bg-white/95 p-6 shadow-2xl backdrop-blur-sm dark:border-gray-700 dark:bg-gray-900/95">
-                  {/* Form Header */}
                   <div className="mb-6 text-center">
-                    <h2 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
-                      Free Car Valuation
-                    </h2>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      What type of valuation do you need?
-                    </p>
+                    <h2 className="mb-2 text-xl font-bold text-app-text dark:text-white">Free Car Valuation</h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">What type of valuation do you need?</p>
                   </div>
-
-                  {/* Valuation Type Selection */}
                   <div className="mb-6">
                     <div className="flex flex-wrap justify-center gap-2">
                       <button
@@ -195,8 +153,8 @@ export default function Home() {
                         onClick={() => handleValuationType("Selling")}
                         className={`flex items-center rounded-xl border px-4 py-2 transition-all duration-200 ${
                           formData.valuationType === "Selling"
-                            ? "border-blue-500 bg-blue-500 text-white shadow-md"
-                            : "border-gray-200 bg-white text-gray-700 hover:border-blue-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                            ? "border-app-button bg-app-button text-white shadow-md"
+                            : "border-gray-200 bg-white text-app-text hover:border-app-button-hover dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                         }`}
                       >
                         <AiOutlineDollar className="mr-2 text-lg" />
@@ -207,8 +165,8 @@ export default function Home() {
                         onClick={() => handleValuationType("Buying")}
                         className={`flex items-center rounded-xl border px-4 py-2 transition-all duration-200 ${
                           formData.valuationType === "Buying"
-                            ? "border-blue-500 bg-blue-500 text-white shadow-md"
-                            : "border-gray-200 bg-white text-gray-700 hover:border-blue-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                            ? "border-app-button bg-app-button text-white shadow-md"
+                            : "border-gray-200 bg-white text-app-text hover:border-app-button-hover dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                         }`}
                       >
                         <MdSell className="mr-2 text-lg" />
@@ -219,8 +177,8 @@ export default function Home() {
                         onClick={() => handleValuationType("Trading")}
                         className={`flex items-center rounded-xl border px-4 py-2 transition-all duration-200 ${
                           formData.valuationType === "Trading"
-                            ? "border-blue-500 bg-blue-500 text-white shadow-md"
-                            : "border-gray-200 bg-white text-gray-700 hover:border-blue-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                            ? "border-app-button bg-app-button text-white shadow-md"
+                            : "border-gray-200 bg-white text-app-text hover:border-app-button-hover dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                         }`}
                       >
                         <FaExchangeAlt className="mr-2 text-lg" />
@@ -228,14 +186,11 @@ export default function Home() {
                       </button>
                     </div>
                   </div>
-
-                  {/* Form Fields */}
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* Personal Information */}
                     <div>
                       <label
                         htmlFor="name"
-                        className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300"
+                        className="mb-2 block text-sm font-semibold text-app-text dark:text-gray-300"
                       >
                         Full Name *
                       </label>
@@ -250,11 +205,10 @@ export default function Home() {
                         required
                       />
                     </div>
-
                     <div>
                       <label
                         htmlFor="email"
-                        className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300"
+                        className="mb-2 block text-sm font-semibold text-app-text dark:text-gray-300"
                       >
                         Email Address *
                       </label>
@@ -273,7 +227,7 @@ export default function Home() {
                       <div>
                         <label
                           htmlFor="make"
-                          className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300"
+                          className="mb-2 block text-sm font-semibold text-app-text dark:text-gray-300"
                         >
                           Make *
                         </label>
@@ -285,7 +239,7 @@ export default function Home() {
                             onChange={(e) => setSelectedMake(e.target.value)}
                             aria-label="Select Make"
                             autoComplete="off"
-                            className="w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-gray-900 transition-all duration-200 hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-blue-400 dark:focus:border-blue-400 dark:focus:ring-blue-800"
+                            className="w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-app-text transition-all duration-200 hover:border-app-button-hover focus:border-app-button focus:ring-2 focus:ring-app-button/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-app-button-hover dark:focus:border-app-button dark:focus:ring-app-button/20"
                             disabled={loading}
                           >
                             <option value="">Select Make</option>
@@ -297,7 +251,7 @@ export default function Home() {
                           </select>
                           {loading && (
                             <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></div>
+                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-app-button border-t-transparent"></div>
                             </div>
                           )}
                         </div>
@@ -305,7 +259,7 @@ export default function Home() {
                       <div>
                         <label
                           htmlFor="model"
-                          className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300"
+                          className="mb-2 block text-sm font-semibold text-app-text dark:text-gray-300"
                         >
                           Model *
                         </label>
@@ -317,7 +271,7 @@ export default function Home() {
                             id="model"
                             autoComplete="off"
                             onChange={(e) => setSelectedModel(e.target.value)}
-                            className="w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-gray-900 transition-all duration-200 hover:border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-purple-400 dark:focus:border-purple-400 dark:focus:ring-purple-800"
+                            className="w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-app-text transition-all duration-200 hover:border-app-button-hover focus:border-app-button focus:ring-2 focus:ring-app-button/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-app-button-hover dark:focus:border-app-button dark:focus:ring-app-button/20"
                             disabled={!selectedMake || loading}
                           >
                             <option value="">Select Model</option>
@@ -329,19 +283,17 @@ export default function Home() {
                           </select>
                           {loading && selectedMake && (
                             <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-purple-600 border-t-transparent"></div>
+                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-app-button border-t-transparent"></div>
                             </div>
                           )}
                         </div>
                       </div>
                     </div>
-
-                    {/* Submit button */}
                     <div className="pt-4">
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:from-blue-700 hover:to-cyan-700 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
+                        className="w-full rounded-lg bg-gradient-to-r from-app-button to-app-button-hover px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:from-app-button-hover hover:to-app-button hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {isSubmitting ? (
                           <>
@@ -374,12 +326,10 @@ export default function Home() {
                         )}
                       </button>
                     </div>
-
-                    {/* Trust Indicators */}
                     <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
                       <div className="flex justify-center space-x-6 text-center text-sm text-gray-600 dark:text-gray-300">
                         <span className="flex items-center">
-                          <FaClock className="mr-1 text-blue-500" />
+                          <FaClock className="mr-1 text-app-button" />
                           Quick
                         </span>
                         <span className="flex items-center">
@@ -387,7 +337,7 @@ export default function Home() {
                           Free
                         </span>
                         <span className="flex items-center">
-                          <FaShieldAlt className="mr-1 text-purple-500" />
+                          <FaShieldAlt className="mr-1 text-app-button-hover" />
                           No Obligation
                         </span>
                       </div>
@@ -399,9 +349,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <BrandsList />
       <ChooseUs />
     </>
-  );
+  )
 }
