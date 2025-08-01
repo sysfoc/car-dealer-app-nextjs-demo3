@@ -88,8 +88,8 @@ const Header = () => {
 
   return (
     <>
-      <nav className="fixed left-0 right-0 top-0 z-50 border-b border-gray-200/50 bg-white/95 shadow-sm backdrop-blur-lg transition-all duration-300 dark:border-gray-700/50 dark:bg-gray-900/95">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4">
+      {/* <nav className="fixed left-0 right-0 top-0 z-50 bg-gradient-to-r from-red-50/60 via-orange-50/40 to-red-50/60 shadow-sm backdrop-blur-lg transition-all duration-300 dark:bg-gradient-to-r dark:from-[#182641]/95 dark:via-[#DC3C22]/20 dark:to-[#182641]/95"> */}
+<nav className="fixed left-0 right-0 top-0 z-50 bg-gradient-to-r from-red-100/80 via-orange-100/70 to-red-100/80 shadow-sm backdrop-blur-lg transition-all duration-300 dark:bg-gradient-to-r dark:from-[#182641]/95 dark:via-[#182641]/90 dark:to-[#182641]/95">        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4">
           <div className="flex h-16 items-center justify-between">
             {!topSettings.hideLogo && (
               <>

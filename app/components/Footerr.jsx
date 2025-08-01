@@ -131,7 +131,8 @@ const Footerr = ({ isDarkMode }) => {
         </svg>
       </div>
       
-      <footer className="relative bg-gray-200 dark:bg-gray-800 shadow-inner pt-8 pb-3 rounded-t-3xl">
+      {/* <footer className="relative bg-gray-200 dark:bg-gray-800 shadow-inner pt-8 pb-3 rounded-t-3xl"> */}
+        <footer className="relative bg-gradient-to-r from-red-100/80 via-orange-100/70 to-red-100/80 dark:bg-gradient-to-r dark:from-gray-800 dark:via-[#DC3C22]/35 dark:to-gray-800 shadow-inner pt-8 pb-3 rounded-t-3xl">
         <div className="mx-auto w-full max-w-7xl px-4">
           <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {/* Logo Section */}
