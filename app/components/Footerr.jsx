@@ -1,61 +1,63 @@
 // // "use client"
-import Image from "next/image"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import LanguageSwitching from "../components/LanguageSwitching"
-import { useTranslations } from "next-intl"
-import { iconComponentsMap, allSocialPlatforms } from "../lib/social-icons"
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import LanguageSwitching from "../components/LanguageSwitching";
+import { useTranslations } from "next-intl";
+import { iconComponentsMap, allSocialPlatforms } from "../lib/social-icons";
 
 const Footerr = ({ isDarkMode }) => {
-  const t = useTranslations("Footer")
-  const [footerSettings, setFooterSettings] = useState(null)
-  const [logo, setLogo] = useState("")
-  const [logoLoading, setLogoLoading] = useState(true)
-  const [homepageData, setHomepageData] = useState(null)
-  const [fetchedSocials, setFetchedSocials] = useState([])
+  const t = useTranslations("Footer");
+  const [footerSettings, setFooterSettings] = useState(null);
+  const [logo, setLogo] = useState("");
+  const [logoLoading, setLogoLoading] = useState(true);
+  const [homepageData, setHomepageData] = useState(null);
+  const [fetchedSocials, setFetchedSocials] = useState([]);
 
   useEffect(() => {
     const fetchHomepageData = async () => {
       try {
-        const res = await fetch("/api/homepage", { cache: "no-store" })
-        const data = await res.json()
-        setHomepageData(data?.footer)
+        const res = await fetch("/api/homepage", { cache: "no-store" });
+        const data = await res.json();
+        setHomepageData(data?.footer);
       } catch (error) {
-        console.error("Failed to fetch homepage data:", error)
+        console.error("Failed to fetch homepage data:", error);
       }
-    }
-    fetchHomepageData()
-  }, [])
+    };
+    fetchHomepageData();
+  }, []);
 
   useEffect(() => {
     const fetchSocialMedia = async () => {
       try {
-        const res = await fetch("/api/socials")
-        const json = await res.json()
+        const res = await fetch("/api/socials");
+        const json = await res.json();
         if (json.data) {
           const combinedSocials = json.data.map((social) => {
             if (social.iconType === "react-icon") {
-              const platformDetails = allSocialPlatforms.find((p) => p.name === social.iconValue)
+              const platformDetails = allSocialPlatforms.find(
+                (p) => p.name === social.iconValue,
+              );
               return {
                 ...social,
                 color: platformDetails?.color || "from-gray-200 to-gray-300",
                 textColor: platformDetails?.textColor || "text-gray-600",
-              }
+              };
             }
             return {
               ...social,
               color: "from-gray-200 to-gray-300",
               textColor: "text-gray-600",
-            }
-          })
-          setFetchedSocials(combinedSocials)
+            };
+          });
+          setFetchedSocials(combinedSocials);
         }
       } catch (error) {
-        console.error("Failed to fetch social media data:", error)
+        console.error("Failed to fetch social media data:", error);
       }
-    }
-    fetchSocialMedia()
-  }, [])
+    };
+    fetchSocialMedia();
+  }, []);
 
   const tradingHours = [
     {
@@ -83,36 +85,36 @@ const Footerr = ({ isDarkMode }) => {
       hours: homepageData?.saturday || t("closedHours"),
     },
     { day: t("sunday"), hours: t("closedHours") },
-  ]
+  ];
 
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const res = await fetch("/api/settings/general", { cache: "no-store" })
-        const data = await res.json()
-        setFooterSettings(data?.settings?.footer || {})
+        const res = await fetch("/api/settings/general", { cache: "no-store" });
+        const data = await res.json();
+        setFooterSettings(data?.settings?.footer || {});
       } catch (error) {
-        console.error("Failed to fetch footer settings:", error)
+        console.error("Failed to fetch footer settings:", error);
       }
-    }
-    fetchSettings()
-  }, [])
+    };
+    fetchSettings();
+  }, []);
 
   useEffect(() => {
     const fetchLogo = async () => {
       try {
-        setLogoLoading(true)
-        const res = await fetch("/api/settings/general", { cache: "no-store" })
-        const data = await res.json()
-        setLogo(data?.settings?.logo3)
+        setLogoLoading(true);
+        const res = await fetch("/api/settings/general", { cache: "no-store" });
+        const data = await res.json();
+        setLogo(data?.settings?.logo3);
       } catch (error) {
-        console.error("Failed to fetch footer Logo:", error)
+        console.error("Failed to fetch footer Logo:", error);
       } finally {
-        setLogoLoading(false)
+        setLogoLoading(false);
       }
-    }
-    fetchLogo()
-  }, [])
+    };
+    fetchLogo();
+  }, []);
 
   return (
     <div className="relative mt-5">
@@ -130,26 +132,27 @@ const Footerr = ({ isDarkMode }) => {
           />
         </svg>
       </div>
-      <footer className="relative bg-app-text shadow-inner pt-8 pb-3 rounded-t-3xl">
+      <footer className="relative rounded-t-3xl bg-app-text pb-3 pt-8 shadow-inner">
         <div className="mx-auto w-full max-w-7xl px-4">
           <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {/* Logo Section */}
+            
             <div className="space-y-4">
               {logoLoading ? (
-                <div className="h-[90px] w-[180px] bg-gray-300 dark:bg-gray-600 animate-pulse rounded"></div>
+                <div className="h-[90px] w-[180px] animate-pulse rounded bg-gray-300 dark:bg-gray-600"></div>
               ) : logo ? (
-                <Image
-                  src={logo || "/placeholder.svg"}
-                  alt="Sysfoc Cars Dealer"
-                  priority
-                  width={180}
-                  height={90}
-                  className="h-auto w-auto max-w-[180px] object-contain"
-                />
+                <div className="inline-flex items-center justify-center rounded-xl bg-white p-2 shadow-sm dark:bg-gray-100">
+                  <Image
+                    src={logo || "/placeholder.svg"}
+                    alt="Sysfoc Cars Dealer"
+                    priority
+                    width={180}
+                    height={90}
+                    className="h-auto w-auto max-w-[180px] object-contain"
+                  />
+                </div>
               ) : null}
             </div>
 
-            {/* Quick Links */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-white dark:text-gray-100">
                 {footerSettings?.col1Heading || t("quickLinks")}
@@ -157,33 +160,33 @@ const Footerr = ({ isDarkMode }) => {
               <div className="mb-2 h-0.5 w-10 rounded-full bg-app-button"></div>
               <ul className="space-y-2">
                 <li>
-                  <Link 
-                    href="/about" 
-                    className="text-sm text-white/80 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
+                  <Link
+                    href="/about"
+                    className="text-sm text-white/80 transition-colors duration-200 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button"
                   >
                     {t("about")}
                   </Link>
                 </li>
                 <li>
-                  <Link 
-                    href="/contact" 
-                    className="text-sm text-white/80 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
+                  <Link
+                    href="/contact"
+                    className="text-sm text-white/80 transition-colors duration-200 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button"
                   >
                     {t("contact")}
                   </Link>
                 </li>
                 <li>
-                  <Link 
-                    href="/terms" 
-                    className="text-sm text-white/80 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
+                  <Link
+                    href="/terms"
+                    className="text-sm text-white/80 transition-colors duration-200 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button"
                   >
                     {t("terms")}
                   </Link>
                 </li>
                 <li>
-                  <Link 
-                    href="/privacy" 
-                    className="text-sm text-white/80 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button transition-colors duration-200"
+                  <Link
+                    href="/privacy"
+                    className="text-sm text-white/80 transition-colors duration-200 hover:text-app-button dark:text-gray-300 dark:hover:text-app-button"
                   >
                     {t("privacy")}
                   </Link>
@@ -199,15 +202,20 @@ const Footerr = ({ isDarkMode }) => {
               <div className="mb-2 h-0.5 w-10 rounded-full bg-green-500"></div>
               <div className="space-y-2">
                 {tradingHours.map((schedule, index) => (
-                  <div key={index} className="flex items-center justify-between py-1">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between py-1"
+                  >
                     <span className="text-sm text-white/90 dark:text-gray-300">
                       {schedule.day}
                     </span>
-                    <span className={`text-sm font-medium ${
-                      schedule.hours === t("closedHours")
-                        ? "text-red-400 dark:text-red-400"
-                        : "text-green-400 dark:text-green-400"
-                    }`}>
+                    <span
+                      className={`text-sm font-medium ${
+                        schedule.hours === t("closedHours")
+                          ? "text-red-400 dark:text-red-400"
+                          : "text-green-400 dark:text-green-400"
+                      }`}
+                    >
                       {schedule.hours}
                     </span>
                   </div>
@@ -223,35 +231,43 @@ const Footerr = ({ isDarkMode }) => {
               <div className="mb-2 h-0.5 w-10 rounded-full bg-purple-500"></div>
               <div className="space-y-4">
                 <LanguageSwitching />
-                
+
                 <div className="pt-2">
-                  <h4 className="text-sm font-medium text-white dark:text-gray-200 mb-3">
+                  <h4 className="mb-3 text-sm font-medium text-white dark:text-gray-200">
                     Follow us:
                   </h4>
-                  <div className="flex items-center space-x-3 flex-wrap gap-2">
+                  <div className="flex flex-wrap items-center gap-2 space-x-3">
                     {fetchedSocials.length > 0 ? (
                       fetchedSocials.map((platform, index) => {
-                        const IconComponent = platform.iconType === "react-icon"
-                          ? iconComponentsMap[platform.iconValue]
-                          : null
+                        const IconComponent =
+                          platform.iconType === "react-icon"
+                            ? iconComponentsMap[platform.iconValue]
+                            : null;
                         return (
                           <a
                             key={index}
                             href={platform.url}
                             target="_blank"
                             aria-label={`Follow us on ${platform.iconValue}`}
-                            className="text-white/70 dark:text-gray-400 hover:text-app-button dark:hover:text-app-button transform text-xl transition-all duration-300 hover:-translate-y-0.5 hover:scale-110"
+                            className="transform text-xl text-white/70 transition-all duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-app-button dark:text-gray-400 dark:hover:text-app-button"
                             rel="noreferrer"
                           >
                             {IconComponent ? (
                               <IconComponent className="h-5 w-5" />
                             ) : platform.iconType === "svg-code" ? (
-                              <div className="h-5 w-5" dangerouslySetInnerHTML={{ __html: platform.iconValue }} />
+                              <div
+                                className="h-5 w-5"
+                                dangerouslySetInnerHTML={{
+                                  __html: platform.iconValue,
+                                }}
+                              />
                             ) : (
-                              <div className="h-5 w-5 text-white/50 dark:text-gray-400">?</div>
+                              <div className="h-5 w-5 text-white/50 dark:text-gray-400">
+                                ?
+                              </div>
                             )}
                           </a>
-                        )
+                        );
                       })
                     ) : (
                       <p className="text-xs text-white/60 dark:text-gray-400">
@@ -265,7 +281,7 @@ const Footerr = ({ isDarkMode }) => {
           </div>
 
           {/* Copyright Section */}
-          <div className="mt-8 border-t border-white/20 dark:border-gray-700 pt-6 mb-3 sm:mb-2">
+          <div className="mb-3 mt-8 border-t border-white/20 pt-6 dark:border-gray-700 sm:mb-2">
             <div className="flex flex-col items-center justify-center space-y-2 text-center">
               <div className="flex flex-col items-center space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0">
                 <p className="text-sm text-white/80 dark:text-gray-400">
@@ -277,7 +293,7 @@ const Footerr = ({ isDarkMode }) => {
         </div>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Footerr
+export default Footerr;

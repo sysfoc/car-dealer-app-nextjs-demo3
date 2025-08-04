@@ -26,7 +26,7 @@ const LanguageSwitching = () => {
 
   return (
     <div className="flex flex-col gap-y-1">
-      <Label htmlFor="language">{t("setLanguage")}</Label>
+      <Label className="text-white dark:text-gray-200" htmlFor="language">{t("setLanguage")}</Label>
       <Select
         id="language"
         value={selectedLanguage}

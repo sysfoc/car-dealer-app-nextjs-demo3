@@ -36,10 +36,10 @@ const Header = () => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await fetch("/api/settings/general");
+        const response = await fetch("/api/settings/general", { cache: "no-store" });
         const data = await response.json();
         if (data?.settings?.logo3) {
-           setLogo(data?.settings?.logo3)
+          setLogo(data?.settings?.logo3);
         }
         setTopSettings((prev) => ({
           hideDarkMode: false,
@@ -88,8 +88,8 @@ const Header = () => {
 
   return (
     <>
-    <nav className="fixed left-0 right-0 top-0 z-50 bg-app-text shadow-sm backdrop-blur-lg transition-all duration-300">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4">
+      <nav className="fixed left-0 right-0 top-0 z-50 bg-app-text shadow-sm backdrop-blur-lg transition-all duration-300">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4">
           <div className="flex h-16 items-center justify-between">
             {!topSettings.hideLogo && (
               <>
@@ -97,14 +97,16 @@ const Header = () => {
                   <LogoSkeleton />
                 ) : logo ? (
                   <Link href="/" className="flex items-center space-x-3">
-                    <Image
-                      src={logo}
-                      alt="Logo"
-                      width={64}
-                      height={64}
-                      className="h-16 w-16 object-contain"
-                      onError={() => setLogo("")}
-                    />
+                    <div className="rounded-xl bg-white shadow-sm">
+                      <Image
+                        src={logo}
+                        alt="Logo"
+                        width={64}
+                        height={64}
+                        className="h-12 w-14 object-contain"
+                        onError={() => setLogo("")}
+                      />
+                    </div>
                     <div className="flex flex-col">
                       <span className="bg-gradient-to-r from-white to-gray-200 bg-clip-text text-lg font-bold tracking-tight text-transparent">
                         CruiseControl
@@ -118,7 +120,7 @@ const Header = () => {
                   <Link href="/" className="flex items-center space-x-3">
                     <div className="flex flex-col">
                       <span className="bg-gradient-to-r from-white to-gray-200 bg-clip-text text-lg font-bold tracking-tight text-transparent">
-                         CruiseControl
+                        CruiseControl
                       </span>
                       <span className="text-xs font-medium text-white/70">
                         Built to Sell Cars
@@ -268,5 +270,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
