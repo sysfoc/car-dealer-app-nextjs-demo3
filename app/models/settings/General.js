@@ -1,8 +1,19 @@
 import mongoose from 'mongoose';
 
 const SettingsSchema = new mongoose.Schema({
-  logo: {
+  logo1: {
     type: String,
+  },
+  logo2: {
+    type: String,
+  },
+  logo3: {
+    type: String,
+  },
+  activeWebsiteLogo: {
+    type: String,
+    enum: ['logo1', 'logo2', 'logo3'],
+    default: 'logo1'
   },
   favicon: {
     type: String,

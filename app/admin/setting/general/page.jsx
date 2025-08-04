@@ -13,8 +13,12 @@ import React, { useEffect, useState } from "react";
 
 const Page = () => {
   const [activeSection, setActiveSection] = useState("Logo");
+  const [selectedLogoForEdit, setSelectedLogoForEdit] = useState("logo1"); // New state for logo selection
   const [settings, setSettings] = useState({
-    logo: "",
+    logo1: "", // New logo fields
+    logo2: "",
+    logo3: "",
+    activeWebsiteLogo: "logo1", // New field for active logo
     favicon: "",
     top: {
       hideDarkMode: false,
@@ -60,11 +64,11 @@ const Page = () => {
         },
         body: JSON.stringify(settings),
       });
-
       if (response.ok) {
         alert('Settings saved successfully!');
       } else {
-        alert('Failed to save settings');
+        const errorData = await response.json();
+        alert(`Failed to save settings: ${errorData.message || errorData.error || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error saving settings:', error);
@@ -78,7 +82,6 @@ const Page = () => {
         setIsLoading(true);
         const response = await fetch('/api/settings/general');
         const data = await response.json();
-
         if (data.settings) {
           setSettings(prev => ({
             ...prev,
@@ -95,8 +98,12 @@ const Page = () => {
               ...prev.themeColor,
               ...(data.settings.themeColor || {})
             },
-            logo: data.settings.logo,
-            favicon: data.settings.favicon,
+            // Ensure new logo fields are populated, defaulting to empty string if not present
+            logo1: data.settings.logo1 || "",
+            logo2: data.settings.logo2 || "",
+            logo3: data.settings.logo3 || "",
+            activeWebsiteLogo: data.settings.activeWebsiteLogo || "logo1", // Default to logo1
+            favicon: data.settings.favicon || "",
           }));
         }
       } catch (error) {
@@ -105,7 +112,6 @@ const Page = () => {
         setIsLoading(false);
       }
     };
-
     fetchSettings();
   }, []);
 
@@ -116,13 +122,12 @@ const Page = () => {
       reader.onload = () => {
         setSettings(prev => ({
           ...prev,
-          [type]: reader.result
+          [type]: reader.result // 'type' will be 'logo1', 'logo2', 'logo3', or 'favicon'
         }));
       };
       reader.readAsDataURL(file);
     }
   };
-
 
   if (isLoading) {
     return (
@@ -142,29 +147,28 @@ const Page = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="mb-8">
-  <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-6 lg:p-8">
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-      <div className="flex-1">
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">
-          General Settings
-        </h1>
-        <p className="text-slate-600 text-sm sm:text-base">
-          Manage your website global settings and configurations
-        </p>
-      </div>
-      <div className="flex-shrink-0">
-        <Button 
-          gradientDuoTone="purpleToBlue" 
-          className="font-semibold px-4 sm:px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all text-sm sm:text-base w-full sm:w-auto"
-          onClick={handleSubmit}
-        >
-          Save Settings
-        </Button>
-      </div>
-    </div>
-  </div>
-</div>
-
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-6 lg:p-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+              <div className="flex-1">
+                <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">
+                  General Settings
+                </h1>
+                <p className="text-slate-600 text-sm sm:text-base">
+                  Manage your website global settings and configurations
+                </p>
+              </div>
+              <div className="flex-shrink-0">
+                <Button
+                  gradientDuoTone="purpleToBlue"
+                  className="font-semibold px-4 sm:px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all text-sm sm:text-base w-full sm:w-auto"
+                  onClick={handleSubmit}
+                >
+                  Save Settings
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
         {/* Content Section */}
         <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
           <div className="flex flex-col md:flex-row">
@@ -198,35 +202,52 @@ const Page = () => {
                 </div>
               ))}
             </div>
-
             {/* Main Content */}
             <div className="w-full md:w-3/4 p-6">
               <div className="max-w-3xl mx-auto">
                 {activeSection === "Logo" && (
                   <div className="space-y-6">
                     <h3 className="text-xl font-semibold text-slate-800">Logo Settings</h3>
+                    <div>
+                      <Label htmlFor="select-logo" className="block mb-2 font-medium text-slate-700">
+                        Select Logo to Edit
+                      </Label>
+                      <Select
+                        id="select-logo"
+                        value={selectedLogoForEdit}
+                        onChange={(e) => setSelectedLogoForEdit(e.target.value)}
+                        className="w-full"
+                      >
+                        <option value="logo1">Wind Screen</option>
+                        <option value="logo2">Front Seat</option>
+                        <option value="logo3">Cruise Control</option>
+                      </Select>
+                    </div>
                     <div className="bg-slate-50 rounded-lg p-4">
                       <Label className="block mb-2 font-medium text-slate-700">Existing Logo</Label>
                       <div className="relative w-32 h-32 mx-auto border border-slate-200 rounded-lg overflow-hidden bg-white">
-                        <Image
-                          fill
-                          alt="logo"
-                          src={settings.logo}
-                          className="object-contain p-3"
-                          sizes="(max-width: 768px) 100vw, 150px"
-                        />
+                        {settings[selectedLogoForEdit] ? (
+                          <Image
+                            fill
+                            alt={`${selectedLogoForEdit} logo`}
+                            src={settings[selectedLogoForEdit] || "/placeholder.svg"}
+                            className="object-contain p-3"
+                            sizes="(max-width: 768px) 100vw, 150px"
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center h-full text-slate-400">No Logo</div>
+                        )}
                       </div>
                     </div>
-                    
                     <div>
-                      <Label htmlFor="logo" className="block mb-2 font-medium text-slate-700">
-                        Upload New Logo
+                      <Label htmlFor="logo-upload" className="block mb-2 font-medium text-slate-700">
+                        Upload New {selectedLogoForEdit === 'logo1' ? 'Website 1 Logo' : selectedLogoForEdit === 'logo2' ? 'Website 2 Logo' : 'Website 3 Logo'}
                       </Label>
                       <FileInput
-                        id="logo"
+                        id="logo-upload"
                         accept="image/*"
                         className="w-full"
-                        onChange={(e) => handleFileChange('logo', e)}
+                        onChange={(e) => handleFileChange(selectedLogoForEdit, e)}
                       />
                       <p className="mt-1 text-sm text-slate-500">
                         Recommended size: 300x100px (transparent PNG preferred)
@@ -234,23 +255,25 @@ const Page = () => {
                     </div>
                   </div>
                 )}
-
                 {activeSection === "Favicon" && (
                   <div className="space-y-6">
                     <h3 className="text-xl font-semibold text-slate-800">Favicon Settings</h3>
                     <div className="bg-slate-50 rounded-lg p-4">
                       <Label className="block mb-2 font-medium text-slate-700">Existing Favicon</Label>
                       <div className="relative w-16 h-16 mx-auto border border-slate-200 rounded-lg overflow-hidden bg-white">
-                        <Image
-                          fill
-                          alt="favicon"
-                          src={settings.favicon}
-                          className="object-contain p-2"
-                          sizes="(max-width: 768px) 100vw, 64px"
-                        />
+                        {settings.favicon ? (
+                          <Image
+                            fill
+                            alt="favicon"
+                            src={settings.favicon || "/placeholder.svg"}
+                            className="object-contain p-2"
+                            sizes="(max-width: 768px) 100vw, 64px"
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center h-full text-slate-400">No Favicon</div>
+                        )}
                       </div>
                     </div>
-                    
                     <div>
                       <Label htmlFor="favicon" className="block mb-2 font-medium text-slate-700">
                         Upload New Favicon
@@ -267,7 +290,6 @@ const Page = () => {
                     </div>
                   </div>
                 )}
-
                 {activeSection === "Top" && (
                   <div className="space-y-6">
                     <h3 className="text-xl font-semibold text-slate-800">Header Settings</h3>
@@ -288,7 +310,6 @@ const Page = () => {
                           Hide Dark mode button from Header
                         </Label>
                       </div>
-                      
                       <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
                         <Checkbox
                           id="favouriteBtn"
@@ -305,7 +326,6 @@ const Page = () => {
                           Hide Favourite button from Header
                         </Label>
                       </div>
-                      
                       <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
                         <Checkbox
                           id="logoBtn"
@@ -325,7 +345,6 @@ const Page = () => {
                     </div>
                   </div>
                 )}
-
                 {activeSection === "Footer" && (
                   <div className="space-y-6">
                     <h3 className="text-xl font-semibold text-slate-800">Footer Settings</h3>
@@ -347,7 +366,6 @@ const Page = () => {
                           className="w-full"
                         />
                       </div>
-                      
                       <div>
                         <Label htmlFor="footer-col-2-heading" className="block mb-2 font-medium text-slate-700">
                           Footer Column 2 - Heading
@@ -365,7 +383,6 @@ const Page = () => {
                           className="w-full"
                         />
                       </div>
-                      
                       <div>
                         <Label htmlFor="footer-col-3-heading" className="block mb-2 font-medium text-slate-700">
                           Footer Column 3 - Heading
@@ -386,7 +403,6 @@ const Page = () => {
                     </div>
                   </div>
                 )}
-
                 {activeSection === "Google Recaptcha" && (
                   <div className="space-y-6">
                     <h3 className="text-xl font-semibold text-slate-800">Google reCAPTCHA Settings</h3>
@@ -409,9 +425,9 @@ const Page = () => {
                           className="w-full"
                         />
                         <p className="mt-2 text-sm text-slate-500">
-                          Get your site key from the <a 
-                            href="https://www.google.com/recaptcha/admin" 
-                            target="_blank" 
+                          Get your site key from the <a
+                            href="https://www.google.com/recaptcha/admin"
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="text-indigo-600 hover:underline"
                           >
@@ -419,7 +435,6 @@ const Page = () => {
                           </a>
                         </p>
                       </div>
-                      
                       <div>
                         <Label htmlFor="recaptcha-status" className="block mb-2 font-medium text-slate-700">
                           Google Recaptcha Status
@@ -443,7 +458,6 @@ const Page = () => {
                     </div>
                   </div>
                 )}
-
                 {activeSection === "Google Analytics" && (
                   <div className="space-y-6">
                     <h3 className="text-xl font-semibold text-slate-800">Google Analytics Settings</h3>
@@ -466,9 +480,9 @@ const Page = () => {
                           className="w-full"
                         />
                         <p className="mt-2 text-sm text-slate-500">
-                          Find your tracking ID in your <a 
-                            href="https://analytics.google.com/" 
-                            target="_blank" 
+                          Find your tracking ID in your <a
+                            href="https://analytics.google.com/"
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="text-indigo-600 hover:underline"
                           >
@@ -476,7 +490,6 @@ const Page = () => {
                           </a>
                         </p>
                       </div>
-                      
                       <div>
                         <Label htmlFor="analytic-status" className="block mb-2 font-medium text-slate-700">
                           Google Analytics Status
@@ -500,7 +513,6 @@ const Page = () => {
                     </div>
                   </div>
                 )}
-
                 {activeSection === "Cookie Consent" && (
                   <div className="space-y-6">
                     <h3 className="text-xl font-semibold text-slate-800">Cookie Consent Settings</h3>
@@ -524,7 +536,6 @@ const Page = () => {
                           className="w-full"
                         />
                       </div>
-                      
                       <div>
                         <Label htmlFor="cookie-button-text" className="block mb-2 font-medium text-slate-700">
                           Button Text
@@ -543,7 +554,6 @@ const Page = () => {
                           className="w-full"
                         />
                       </div>
-                      
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <Label className="block mb-2 font-medium text-slate-700">
@@ -575,7 +585,6 @@ const Page = () => {
                             />
                           </div>
                         </div>
-                        
                         <div>
                           <Label className="block mb-2 font-medium text-slate-700">
                             Background Color
@@ -606,7 +615,6 @@ const Page = () => {
                             />
                           </div>
                         </div>
-                        
                         <div>
                           <Label className="block mb-2 font-medium text-slate-700">
                             Button Text Color
@@ -637,7 +645,6 @@ const Page = () => {
                             />
                           </div>
                         </div>
-                        
                         <div>
                           <Label className="block mb-2 font-medium text-slate-700">
                             Button Background Color
@@ -669,7 +676,6 @@ const Page = () => {
                           </div>
                         </div>
                       </div>
-                      
                       <div>
                         <Label htmlFor="cookie-consent-status" className="block mb-2 font-medium text-slate-700">
                           Cookie Consent Status
@@ -690,7 +696,6 @@ const Page = () => {
                           <option value="active">Active</option>
                         </Select>
                       </div>
-                      
                       <div className="mt-6">
                         <Label className="block mb-2 font-medium text-slate-700">Preview</Label>
                         <div className="p-4 border border-slate-200 rounded-lg bg-slate-50">
@@ -733,7 +738,6 @@ const Page = () => {
                     </div>
                   </div>
                 )}
-
                 {activeSection === "Theme Colors" && (
                   <div className="space-y-6">
                     <h3 className="text-xl font-semibold text-slate-800">Theme Color Settings</h3>
@@ -774,7 +778,6 @@ const Page = () => {
                           </div>
                         </div>
                       </div>
-                      
                       <div>
                         <Label htmlFor="dark-mode-text-color" className="block mb-2 font-medium text-slate-700">
                           Dark Mode Text Color
@@ -814,6 +817,50 @@ const Page = () => {
                     </div>
                   </div>
                 )}
+                {/* {activeSection === "Active Website Logo" && (
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-semibold text-slate-800">Active Website Logo Selection</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="active-logo-select" className="block mb-2 font-medium text-slate-700">
+                          Select Active Logo for Frontend
+                        </Label>
+                        <Select
+                          id="active-logo-select"
+                          value={settings.activeWebsiteLogo}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            activeWebsiteLogo: e.target.value
+                          }))}
+                          className="w-full"
+                        >
+                          <option value="logo1">Website 1 Logo</option>
+                          <option value="logo2">Website 2 Logo</option>
+                          <option value="logo3">Website 3 Logo</option>
+                        </Select>
+                        <p className="mt-2 text-sm text-slate-500">
+                          This logo will be displayed on the main website header.
+                        </p>
+                      </div>
+                      <div className="bg-slate-50 rounded-lg p-4">
+                        <Label className="block mb-2 font-medium text-slate-700">Preview Active Logo</Label>
+                        <div className="relative w-32 h-32 mx-auto border border-slate-200 rounded-lg overflow-hidden bg-white">
+                          {settings[settings.activeWebsiteLogo] ? (
+                            <Image
+                              fill
+                              alt="Active Website Logo"
+                              src={settings[settings.activeWebsiteLogo] || "/placeholder.svg"}
+                              className="object-contain p-3"
+                              sizes="(max-width: 768px) 100vw, 150px"
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center h-full text-slate-400">No Active Logo Set</div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )} */}
               </div>
             </div>
           </div>

@@ -5,8 +5,17 @@ import { NextResponse } from "next/server";
 const validateSettingsInput = (data) => {
   const errors = [];
   
-  if (data.logo && typeof data.logo !== 'string') {
-    errors.push('Logo must be a valid string path');
+  if (data.logo1 && typeof data.logo1 !== 'string') {
+    errors.push('Logo 1 must be a valid string path');
+  }
+  if (data.logo2 && typeof data.logo2 !== 'string') {
+    errors.push('Logo 2 must be a valid string path');
+  }
+  if (data.logo3 && typeof data.logo3 !== 'string') {
+    errors.push('Logo 3 must be a valid string path');
+  }
+  if (data.activeWebsiteLogo !== undefined && !['logo1', 'logo2', 'logo3'].includes(data.activeWebsiteLogo)) {
+    errors.push('Active website logo must be one of "logo1", "logo2", or "logo3"');
   }
   
   if (data.favicon && typeof data.favicon !== 'string') {
@@ -114,7 +123,9 @@ const validateSettingsInput = (data) => {
 const sanitizeInput = (data) => {
   const sanitized = { ...data };
   
-  if (sanitized.logo) sanitized.logo = sanitized.logo.trim();
+  if (sanitized.logo1) sanitized.logo1 = sanitized.logo1.trim();
+  if (sanitized.logo2) sanitized.logo2 = sanitized.logo2.trim();
+  if (sanitized.logo3) sanitized.logo3 = sanitized.logo3.trim();
   if (sanitized.favicon) sanitized.favicon = sanitized.favicon.trim();
   
   if (sanitized.footer) {
@@ -159,7 +170,10 @@ export async function GET() {
     
     if (!settings) {
       const defaultSettings = {
-        logo: "",
+        logo1: "",
+        logo2: "",
+        logo3: "",
+        activeWebsiteLogo: "logo1",
         favicon: "",
         top: {
           hideDarkMode: false,
@@ -269,15 +283,29 @@ export async function POST(req) {
     let settings = await GeneralSettings.findOne();
     
     if (settings) {
-      
-      const hasChanges = JSON.stringify(sanitizedData) !== JSON.stringify({
-        ...settings.toObject(),
+      const currentSettingsObject = settings.toObject();
+      const comparableCurrentSettings = {
+        ...currentSettingsObject,
         createdAt: undefined,
         updatedAt: undefined,
         __v: undefined,
-        _id: undefined
-      });
+        _id: undefined,
+        logo1: currentSettingsObject.logo1 || "",
+        logo2: currentSettingsObject.logo2 || "",
+        logo3: currentSettingsObject.logo3 || "",
+        activeWebsiteLogo: currentSettingsObject.activeWebsiteLogo || "logo1",
+      };
       
+      const comparableSanitizedData = {
+        ...sanitizedData,
+        logo1: sanitizedData.logo1 || "",
+        logo2: sanitizedData.logo2 || "",
+        logo3: sanitizedData.logo3 || "",
+        activeWebsiteLogo: sanitizedData.activeWebsiteLogo || "logo1",
+      };
+
+      const hasChanges = JSON.stringify(comparableSanitizedData) !== JSON.stringify(comparableCurrentSettings);
+
       if (!hasChanges) {
         return NextResponse.json({
           success: true,

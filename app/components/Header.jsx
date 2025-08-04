@@ -38,8 +38,8 @@ const Header = () => {
       try {
         const response = await fetch("/api/settings/general");
         const data = await response.json();
-        if (data.settings?.logo) {
-          setLogo(data.settings.logo);
+        if (data?.settings?.logo3) {
+           setLogo(data?.settings?.logo3)
         }
         setTopSettings((prev) => ({
           hideDarkMode: false,

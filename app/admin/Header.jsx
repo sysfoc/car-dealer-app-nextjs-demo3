@@ -22,8 +22,10 @@ const Header = ({ isDarkMode }) => {
       try {
         const response = await fetch("/api/settings/general");
         const data = await response.json();
-        if (data.settings?.logo) {
-          setLogo(data.settings.logo);
+        if (data.settings) {
+          const { logo3 } = data.settings; 
+          const logoToDisplay = logo3;
+          setLogo(logoToDisplay);
         }
       } catch (error) {
         console.error("Failed to fetch logo:", error);
@@ -31,7 +33,6 @@ const Header = ({ isDarkMode }) => {
         setLoading(false);
       }
     };
-
     fetchLogo();
   }, []);
 
@@ -49,7 +50,7 @@ const Header = ({ isDarkMode }) => {
             ) : logo ? (
               <div className="relative h-16 w-16 md:h-20 md:w-20">
                 <Image
-                  src={logo}
+                  src={logo || "/placeholder.svg"}
                   alt="Logo"
                   fill
                   className="object-contain"
@@ -70,8 +71,8 @@ const Header = ({ isDarkMode }) => {
       </NavbarBrand>
       <div className="flex items-center gap-x-5 md:order-2">
         <div className="hidden md:block">
-          <Button 
-            color="none" 
+          <Button
+            color="none"
             href="/"
             className="bg-app-text hover:bg-app-text/90 text-white border-app-text"
           >
