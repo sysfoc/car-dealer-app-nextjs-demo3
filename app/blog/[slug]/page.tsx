@@ -1,10 +1,12 @@
 import Image from "next/image";
 import { IoMdAlarm } from "react-icons/io";
 import { Avatar } from "flowbite-react";
-import ClientBlog from "./ClientBlog"
-import { headers } from "next/headers";
-import CommentSection from "../../components/CommentSection"
+import ClientBlog from "./ClientBlog";
+import CommentSection from "../../components/CommentSection";
 import { Metadata } from "next";
+import Blog from "../../models/Blog";
+import Category from "../../models/Category";
+import connectDB from "../../lib/mongodb";
 
 type ParamsType = {
   slug: string;
@@ -25,26 +27,22 @@ interface BlogType {
   slug: string;
 }
 
-async function getBlog(slug: string): Promise<BlogType | null> {
-  try {
-    const headersList = await headers();
-    const host = headersList.get("host");
-    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+async function getBlogWithCategory(slug: string): Promise<BlogType | null> {
+  await connectDB();
 
-    const res = await fetch(`${protocol}://${host}/api/blog/${slug}`, {
-      cache: "no-store",
-    });
+  const blog = await Blog.findOne({ slug });
+  if (!blog) return null;
 
-    if (!res.ok) return null;
-    return res.json();
-  } catch {
-    return null;
-  }
+  const category = await Category.findById(blog.categoryId);
+
+  return {
+    ...blog.toObject(),
+    category: category?.name || "Uncategorized",
+  };
 }
 
-// Generate metadata for the page
 export async function generateMetadata({ params }: { params: ParamsType }): Promise<Metadata> {
-  const blog = await getBlog(params.slug);
+  const blog = await getBlogWithCategory(params.slug);
 
   if (!blog) {
     return {
@@ -60,11 +58,9 @@ export async function generateMetadata({ params }: { params: ParamsType }): Prom
 }
 
 const Page = async ({ params }: { params: ParamsType }) => {
-  const blog = await getBlog(params.slug);
+  const blog = await getBlogWithCategory(params.slug);
 
-  if (!blog) {
-    return;
-  }
+  if (!blog) return null;
 
   return (
     <section className="mx-4 my-14 sm:mx-16">
@@ -81,27 +77,35 @@ const Page = async ({ params }: { params: ParamsType }) => {
         <div>
           <div className="flex flex-row items-center gap-3">
             <button className="inline-flex items-center rounded-lg bg-blue-950 px-3 py-2 text-center text-sm font-medium text-white dark:bg-red-500">
-              {blog?.category || "Uncategorized"}
+              {blog.category}
             </button>
             <div className="flex items-center gap-2">
               <IoMdAlarm fontSize={18} />
-              <span>{new Date(blog?.createdAt).toLocaleDateString()}</span>
+              <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
             </div>
           </div>
           <h1 className="mt-3 text-2xl font-bold sm:mt-5 sm:text-4xl">
-            {blog?.h1 || blog?.metaTitle}
+            {blog.h1 || blog.metaTitle}
           </h1>
           <div className="mt-5 flex items-center gap-10">
             <div className="flex items-center gap-3">
               <Avatar size={"sm"} rounded />
-              <span>{blog?.author || "Anonymous"}</span>
+              <span>{blog.author || "Anonymous"}</span>
             </div>
-            <ClientBlog slug={blog?.slug} />
+            <ClientBlog slug={blog.slug} />
           </div>
         </div>
       </div>
 
-      <CommentSection slug={blog?.slug} />
+      {/* Blog Content */}
+      <div className="mt-5 max-w-5xl mx-auto">
+        <div 
+          className="prose prose-lg dark:prose-invert max-w-none"
+          dangerouslySetInnerHTML={{ __html: blog.content }}
+        />
+      </div>
+
+      <CommentSection slug={blog.slug} />
     </section>
   );
 };

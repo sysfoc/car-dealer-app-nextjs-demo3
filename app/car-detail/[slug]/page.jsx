@@ -1,14 +1,11 @@
+import Car from "../../models/Car";
+import connectDB from "../../lib/mongodb";
 import CarDetailClient from './CarDetailClient';
 
 async function getCarData(slug) {
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/cars?slug=${slug}`);
-    if (!response.ok) return null;
-    const data = await response.json();
-    return data.cars?.find((c) => c.slug === slug) || null;
-  } catch (error) {
-    return null;
-  }
+  await connectDB();
+  const car = await Car.findOne({ slug }).lean();
+  return car ? JSON.parse(JSON.stringify(car)) : null;
 }
 
 export async function generateMetadata({ params }) {
@@ -22,7 +19,7 @@ export async function generateMetadata({ params }) {
   }
 
   const title = `${car.make} ${car.model} ${car.modelYear} for Sale${car.location ? ` in ${car.location}` : ''}`;
-  
+
   let descriptionParts = [`${car.make} ${car.model} ${car.modelYear} model`];
   
   if (car.kms || car.mileage) {

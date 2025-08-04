@@ -772,370 +772,376 @@ const CardetailCard = () => {
         } ${isGridView ? "grid grid-cols-1 md:grid-cols-2" : "space-y-6"}`}
       >
         {paginationData.currentItems.map((car, index) => (
-          <Link href={`car-detail/${car.slug}`} key={car._id}>
-            <div
-              className={`group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800 ${
-                isGridView
-                  ? "flex h-full flex-col"
-                  : "mx-auto flex max-w-5xl flex-col sm:flex-row"
-              }`}
-            >
-              {/* Image Section */}
+          <div key={car._id} className="relative">
+            <Link href={`car-detail/${car.slug}`}>
               <div
-                className={`relative flex-shrink-0 ${isGridView ? "h-44 w-full" : "h-60 sm:h-64 sm:w-64 md:w-72"}`}
+                className={`group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800 ${
+                  isGridView
+                    ? "flex h-full flex-col"
+                    : "mx-auto flex max-w-5xl flex-col sm:flex-row"
+                }`}
               >
-                <Carousel
-                  slideInterval={3000}
-                  className="h-full w-full overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none"
-                >
-                  {Array.isArray(car.imageUrls) && car.imageUrls.length > 0 ? (
-                    car.imageUrls.map((image, i) => (
-                      <div key={i} className="relative h-full w-full">
-                        <Image
-                          src={image.src || image}
-                          alt={
-                            image.alt ||
-                            `${car.make} ${car.model} Image ${i + 1}`
-                          }
-                          width={600}
-                          height={400}
-                          className="h-full w-full object-cover object-center"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="flex h-full items-center justify-center bg-slate-100 dark:bg-gray-700">
-                      <div className="text-center">
-                        <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-slate-200 dark:bg-gray-600">
-                          <svg
-                            className="h-8 w-8 text-slate-400"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                            />
-                          </svg>
-                        </div>
-                        <span className="text-sm text-slate-500 dark:text-gray-400">
-                          No images available
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </Carousel>
-
-                <div className="absolute left-0 top-0 z-10">
-                  {!car.sold && (
-                    <div className="relative h-16 w-16 overflow-hidden">
-                      <div className="absolute left-[-18px] top-2 w-[75px] rotate-[-45deg] bg-app-button shadow-md">
-                        <span className="block py-[2px] text-center text-[10px] font-bold uppercase text-white">
-                          {(car.condition && car.condition !== "Select"
-                            ? car.condition
-                            : car.type || "Used"
-                          ).substring(0, 4)}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {car.sold && (
-                    <div className="relative h-16 w-16 overflow-hidden">
-                      <div className="absolute left-0 top-0 h-6 w-14 translate-x-[-8px] translate-y-[12px] -rotate-45 transform bg-red-500 shadow-md">
-                        <span className="absolute inset-0 flex items-center justify-center text-xs font-bold uppercase text-white">
-                          SOLD
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                  {/* {!car.sold && car.isFinance && car.isFinance !== "km" && (
-                    <div className="relative mt-12 h-16 w-16 overflow-hidden">
-                      <div className="absolute left-0 top-0 h-6 w-20 translate-x-[-10px] translate-y-[22px] -rotate-45 transform bg-emerald-500 shadow-md">
-                        <span className="absolute inset-0 flex items-center justify-center text-xs font-bold uppercase text-white">
-                          {car.isFinance}
-                        </span>
-                      </div>
-                    </div>
-                  )} */}
-                </div>
-                {/* Wishlist & Image Counter */}
-                <div className="absolute right-3 top-3 flex items-center gap-1.5">
-                  {Array.isArray(car.imageUrls) && car.imageUrls.length > 1 && (
-                    <div className="rounded-full bg-black/70 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
-                      1/{car.imageUrls.length}
-                    </div>
-                  )}
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleLikeToggle(car._id);
-                    }}
-                    aria-label={
-                      userLikedCars?.includes(car._id)
-                        ? "Unlike Car"
-                        : "Like Car"
-                    }
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-slate-600 shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:shadow-xl"
-                  >
-                    {userLikedCars &&
-                    Array.isArray(userLikedCars) &&
-                    userLikedCars.includes(car._id) ? (
-                      <FaHeart className="h-4 w-4 text-red-500" />
-                    ) : (
-                      <FaRegHeart className="h-4 w-4 hover:text-red-500" />
-                    )}
-                  </button>
-                </div>
-              </div>
-              {/* Content Section */}
-              <div
-                className={`flex flex-1 flex-col ${isGridView ? "p-2.5" : "p-5 sm:p-6"}`}
-              >
-                {/* Header */}
+                {/* Image Section */}
                 <div
-                  className={`flex items-start justify-between ${isGridView ? "mb-2" : "mb-4"}`}
+                  className={`relative flex-shrink-0 ${isGridView ? "h-44 w-full" : "h-60 sm:h-64 sm:w-64 md:w-72"}`}
                 >
-                  <div className="flex-1 pr-3">
-                    <div className="flex items-center gap-2">
-                      <h3
-                        className={`line-clamp-1 font-bold text-app-text transition-colors group-hover/link:text-app-button dark:text-white dark:group-hover/link:text-app-button ${
-                          isGridView
-                            ? "text-base leading-tight"
-                            : "text-xl sm:text-2xl"
+                  <Carousel
+                    slideInterval={3000}
+                    className="h-full w-full overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none"
+                  >
+                    {Array.isArray(car.imageUrls) &&
+                    car.imageUrls.length > 0 ? (
+                      car.imageUrls.map((image, i) => (
+                        <div key={i} className="relative h-full w-full">
+                          <Image
+                            src={image.src || image}
+                            alt={
+                              image.alt ||
+                              `${car.make} ${car.model} Image ${i + 1}`
+                            }
+                            width={600}
+                            height={400}
+                            className="h-full w-full object-cover object-center"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="flex h-full items-center justify-center bg-slate-100 dark:bg-gray-700">
+                        <div className="text-center">
+                          <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-slate-200 dark:bg-gray-600">
+                            <svg
+                              className="h-8 w-8 text-slate-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                              />
+                            </svg>
+                          </div>
+                          <span className="text-sm text-slate-500 dark:text-gray-400">
+                            No images available
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </Carousel>
+
+                  <div className="absolute left-0 top-0 z-10">
+                    {!car.sold && (
+                      <div className="relative h-16 w-16 overflow-hidden">
+                        <div className="absolute left-[-18px] top-2 w-[75px] rotate-[-45deg] bg-app-button shadow-md">
+                          <span className="block py-[2px] text-center text-[10px] font-bold uppercase text-white">
+                            {(car.condition && car.condition !== "Select"
+                              ? car.condition
+                              : car.type || "Used"
+                            ).substring(0, 4)}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {car.sold && (
+                      <div className="relative h-16 w-16 overflow-hidden">
+                        <div className="absolute left-0 top-0 h-6 w-14 translate-x-[-8px] translate-y-[12px] -rotate-45 transform bg-red-500 shadow-md">
+                          <span className="absolute inset-0 flex items-center justify-center text-xs font-bold uppercase text-white">
+                            SOLD
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {/* Wishlist & Image Counter */}
+                  <div className="absolute right-3 top-3 flex items-center gap-1.5">
+                    {Array.isArray(car.imageUrls) &&
+                      car.imageUrls.length > 1 && (
+                        <div className="rounded-full bg-black/70 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
+                          1/{car.imageUrls.length}
+                        </div>
+                      )}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        handleLikeToggle(car._id);
+                      }}
+                      aria-label={
+                        userLikedCars?.includes(car._id)
+                          ? "Unlike Car"
+                          : "Like Car"
+                      }
+                      className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-slate-600 shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:shadow-xl"
+                    >
+                      {userLikedCars &&
+                      Array.isArray(userLikedCars) &&
+                      userLikedCars.includes(car._id) ? (
+                        <FaHeart className="h-4 w-4 text-red-500" />
+                      ) : (
+                        <FaRegHeart className="h-4 w-4 hover:text-red-500" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+                {/* Content Section */}
+                <div
+                  className={`flex flex-1 flex-col ${
+                    isGridView ? "p-2.5 pb-14" : "p-5 pb-20 sm:p-6"
+                  }`}
+                >
+                  {/* Header */}
+                  <div
+                    className={`flex items-start justify-between ${isGridView ? "mb-2" : "mb-4"}`}
+                  >
+                    <div className="flex-1 pr-3">
+                      <div className="flex items-center gap-2">
+                        <h3
+                          className={`line-clamp-1 font-bold text-app-text transition-colors group-hover/link:text-app-button dark:text-white dark:group-hover/link:text-app-button ${
+                            isGridView
+                              ? "text-base leading-tight"
+                              : "text-xl sm:text-2xl"
+                          }`}
+                        >
+                          {loading ? (
+                            <Skeleton height={28} />
+                          ) : (
+                            `${car.make || "Unknown"} ${car.model || "Unknown"}`
+                          )}
+                        </h3>
+                        {(car.year || car.modelYear) && (
+                          <span
+                            className={`inline-flex items-center rounded-lg bg-slate-100 px-2 py-0.5 font-semibold text-slate-700 dark:bg-gray-700 dark:text-gray-300 ${
+                              isGridView ? "text-xs" : "text-xs"
+                            }`}
+                          >
+                            {car.year || car.modelYear}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div
+                        className={`font-bold text-app-button dark:text-app-button ${
+                          isGridView ? "text-lg" : "text-2xl sm:text-3xl"
                         }`}
                       >
                         {loading ? (
-                          <Skeleton height={28} />
+                          <Skeleton height={32} width={120} />
                         ) : (
-                          `${car.make || "Unknown"} ${car.model || "Unknown"}`
+                          `${selectedCurrency?.symbol} ${Math.round(car.price) || 0}`
                         )}
-                      </h3>
-                      {(car.year || car.modelYear) && (
-                        <span
-                          className={`inline-flex items-center rounded-lg bg-slate-100 px-2 py-0.5 font-semibold text-slate-700 dark:bg-gray-700 dark:text-gray-300 ${
-                            isGridView ? "text-xs" : "text-xs"
-                          }`}
-                        >
-                          {car.year || car.modelYear}
-                        </span>
-                      )}
+                      </div>
+                      <p
+                        className={`mt-0.5 text-slate-500 dark:text-gray-400 ${isGridView ? "text-xs" : "text-xs"}`}
+                      >
+                        Starting price
+                      </p>
                     </div>
                   </div>
-                  <div className="text-right">
+                  {/* Key Specifications */}
+                  <div className={`flex-1 ${isGridView ? "mb-2" : "mb-4"}`}>
                     <div
-                      className={`font-bold text-app-button dark:text-app-button ${
-                        isGridView ? "text-lg" : "text-2xl sm:text-3xl"
-                      }`}
+                      className={`grid gap-1.5 ${isGridView ? "grid-cols-2" : "grid grid-cols-2 lg:grid-cols-3"}`}
                     >
-                      {loading ? (
-                        <Skeleton height={32} width={120} />
-                      ) : (
-                        `${selectedCurrency?.symbol} ${Math.round(car.price) || 0}`
-                      )}
-                    </div>
-                    <p
-                      className={`mt-0.5 text-slate-500 dark:text-gray-400 ${isGridView ? "text-xs" : "text-xs"}`}
-                    >
-                      Starting price
-                    </p>
-                  </div>
-                </div>
-                {/* Key Specifications */}
-                <div className={`flex-1 ${isGridView ? "mb-2" : "mb-4"}`}>
-                  <div
-                    className={`grid gap-1.5 ${isGridView ? "grid-cols-2" : "grid-cols-2 sm:grid-cols-3"}`}
-                  >
-                    <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                      <div
-                        className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
-                          isGridView ? "h-6 w-6" : "h-8 w-8"
-                        }`}
-                      >
-                        <FaLocationCrosshairs
-                          className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
-                        />
+                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
+                        <div
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                            isGridView ? "h-6 w-6" : "h-8 w-8"
+                          }`}
+                        >
+                          <FaLocationCrosshairs
+                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p
+                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
+                              isGridView ? "text-[9px]" : "text-[10px]"
+                            }`}
+                          >
+                            Location
+                          </p>
+                          <p
+                            className={`truncate font-semibold leading-tight text-app-text dark:text-white ${
+                              isGridView ? "text-xs" : "text-xs"
+                            }`}
+                          >
+                            {car.location || "Not specified"}
+                          </p>
+                        </div>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <p
-                          className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                            isGridView ? "text-[9px]" : "text-[10px]"
+                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
+                        <div
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                            isGridView ? "h-6 w-6" : "h-8 w-8"
                           }`}
                         >
-                          Location
-                        </p>
-                        <p
-                          className={`truncate font-semibold leading-tight text-app-text dark:text-white ${
-                            isGridView ? "text-xs" : "text-xs"
-                          }`}
-                        >
-                          {car.location || "Not specified"}
-                        </p>
+                          <IoSpeedometer
+                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p
+                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
+                              isGridView ? "text-[9px]" : "text-[10px]"
+                            }`}
+                          >
+                            Mileage
+                          </p>
+                          <p
+                            className={`font-semibold leading-tight text-app-text dark:text-white ${
+                              isGridView ? "text-xs" : "text-xs"
+                            }`}
+                          >
+                            {(() => {
+                              const convertedValues = getConvertedValues(car);
+                              return `${convertedValues.kms || "Not specified"} ${convertedValues.unit?.toUpperCase() || ""}`;
+                            })()}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                      <div
-                        className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
-                          isGridView ? "h-6 w-6" : "h-8 w-8"
-                        }`}
-                      >
-                        <IoSpeedometer
-                          className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
-                        />
+                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
+                        <div
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                            isGridView ? "h-6 w-6" : "h-8 w-8"
+                          }`}
+                        >
+                          <GiGasPump
+                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p
+                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
+                              isGridView ? "text-[9px]" : "text-[10px]"
+                            }`}
+                          >
+                            Fuel
+                          </p>
+                          <p
+                            className={`font-semibold leading-tight text-app-text dark:text-white ${
+                              isGridView ? "text-xs" : "text-xs"
+                            }`}
+                          >
+                            {car.fuelType || "Not specified"}
+                          </p>
+                        </div>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <p
-                          className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                            isGridView ? "text-[9px]" : "text-[10px]"
+                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
+                        <div
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                            isGridView ? "h-6 w-6" : "h-8 w-8"
                           }`}
                         >
-                          Mileage
-                        </p>
-                        <p
-                          className={`font-semibold leading-tight text-app-text dark:text-white ${
-                            isGridView ? "text-xs" : "text-xs"
-                          }`}
-                        >
-                          {(() => {
-                            const convertedValues = getConvertedValues(car);
-                            return `${convertedValues.kms || "Not specified"} ${convertedValues.unit?.toUpperCase() || ""}`;
-                          })()}
-                        </p>
+                          <TbManualGearbox
+                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p
+                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
+                              isGridView ? "text-[9px]" : "text-[10px]"
+                            }`}
+                          >
+                            Gearbox
+                          </p>
+                          <p
+                            className={`font-semibold leading-tight text-app-text dark:text-white ${
+                              isGridView ? "text-xs" : "text-xs"
+                            }`}
+                          >
+                            {car.gearbox || "Not specified"}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                      <div
-                        className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
-                          isGridView ? "h-6 w-6" : "h-8 w-8"
-                        }`}
-                      >
-                        <GiGasPump
-                          className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
-                        />
+                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
+                        <div
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                            isGridView ? "h-6 w-6" : "h-8 w-8"
+                          }`}
+                        >
+                          <IoIosColorPalette
+                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p
+                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
+                              isGridView ? "text-[9px]" : "text-[10px]"
+                            }`}
+                          >
+                            Color
+                          </p>
+                          <p
+                            className={`font-semibold leading-tight text-app-text dark:text-white ${
+                              isGridView ? "text-xs" : "text-xs"
+                            }`}
+                          >
+                            {car.color || "Not specified"}
+                          </p>
+                        </div>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <p
-                          className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                            isGridView ? "text-[9px]" : "text-[10px]"
+                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
+                        <div
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                            isGridView ? "h-6 w-6" : "h-8 w-8"
                           }`}
                         >
-                          Fuel
-                        </p>
-                        <p
-                          className={`font-semibold leading-tight text-app-text dark:text-white ${
-                            isGridView ? "text-xs" : "text-xs"
-                          }`}
-                        >
-                          {car.fuelType || "Not specified"}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                      <div
-                        className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
-                          isGridView ? "h-6 w-6" : "h-8 w-8"
-                        }`}
-                      >
-                        <TbManualGearbox
-                          className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
-                        />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p
-                          className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                            isGridView ? "text-[9px]" : "text-[10px]"
-                          }`}
-                        >
-                          Gearbox
-                        </p>
-                        <p
-                          className={`font-semibold leading-tight text-app-text dark:text-white ${
-                            isGridView ? "text-xs" : "text-xs"
-                          }`}
-                        >
-                          {car.gearbox || "Not specified"}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                      <div
-                        className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
-                          isGridView ? "h-6 w-6" : "h-8 w-8"
-                        }`}
-                      >
-                        <IoIosColorPalette
-                          className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
-                        />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p
-                          className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                            isGridView ? "text-[9px]" : "text-[10px]"
-                          }`}
-                        >
-                          Color
-                        </p>
-                        <p
-                          className={`font-semibold leading-tight text-app-text dark:text-white ${
-                            isGridView ? "text-xs" : "text-xs"
-                          }`}
-                        >
-                          {car.color || "Not specified"}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                      <div
-                        className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
-                          isGridView ? "h-6 w-6" : "h-8 w-8"
-                        }`}
-                      >
-                        <GiCarSeat
-                          className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
-                        />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p
-                          className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                            isGridView ? "text-[9px]" : "text-[10px]"
-                          }`}
-                        >
-                          Seats
-                        </p>
-                        <p
-                          className={`font-semibold leading-tight text-app-text dark:text-white ${
-                            isGridView ? "text-xs" : "text-xs"
-                          }`}
-                        >
-                          {car.seats && car.seats !== "Select"
-                            ? car.seats
-                            : "Not specified"}
-                        </p>
+                          <GiCarSeat
+                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p
+                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
+                              isGridView ? "text-[9px]" : "text-[10px]"
+                            }`}
+                          >
+                            Seats
+                          </p>
+                          <p
+                            className={`font-semibold leading-tight text-app-text dark:text-white ${
+                              isGridView ? "text-xs" : "text-xs"
+                            }`}
+                          >
+                            {car.seats && car.seats !== "Select"
+                              ? car.seats
+                              : "Not specified"}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                {/* Action Buttons */}
-                <div className="mt-auto flex gap-2">
-                  <button
-                    onClick={() => {
-                      setSelectedCar(car);
-                      setOpenModal(true);
-                    }}
-                    className={`w-full rounded-xl border-2 border-app-button bg-app-button font-semibold text-white shadow-lg transition-all duration-200 hover:border-app-button-hover hover:bg-app-button-hover hover:shadow-xl ${
-                      isGridView ? "px-2 py-2 text-sm" : "px-4 py-2"
-                    }`}
-                  >
-                    {t("enquireNow")}
-                  </button>
+                  {/* Action Buttons */}
                 </div>
               </div>
+            </Link>
+            <div
+              className={`absolute ${
+                isGridView
+                  ? "bottom-0 left-0 right-0 p-2.5"
+                  : "sm:-bottom-5 -bottom-2 right-0 p-5 sm:p-6"
+              }`}
+            >
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setSelectedCar(car);
+                  setOpenModal(true);
+                }}
+                className={`rounded-xl border-2 border-app-button bg-app-button font-semibold text-white shadow-lg transition-all duration-200 hover:border-app-button-hover hover:bg-app-button-hover hover:shadow-xl ${
+                  isGridView ? "w-full px-2 py-2 text-sm" : "px-4 py-2"
+                }`}
+              >
+                {t("enquireNow")}
+              </button>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
       {paginationData.totalPages > 1 && (
