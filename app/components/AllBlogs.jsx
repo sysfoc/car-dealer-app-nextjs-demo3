@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { MdOutlineArrowOutward, MdSearch } from "react-icons/md";
@@ -62,13 +62,13 @@ const BlogsPage = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-red-50 to-red-100 dark:from-gray-900 dark:via-red-900/20 dark:to-gray-900">
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-2xl mx-auto text-center">
             <div className="backdrop-blur-md bg-red-50/70 dark:bg-red-900/20 border border-red-200/50 dark:border-red-500/20 rounded-3xl p-8">
-              <h2 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">Error Loading Blogs</h2>
+              <h2 className="text-2xl font-bold text-app-button dark:text-red-400 mb-4">Error Loading Blogs</h2>
               <p className="text-red-500 dark:text-red-300 mb-6">{error}</p>
-              <Link href="/" className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl transition-colors">
+              <Link href="/" className="inline-flex items-center gap-2 bg-app-button hover:bg-app-button-hover text-white px-6 py-3 rounded-xl transition-colors">
                 <span>Go Back Home</span>
               </Link>
             </div>
@@ -79,28 +79,28 @@ const BlogsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-slate-100 dark:from-gray-900 dark:via-slate-900 dark:to-gray-900">
      
       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width=%2260%22%20height=%2260%22%20viewBox=%220%200%2060%2060%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg%20fill=%22none%22%20fill-rule=%22evenodd%22%3E%3Cg%20fill=%22%23000000%22%20fill-opacity=%220.03%22%3E%3Ccircle%20cx=%2230%22%20cy=%2230%22%20r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] dark:bg-[url('data:image/svg+xml,%3Csvg%20width=%2260%22%20height=%2260%22%20viewBox=%220%200%2060%2060%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg%20fill=%22none%22%20fill-rule=%22evenodd%22%3E%3Cg%20fill=%22%23ffffff%22%20fill-opacity=%220.03%22%3E%3Ccircle%20cx=%2230%22%20cy=%2230%22%20r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
 
-      <div className="absolute top-0 left-0 w-72 h-72 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      <div className="absolute top-0 left-0 w-72 h-72 bg-app-button/10 dark:bg-app-button/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-app-button-hover/10 dark:bg-app-button-hover/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
 
       <div className="relative container mx-auto px-4 py-20">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
          
           <div className="flex-shrink-0">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-3">
-              <span className="bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-100 dark:to-purple-100 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-app-text dark:text-white leading-tight mb-3">
+              <span className="bg-gradient-to-r from-app-text to-app-button dark:from-white dark:to-gray-100 bg-clip-text text-transparent">
                 Our Blog
               </span>
             </h1>
             
-            <p className="text-gray-600 dark:text-blue-100/80 mb-4">
+            <p className="text-gray-600 dark:text-gray-100/80 mb-4">
               Discover insights, tutorials, and stories from our team
             </p>
             
-            <div className="w-20 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></div>
+            <div className="w-20 h-1 bg-gradient-to-r from-app-button to-app-button-hover rounded-full"></div>
           </div>
 
           <div className="flex-1 max-w-2xl lg:max-w-none">
@@ -112,7 +112,7 @@ const BlogsPage = () => {
                   placeholder="Search articles..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-white/50 dark:bg-white/5 border border-gray-200/50 dark:border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-300"
+                  className="w-full pl-12 pr-4 py-3 bg-white/50 dark:bg-white/5 border border-gray-200/50 dark:border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-app-button/50 text-app-text dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-300"
                 />
               </div>
             </div>
@@ -121,7 +121,7 @@ const BlogsPage = () => {
 
         {!loading && filteredBlogs.length > 0 && (
           <div className="mb-6">
-            <p className="text-gray-600 dark:text-blue-100/80 text-center text-sm">
+            <p className="text-gray-600 dark:text-gray-100/80 text-center text-sm">
               {`Showing ${indexOfFirstBlog + 1}-${Math.min(indexOfLastBlog, filteredBlogs.length)} of ${filteredBlogs.length} articles`}
             </p>
           </div>
@@ -130,8 +130,8 @@ const BlogsPage = () => {
         {loading && (
           <div className="flex justify-center items-center py-12">
             <div className="relative">
-              <div className="w-16 h-16 border-4 border-blue-200 dark:border-blue-800 rounded-full animate-spin border-t-blue-600 dark:border-t-blue-400"></div>
-              <div className="absolute inset-0 w-16 h-16 border-4 border-transparent rounded-full animate-ping border-t-blue-400/50"></div>
+              <div className="w-16 h-16 border-4 border-gray-200 dark:border-gray-700 rounded-full animate-spin border-t-app-button"></div>
+              <div className="absolute inset-0 w-16 h-16 border-4 border-transparent rounded-full animate-ping border-t-app-button/50"></div>
             </div>
           </div>
         )}
@@ -141,10 +141,10 @@ const BlogsPage = () => {
             {currentBlogs.map((blog, index) => (
               <article
                 key={`${blog.slug}-${index}`}
-                className="group relative backdrop-blur-md bg-white/70 dark:bg-white/10 border border-gray-200/50 dark:border-white/20 rounded-3xl overflow-hidden transition-all duration-500 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/10 dark:hover:shadow-blue-500/25"
+                className="group relative backdrop-blur-md bg-white/70 dark:bg-white/10 border border-gray-200/50 dark:border-white/20 rounded-3xl overflow-hidden transition-all duration-500 transform hover:scale-105 hover:shadow-2xl hover:shadow-app-button/10 dark:hover:shadow-app-button/25"
               >
                 {/* Background glow effect */}
-                <div className="absolute inset-0 bg-blue-500/5 dark:bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-app-button/5 dark:bg-app-button/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 <div className="relative z-10">
                   <div className="relative overflow-hidden">
@@ -163,7 +163,7 @@ const BlogsPage = () => {
                   
                   <div className="p-6 space-y-4">
                     <div className="flex items-center gap-2">
-                      <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                      <span className="bg-gradient-to-r from-app-button to-app-button-hover text-white px-3 py-1 rounded-full text-xs font-semibold">
                         {blog.category || "Article"}
                       </span>
                       {blog.readTime && (
@@ -174,7 +174,7 @@ const BlogsPage = () => {
                     </div>
 
                     <Link href={`/blog/${blog.slug}`} className="group/title">
-                      <h2 className="text-xl font-bold text-gray-900 dark:text-white group-hover/title:text-blue-600 dark:group-hover/title:text-blue-400 transition-colors duration-300 line-clamp-2">
+                      <h2 className="text-xl font-bold text-app-text dark:text-white group-hover/title:text-app-button dark:group-hover/title:text-app-button transition-colors duration-300 line-clamp-2">
                         {blog.title || blog.slug}
                       </h2>
                     </Link>
@@ -196,9 +196,9 @@ const BlogsPage = () => {
                     )}
                     
                     <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <div className="w-8 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-                      <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">Read Article</span>
-                      <MdOutlineArrowOutward className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      <div className="w-8 h-0.5 bg-gradient-to-r from-app-button to-app-button-hover rounded-full"></div>
+                      <span className="text-sm text-app-button dark:text-app-button font-medium">Read Article</span>
+                      <MdOutlineArrowOutward className="w-4 h-4 text-app-button dark:text-app-button" />
                     </div>
                   </div>
                 </div>
@@ -210,13 +210,13 @@ const BlogsPage = () => {
         {!loading && filteredBlogs.length === 0 && (
           <div className="text-center py-12">
             <div className="backdrop-blur-md bg-white/70 dark:bg-white/10 border border-gray-200/50 dark:border-white/20 rounded-3xl p-8 max-w-lg mx-auto">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-app-button to-app-button-hover rounded-full flex items-center justify-center mx-auto mb-4">
                 <MdSearch className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+              <h3 className="text-xl font-bold text-app-text dark:text-white mb-3">
                 {searchTerm ? "No articles found" : "No articles available"}
               </h3>
-              <p className="text-gray-600 dark:text-blue-100/80 mb-4">
+              <p className="text-gray-600 dark:text-gray-100/80 mb-4">
                 {searchTerm 
                   ? `We couldn't find any articles matching "${searchTerm}"`
                   : "We are working on bringing you fresh content. Check back soon!"
@@ -225,7 +225,7 @@ const BlogsPage = () => {
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm("")}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-xl transition-all duration-300 font-semibold"
+                  className="bg-gradient-to-r from-app-button to-app-button-hover hover:from-app-button-hover hover:to-app-button text-white px-6 py-3 rounded-xl transition-all duration-300 font-semibold"
                 >
                   Clear Search
                 </button>
@@ -244,7 +244,7 @@ const BlogsPage = () => {
                   className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                     currentPage === 1
                       ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-blue-500/10 dark:hover:bg-blue-500/20'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-app-button/10 dark:hover:bg-app-button/20'
                   }`}
                 >
                   Previous
@@ -256,8 +256,8 @@ const BlogsPage = () => {
                     onClick={() => handlePageChange(page)}
                     className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                       currentPage === page
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
-                        : 'text-gray-600 dark:text-gray-300 hover:bg-blue-500/10 dark:hover:bg-blue-500/20'
+                        ? 'bg-gradient-to-r from-app-button to-app-button-hover text-white shadow-lg'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-app-button/10 dark:hover:bg-app-button/20'
                     }`}
                   >
                     {page}
@@ -270,7 +270,7 @@ const BlogsPage = () => {
                   className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                     currentPage === totalPages
                       ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-blue-500/10 dark:hover:bg-blue-500/20'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-app-button/10 dark:hover:bg-app-button/20'
                   }`}
                 >
                   Next

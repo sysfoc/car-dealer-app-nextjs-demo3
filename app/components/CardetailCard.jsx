@@ -16,9 +16,14 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { GrSort } from "react-icons/gr";
 import { FiGrid, FiList } from "react-icons/fi";
-import { FaLocationCrosshairs, FaRegHeart, FaHeart } from "react-icons/fa6";
+import {
+  FaLocationCrosshairs,
+  FaCalendarCheck,
+  FaHeart,
+  FaRegHeart,
+} from "react-icons/fa6";
 import { IoSpeedometer } from "react-icons/io5";
-import { GiGasPump, GiCarSeat } from "react-icons/gi";
+import { GiGasPump, GiCarDoor, GiCarSeat } from "react-icons/gi";
 import { TbManualGearbox } from "react-icons/tb";
 import { IoIosColorPalette } from "react-icons/io";
 import { useTranslations } from "next-intl";
@@ -37,16 +42,6 @@ const CardetailCard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [isPageTransitioning, setIsPageTransitioning] = useState(false);
-  const [selectedCar, setSelectedCar] = useState(null);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState("");
   const [userLikedCars, setUserLikedCars] = useState([]);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
@@ -57,6 +52,17 @@ const CardetailCard = () => {
   const parseBooleanParam = (param) => {
     return param === "true";
   };
+
+  const [selectedCar, setSelectedCar] = useState(null);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const fetchUserData = async () => {
     try {
@@ -71,38 +77,6 @@ const CardetailCard = () => {
     } catch (error) {
       return;
     }
-  };
-
-  const handleLikeToggle = async (carId) => {
-    try {
-      const response = await fetch("/api/users/liked-cars", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ carId }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setUserLikedCars(Array.isArray(data.likedCars) ? data.likedCars : []);
-        setUser((prev) => ({
-          ...prev,
-          likedCars: data.likedCars,
-        }));
-      } else {
-        console.error("Failed to update liked cars");
-      }
-    } catch (error) {
-      console.error("Error updating liked cars:", error);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
   };
 
   useEffect(() => {
@@ -128,12 +102,47 @@ const CardetailCard = () => {
     fetchRecaptchaSettings();
   }, []);
 
+  const handleLikeToggle = async (carId) => {
+    try {
+      const response = await fetch("/api/users/liked-cars", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ carId }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserLikedCars(Array.isArray(data.likedCars) ? data.likedCars : []);
+
+        setUser((prev) => ({
+          ...prev,
+          likedCars: data.likedCars,
+        }));
+      } else {
+        console.error("Failed to update liked cars");
+      }
+    } catch (error) {
+      console.error("Error updating liked cars:", error);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
   const handleEnquirySubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage("");
 
     let recaptchaToken = null;
+
     if (
       recaptchaStatus === "active" &&
       recaptchaSiteKey &&
@@ -180,7 +189,6 @@ const CardetailCard = () => {
         body: JSON.stringify(enquiryData),
       });
       const result = await response.json();
-
       if (response.ok) {
         setSubmitMessage(
           "Enquiry submitted successfully! We will contact you soon.",
@@ -210,10 +218,14 @@ const CardetailCard = () => {
     }
   };
 
+  // 2. ADD THESE PAGINATION CALCULATIONS (after your existing useMemo declarations)
+
+  // Get all filters at once
   const filters = useMemo(() => {
     return Object.fromEntries(searchParams.entries());
   }, [searchParams]);
 
+  // Parse array parameters from query string
   const parseArrayParam = (param) => {
     if (!param) return [];
     return Array.isArray(param) ? param : [param];
@@ -222,71 +234,81 @@ const CardetailCard = () => {
   const parseNumberParam = (param) => {
     if (!param) return [];
     const parsed = Array.isArray(param)
-      ? param.map((p) => Number.parseInt(p, 10)).filter(Number.isInteger)
-      : [Number.parseInt(param, 10)].filter(Number.isInteger);
+      ? param.map((p) => parseInt(p, 10)).filter(Number.isInteger)
+      : [parseInt(param, 10)].filter(Number.isInteger);
     return parsed;
   };
 
   const sortCars = (cars, sortBy) => {
     if (!cars || cars.length === 0) return cars;
     const sortedCars = [...cars];
+
+    const cleanPrice = (price) => {
+      if (typeof price === "number") return price;
+      const cleaned = String(price).replace(/[^\d]/g, "");
+      return parseInt(cleaned) || 0;
+    };
+
     switch (sortBy) {
       case "price-lh":
         return sortedCars.sort((a, b) => {
-          const priceA = Number.parseInt(a.price) || 0;
-          const priceB = Number.parseInt(b.price) || 0;
+          const priceA = cleanPrice(a.price);
+          const priceB = cleanPrice(b.price);
           return priceA - priceB;
         });
+
       case "price-hl":
         return sortedCars.sort((a, b) => {
-          const priceA = Number.parseInt(a.price) || 0;
-          const priceB = Number.parseInt(b.price) || 0;
+          const priceA = cleanPrice(a.price);
+          const priceB = cleanPrice(b.price);
           return priceB - priceA;
         });
+
       case "model-latest":
         return sortedCars.sort((a, b) => {
-          const yearA = Number.parseInt(a.year || a.modelYear) || 0;
-          const yearB = Number.parseInt(b.year || b.modelYear) || 0;
+          const yearA = parseInt(a.year || a.modelYear) || 0;
+          const yearB = parseInt(b.year || b.modelYear) || 0;
           return yearB - yearA;
         });
+
       case "model-oldest":
         return sortedCars.sort((a, b) => {
-          const yearA = Number.parseInt(a.year || a.modelYear) || 0;
-          const yearB = Number.parseInt(b.year || b.modelYear) || 0;
+          const yearA = parseInt(a.year || a.modelYear) || 0;
+          const yearB = parseInt(b.year || b.modelYear) || 0;
           return yearA - yearB;
         });
+
       case "mileage-lh":
         return sortedCars.sort((a, b) => {
           const getMileage = (car) => {
             const mileageField = car.mileage || car.kms || "0";
-            return (
-              Number.parseInt(String(mileageField).replace(/[^\d]/g, "")) || 0
-            );
+            return parseInt(String(mileageField).replace(/[^\d]/g, "")) || 0;
           };
           return getMileage(a) - getMileage(b);
         });
+
       case "mileage-hl":
         return sortedCars.sort((a, b) => {
           const getMileage = (car) => {
             const mileageField = car.mileage || car.kms || "0";
-            return (
-              Number.parseInt(String(mileageField).replace(/[^\d]/g, "")) || 0
-            );
+            return parseInt(String(mileageField).replace(/[^\d]/g, "")) || 0;
           };
           return getMileage(b) - getMileage(a);
         });
+
       default:
         return sortedCars;
     }
   };
 
+  // Parsed filter values
   const parsedFilters = useMemo(() => {
     return {
       keyword: filters.keyword || "",
       condition: parseArrayParam(filters.condition),
       location: parseArrayParam(filters.location),
-      minPrice: filters.minPrice ? Number.parseInt(filters.minPrice, 10) : null,
-      maxPrice: filters.maxPrice ? Number.parseInt(filters.maxPrice, 10) : null,
+      minPrice: filters.minPrice ? parseInt(filters.minPrice, 10) : null,
+      maxPrice: filters.maxPrice ? parseInt(filters.maxPrice, 10) : null,
       minYear: filters.minYear || "",
       maxYear: filters.maxYear || "",
       model: parseArrayParam(filters.model),
@@ -304,7 +326,7 @@ const CardetailCard = () => {
       enginePowerTo: filters.enginePowerTo || "",
       battery: filters.battery || "Any",
       charging: filters.charging || "Any",
-      lease: parseBooleanParam(filters.lease) || false,
+      lease: parseBooleanParam(filters.lease) !== false,
       fuelConsumption: filters.fuelConsumption || "Any",
       co2Emission: filters.co2Emission || "Any",
       driveType: parseArrayParam(filters.driveType),
@@ -315,6 +337,57 @@ const CardetailCard = () => {
   const [isGridView, setIsGridView] = useState(true);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
+
+  // Conversion functions
+  const convertKmToMiles = (km) => {
+    const numericKm = Number.parseFloat(km);
+    return isNaN(numericKm) ? km : (numericKm * 0.621371).toFixed(1);
+  };
+
+  const convertMilesToKm = (miles) => {
+    const numericMiles = Number.parseFloat(miles);
+    return isNaN(numericMiles) ? miles : (numericMiles * 1.60934).toFixed(1);
+  };
+
+  // Function to convert car values based on default unit
+  const getConvertedValues = (vehicle) => {
+    if (distanceLoading || !defaultUnit || !vehicle.unit) {
+      return {
+        kms: vehicle.kms,
+        mileage: vehicle.mileage,
+        unit: vehicle.unit || defaultUnit,
+      };
+    }
+
+    // If car's unit matches default unit, no conversion needed
+    if (vehicle.unit === defaultUnit) {
+      return {
+        kms: vehicle.kms,
+        mileage: vehicle.mileage,
+        unit: vehicle.unit,
+      };
+    }
+
+    // Convert based on units
+    let convertedKms = vehicle.kms;
+    let convertedMileage = vehicle.mileage;
+
+    if (vehicle.unit === "km" && defaultUnit === "miles") {
+      // Convert from km to miles
+      convertedKms = convertKmToMiles(vehicle.kms);
+      convertedMileage = convertKmToMiles(vehicle.mileage);
+    } else if (vehicle.unit === "miles" && defaultUnit === "km") {
+      // Convert from miles to km
+      convertedKms = convertMilesToKm(vehicle.kms);
+      convertedMileage = convertMilesToKm(vehicle.mileage);
+    }
+
+    return {
+      kms: convertedKms,
+      mileage: convertedMileage,
+      unit: defaultUnit,
+    };
+  };
 
   useEffect(() => {
     const query = new URLSearchParams(filters).toString();
@@ -347,16 +420,19 @@ const CardetailCard = () => {
             .includes(parsedFilters.keyword.toLowerCase()) ||
           car.model?.toLowerCase().includes(parsedFilters.keyword.toLowerCase())
         : true;
+
       const matchesCondition = parsedFilters.condition.length
         ? parsedFilters.condition.includes(car.condition?.toLowerCase())
         : true;
+
       const matchesLocation = parsedFilters.location.length
         ? parsedFilters.location.some((loc) =>
             car.location?.toLowerCase().includes(loc.toLowerCase()),
           )
         : true;
-      const matchesLease = parsedFilters.lease ? car.isLease : true;
-      const carPrice = car.price ? Number.parseInt(car.price, 10) : null;
+
+      const matchesLease = car.isLease === true;
+      const carPrice = car.price ? parseInt(car.price, 10) : null;
       const matchesPrice =
         (parsedFilters.minPrice === null && parsedFilters.maxPrice === null) ||
         (carPrice !== null &&
@@ -364,16 +440,20 @@ const CardetailCard = () => {
             carPrice >= parsedFilters.minPrice) &&
           (parsedFilters.maxPrice === null ||
             carPrice <= parsedFilters.maxPrice));
+
+      // Use modelYear if year is not available
       const carYear = car.year || car.modelYear;
+
       const matchesYear =
+        // Pass if no year filters are applied
         (!parsedFilters.minYear && !parsedFilters.maxYear) ||
+        // OR if car has year and passes filters
         (carYear &&
           (!parsedFilters.minYear ||
-            Number.parseInt(carYear, 10) >=
-              Number.parseInt(parsedFilters.minYear, 10)) &&
+            parseInt(carYear, 10) >= parseInt(parsedFilters.minYear, 10)) &&
           (!parsedFilters.maxYear ||
-            Number.parseInt(carYear, 10) <=
-              Number.parseInt(parsedFilters.maxYear, 10)));
+            parseInt(carYear, 10) <= parseInt(parsedFilters.maxYear, 10)));
+
       const matchesModel = parsedFilters.model.length
         ? parsedFilters.model.some((modelVal) => {
             if (car.model) {
@@ -382,112 +462,128 @@ const CardetailCard = () => {
             return false;
           })
         : true;
+
+      // Use kms field if mileage is not available
       const carMileageField = car.mileage || car.kms;
       const matchesMileage = carMileageField
         ? (() => {
             const carMileage =
-              Number.parseInt(
-                String(carMileageField).replace(/[^\d]/g, ""),
-                10,
-              ) || 0;
+              parseInt(String(carMileageField).replace(/[^\d]/g, ""), 10) || 0;
             const from = parsedFilters.millageFrom
-              ? Number.parseInt(parsedFilters.millageFrom, 10)
+              ? parseInt(parsedFilters.millageFrom, 10)
               : null;
             const to = parsedFilters.millageTo
-              ? Number.parseInt(parsedFilters.millageTo, 10)
+              ? parseInt(parsedFilters.millageTo, 10)
               : null;
             return (!from || carMileage >= from) && (!to || carMileage <= to);
           })()
         : true;
+
       const matchesGearBox = parsedFilters.gearBox.length
         ? parsedFilters.gearBox.includes(car.gearbox?.toLowerCase())
         : true;
+
       const matchesbodyType = parsedFilters.bodyType.length
         ? parsedFilters.bodyType.includes(car.bodyType?.toLowerCase())
         : true;
+
       const matchesColor = parsedFilters.color.length
         ? parsedFilters.color.includes(car.color?.toLowerCase())
         : true;
+
+      // Convert to number if string
       const carDoors =
         typeof car.doors === "string" && car.doors !== "Select"
-          ? Number.parseInt(car.doors, 10)
+          ? parseInt(car.doors, 10)
           : car.doors;
+
       const matchesDoors = parsedFilters.doors.length
         ? parsedFilters.doors.includes(carDoors)
         : true;
+
+      // Convert to number if string
       const carSeats =
         typeof car.seats === "string" && car.seats !== "Select"
-          ? Number.parseInt(car.seats, 10)
+          ? parseInt(car.seats, 10)
           : car.seats;
+
       const matchesSeats = parsedFilters.seats.length
         ? parsedFilters.seats.includes(carSeats)
         : true;
+
       const matchesFuelType = parsedFilters.fuel.length
         ? parsedFilters.fuel.includes(car.fuelType?.toLowerCase())
         : true;
+
       const matchesDriveType = parsedFilters.driveType.length
         ? parsedFilters.driveType.includes(car.driveType?.toLowerCase())
         : true;
+
       const matchesBatteryrange = car.batteryRange
         ? (() => {
             const batteryRange =
               parsedFilters.battery !== "Any"
-                ? Number.parseInt(parsedFilters.battery, 10)
+                ? parseInt(parsedFilters.battery, 10)
                 : null;
             const carBatteryRange = car.batteryRange
-              ? Number.parseInt(car.batteryRange, 10)
+              ? parseInt(car.batteryRange, 10)
               : null;
             return batteryRange ? carBatteryRange >= batteryRange : true;
           })()
         : true;
+
       const matchesChargingTime = car.chargingTime
         ? (() => {
             const chargingTime =
               parsedFilters.charging !== "Any"
-                ? Number.parseInt(parsedFilters.charging, 10)
+                ? parseInt(parsedFilters.charging, 10)
                 : null;
             const carChargingTime = car.chargingTime
-              ? Number.parseInt(car.chargingTime, 10)
+              ? parseInt(car.chargingTime, 10)
               : null;
             return chargingTime ? carChargingTime >= chargingTime : true;
           })()
         : true;
+
       const matchesEngineSize =
         (!parsedFilters.engineSizeFrom ||
-          Number.parseInt(String(car.engineSize), 10) >=
-            Number.parseInt(parsedFilters.engineSizeFrom, 10)) &&
+          parseInt(String(car.engineSize), 10) >=
+            parseInt(parsedFilters.engineSizeFrom, 10)) &&
         (!parsedFilters.engineSizeTo ||
-          Number.parseInt(String(car.engineSize), 10) <=
-            Number.parseInt(parsedFilters.engineSizeTo, 10));
+          parseInt(String(car.engineSize), 10) <=
+            parseInt(parsedFilters.engineSizeTo, 10));
+
       const matchesEnginePower =
         (!parsedFilters.enginePowerFrom ||
-          Number.parseInt(String(car.enginePower), 10) >=
-            Number.parseInt(parsedFilters.enginePowerFrom, 10)) &&
+          parseInt(String(car.enginePower), 10) >=
+            parseInt(parsedFilters.enginePowerFrom, 10)) &&
         (!parsedFilters.enginePowerTo ||
-          Number.parseInt(String(car.enginePower), 10) <=
-            Number.parseInt(parsedFilters.enginePowerTo, 10));
+          parseInt(String(car.enginePower), 10) <=
+            parseInt(parsedFilters.enginePowerTo, 10));
+
       const matchesFuelConsumption = car.fuelConsumption
         ? (() => {
             const selectedFuelConsumption =
               parsedFilters.fuelConsumption !== "Any"
-                ? Number.parseInt(parsedFilters.fuelConsumption, 10)
+                ? parseInt(parsedFilters.fuelConsumption, 10)
                 : null;
             const carFuelConsumption = car.fuelConsumption
-              ? Number.parseInt(car.fuelConsumption, 10)
+              ? parseInt(car.fuelConsumption, 10)
               : null;
             return selectedFuelConsumption
               ? carFuelConsumption === selectedFuelConsumption
               : true;
           })()
         : true;
+
       const matchesCo2Emission = car.co2Emission
         ? (() => {
             const selectedCo2Emission =
               parsedFilters.co2Emission !== "Any"
-                ? Number.parseInt(parsedFilters.co2Emission, 10)
+                ? parseInt(parsedFilters.co2Emission, 10)
                 : null;
             const carCo2Emission = car.co2Emission
-              ? Number.parseInt(car.co2Emission, 10)
+              ? parseInt(car.co2Emission, 10)
               : null;
             return selectedCo2Emission
               ? carCo2Emission === selectedCo2Emission
@@ -546,11 +642,16 @@ const CardetailCard = () => {
 
   const handlePageChange = async (newPage) => {
     if (newPage === currentPage || isPageTransitioning) return;
+
     setIsPageTransitioning(true);
+
+    // Smooth scroll to top
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+
+    // Small delay for smooth transition
     setTimeout(() => {
       setCurrentPage(newPage);
       setIsPageTransitioning(false);
@@ -559,9 +660,10 @@ const CardetailCard = () => {
 
   const getVisiblePageNumbers = () => {
     const { totalPages } = paginationData;
-    const delta = 2;
+    const delta = 2; // Number of pages to show around current page
     const range = [];
     const rangeWithDots = [];
+
     for (
       let i = Math.max(2, currentPage - delta);
       i <= Math.min(totalPages - 1, currentPage + delta);
@@ -583,6 +685,7 @@ const CardetailCard = () => {
     } else if (totalPages > 1) {
       rangeWithDots.push(totalPages);
     }
+
     return rangeWithDots;
   };
 
@@ -590,51 +693,7 @@ const CardetailCard = () => {
     setCurrentPage(1);
   }, [parsedFilters]);
 
-  const convertKmToMiles = (km) => {
-    const numericKm = Number.parseFloat(km);
-    return isNaN(numericKm) ? km : (numericKm * 0.621371).toFixed(1);
-  };
-
-  const convertMilesToKm = (miles) => {
-    const numericMiles = Number.parseFloat(miles);
-    return isNaN(numericMiles) ? miles : (numericMiles * 1.60934).toFixed(1);
-  };
-
-  const getConvertedValues = (vehicle) => {
-    if (distanceLoading || !defaultUnit || !vehicle.unit) {
-      return {
-        kms: vehicle.kms,
-        mileage: vehicle.mileage,
-        unit: vehicle.unit || defaultUnit,
-      };
-    }
-
-    if (vehicle.unit === defaultUnit) {
-      return {
-        kms: vehicle.kms,
-        mileage: vehicle.mileage,
-        unit: vehicle.unit,
-      };
-    }
-
-    let convertedKms = vehicle.kms;
-    let convertedMileage = vehicle.mileage;
-
-    if (vehicle.unit === "km" && defaultUnit === "miles") {
-      convertedKms = convertKmToMiles(vehicle.kms);
-      convertedMileage = convertKmToMiles(vehicle.mileage);
-    } else if (vehicle.unit === "miles" && defaultUnit === "km") {
-      convertedKms = convertMilesToKm(vehicle.miles);
-      convertedMileage = convertMilesToKm(vehicle.mileage);
-    }
-
-    return {
-      kms: convertedKms,
-      mileage: convertedMileage,
-      unit: defaultUnit,
-    };
-  };
-
+  // Loading State
   if (loading) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
@@ -657,6 +716,7 @@ const CardetailCard = () => {
     );
   }
 
+  // No Results State
   if (!sortedAndFilteredCars.length) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center p-8 text-center">
@@ -687,7 +747,6 @@ const CardetailCard = () => {
       </div>
     );
   }
-
   return (
     <>
       <div className="my-5">
@@ -769,7 +828,7 @@ const CardetailCard = () => {
       <div
         className={`gap-4 transition-opacity duration-200 ${
           isPageTransitioning ? "opacity-50" : "opacity-100"
-        } ${isGridView ? "grid grid-cols-1 md:grid-cols-2" : "space-y-6"}`}
+        } ${isGridView ? "grid grid-cols-1 sm:grid-cols-2" : "space-y-6"}`}
       >
         {paginationData.currentItems.map((car, index) => (
           <div key={car._id} className="relative">
@@ -783,7 +842,9 @@ const CardetailCard = () => {
               >
                 {/* Image Section */}
                 <div
-                  className={`relative flex-shrink-0 ${isGridView ? "h-44 w-full" : "h-60 sm:h-64 sm:w-64 md:w-72"}`}
+                  className={`relative flex-shrink-0 ${
+                    isGridView ? "h-44 w-full" : "h-60 sm:h-64 sm:w-80 md:w-96"
+                  }`}
                 >
                   <Carousel
                     slideInterval={3000}
@@ -832,6 +893,7 @@ const CardetailCard = () => {
                     )}
                   </Carousel>
 
+                  {/* Overlay Badges */}
                   <div className="absolute left-0 top-0 z-10">
                     {!car.sold && (
                       <div className="relative h-16 w-16 overflow-hidden">
@@ -856,6 +918,7 @@ const CardetailCard = () => {
                       </div>
                     )}
                   </div>
+
                   {/* Wishlist & Image Counter */}
                   <div className="absolute right-3 top-3 flex items-center gap-1.5">
                     {Array.isArray(car.imageUrls) &&
@@ -887,6 +950,7 @@ const CardetailCard = () => {
                     </button>
                   </div>
                 </div>
+
                 {/* Content Section */}
                 <div
                   className={`flex flex-1 flex-col ${
@@ -895,12 +959,12 @@ const CardetailCard = () => {
                 >
                   {/* Header */}
                   <div
-                    className={`flex items-start justify-between ${isGridView ? "mb-2" : "mb-4"}`}
+                    className={`flex items-start justify-between ${isGridView ? "mb-3" : "mb-4"}`}
                   >
                     <div className="flex-1 pr-3">
-                      <div className="flex items-center gap-2">
+                      <div className="group/link">
                         <h3
-                          className={`line-clamp-1 font-bold text-app-text transition-colors group-hover/link:text-app-button dark:text-white dark:group-hover/link:text-app-button ${
+                          className={`line-clamp-1 font-bold text-gray-900 transition-colors group-hover/link:text-blue-600 dark:text-white dark:group-hover/link:text-blue-400 ${
                             isGridView
                               ? "text-base leading-tight"
                               : "text-xl sm:text-2xl"
@@ -912,20 +976,24 @@ const CardetailCard = () => {
                             `${car.make || "Unknown"} ${car.model || "Unknown"}`
                           )}
                         </h3>
-                        {(car.year || car.modelYear) && (
+                      </div>
+
+                      {(car.year || car.modelYear) && (
+                        <div className={`${isGridView ? "mt-1" : "mt-2"}`}>
                           <span
                             className={`inline-flex items-center rounded-lg bg-slate-100 px-2 py-0.5 font-semibold text-slate-700 dark:bg-gray-700 dark:text-gray-300 ${
                               isGridView ? "text-xs" : "text-xs"
                             }`}
                           >
-                            {car.year || car.modelYear}
+                            {car.year || car.modelYear} Model
                           </span>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
+
                     <div className="text-right">
                       <div
-                        className={`font-bold text-app-button dark:text-app-button ${
+                        className={`font-bold text-blue-600 dark:text-blue-400 ${
                           isGridView ? "text-lg" : "text-2xl sm:text-3xl"
                         }`}
                       >
@@ -936,25 +1004,34 @@ const CardetailCard = () => {
                         )}
                       </div>
                       <p
-                        className={`mt-0.5 text-slate-500 dark:text-gray-400 ${isGridView ? "text-xs" : "text-xs"}`}
+                        className={`mt-0.5 text-slate-500 dark:text-gray-400 ${
+                          isGridView ? "text-xs" : "text-xs"
+                        }`}
                       >
                         Starting price
                       </p>
                     </div>
                   </div>
-                  {/* Key Specifications */}
-                  <div className={`flex-1 ${isGridView ? "mb-2" : "mb-4"}`}>
+
+                  {/* Key Specifications - FIXED RESPONSIVE GRID */}
+                  <div className={`flex-1 ${isGridView ? "mb-3" : "mb-8"}`}>
                     <div
-                      className={`grid gap-1.5 ${isGridView ? "grid-cols-2" : "grid grid-cols-2 lg:grid-cols-3"}`}
+                      className={`grid gap-2 ${
+                        isGridView
+                          ? "grid-cols-1 xs:grid-cols-2"
+                          : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                      }`}
                     >
                       <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
                         <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/30 ${
                             isGridView ? "h-6 w-6" : "h-8 w-8"
                           }`}
                         >
                           <FaLocationCrosshairs
-                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                            className={`text-blue-600 dark:text-blue-400 ${
+                              isGridView ? "h-3 w-3" : "h-4 w-4"
+                            }`}
                           />
                         </div>
                         <div className="min-w-0 flex-1">
@@ -966,22 +1043,29 @@ const CardetailCard = () => {
                             Location
                           </p>
                           <p
-                            className={`truncate font-semibold leading-tight text-app-text dark:text-white ${
+                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
                               isGridView ? "text-xs" : "text-xs"
                             }`}
                           >
-                            {car.location || "Not specified"}
+                            {car.location
+                              ? car.location.length > 12
+                                ? `${car.location.substring(0, 12)}...`
+                                : car.location
+                              : "Not specified"}
                           </p>
                         </div>
                       </div>
+
                       <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
                         <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/30 ${
                             isGridView ? "h-6 w-6" : "h-8 w-8"
                           }`}
                         >
                           <IoSpeedometer
-                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                            className={`text-emerald-600 dark:text-emerald-400 ${
+                              isGridView ? "h-3 w-3" : "h-4 w-4"
+                            }`}
                           />
                         </div>
                         <div className="min-w-0 flex-1">
@@ -993,7 +1077,7 @@ const CardetailCard = () => {
                             Mileage
                           </p>
                           <p
-                            className={`font-semibold leading-tight text-app-text dark:text-white ${
+                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
                               isGridView ? "text-xs" : "text-xs"
                             }`}
                           >
@@ -1004,14 +1088,17 @@ const CardetailCard = () => {
                           </p>
                         </div>
                       </div>
+
                       <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
                         <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/30 ${
                             isGridView ? "h-6 w-6" : "h-8 w-8"
                           }`}
                         >
                           <GiGasPump
-                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                            className={`text-amber-600 dark:text-amber-400 ${
+                              isGridView ? "h-3 w-3" : "h-4 w-4"
+                            }`}
                           />
                         </div>
                         <div className="min-w-0 flex-1">
@@ -1023,7 +1110,7 @@ const CardetailCard = () => {
                             Fuel
                           </p>
                           <p
-                            className={`font-semibold leading-tight text-app-text dark:text-white ${
+                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
                               isGridView ? "text-xs" : "text-xs"
                             }`}
                           >
@@ -1031,14 +1118,17 @@ const CardetailCard = () => {
                           </p>
                         </div>
                       </div>
+
                       <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
                         <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/30 ${
                             isGridView ? "h-6 w-6" : "h-8 w-8"
                           }`}
                         >
                           <TbManualGearbox
-                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                            className={`text-purple-600 dark:text-purple-400 ${
+                              isGridView ? "h-3 w-3" : "h-4 w-4"
+                            }`}
                           />
                         </div>
                         <div className="min-w-0 flex-1">
@@ -1050,7 +1140,7 @@ const CardetailCard = () => {
                             Gearbox
                           </p>
                           <p
-                            className={`font-semibold leading-tight text-app-text dark:text-white ${
+                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
                               isGridView ? "text-xs" : "text-xs"
                             }`}
                           >
@@ -1058,14 +1148,17 @@ const CardetailCard = () => {
                           </p>
                         </div>
                       </div>
+
                       <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
                         <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-rose-100 dark:bg-rose-900/30 ${
                             isGridView ? "h-6 w-6" : "h-8 w-8"
                           }`}
                         >
                           <IoIosColorPalette
-                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                            className={`text-rose-600 dark:text-rose-400 ${
+                              isGridView ? "h-3 w-3" : "h-4 w-4"
+                            }`}
                           />
                         </div>
                         <div className="min-w-0 flex-1">
@@ -1077,7 +1170,7 @@ const CardetailCard = () => {
                             Color
                           </p>
                           <p
-                            className={`font-semibold leading-tight text-app-text dark:text-white ${
+                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
                               isGridView ? "text-xs" : "text-xs"
                             }`}
                           >
@@ -1085,14 +1178,17 @@ const CardetailCard = () => {
                           </p>
                         </div>
                       </div>
+
                       <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
                         <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-gray-700/50 ${
+                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900/30 ${
                             isGridView ? "h-6 w-6" : "h-8 w-8"
                           }`}
                         >
                           <GiCarSeat
-                            className={`text-app-button dark:text-app-button ${isGridView ? "h-3 w-3" : "h-4 w-4"}`}
+                            className={`text-indigo-600 dark:text-indigo-400 ${
+                              isGridView ? "h-3 w-3" : "h-4 w-4"
+                            }`}
                           />
                         </div>
                         <div className="min-w-0 flex-1">
@@ -1104,7 +1200,7 @@ const CardetailCard = () => {
                             Seats
                           </p>
                           <p
-                            className={`font-semibold leading-tight text-app-text dark:text-white ${
+                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
                               isGridView ? "text-xs" : "text-xs"
                             }`}
                           >
@@ -1120,11 +1216,12 @@ const CardetailCard = () => {
                 </div>
               </div>
             </Link>
+
             <div
               className={`absolute ${
                 isGridView
                   ? "bottom-0 left-0 right-0 p-2.5"
-                  : "sm:-bottom-5 -bottom-2 right-0 p-5 sm:p-6"
+                  : "sm:-bottom-5 -bottom-4 right-0 p-5 sm:p-6"
               }`}
             >
               <button
@@ -1150,20 +1247,21 @@ const CardetailCard = () => {
           <div className="text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Showing{" "}
-              <span className="font-semibold text-app-text dark:text-white">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 {paginationData.startIndex + 1}
               </span>{" "}
               to{" "}
-              <span className="font-semibold text-app-text dark:text-white">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 {paginationData.endIndex}
               </span>{" "}
               of{" "}
-              <span className="font-semibold text-app-text dark:text-white">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 {paginationData.totalItems}
               </span>{" "}
               results
             </p>
           </div>
+
           {/* Pagination Controls */}
           <div className="flex items-center justify-center gap-2">
             {/* Previous Button */}
@@ -1191,6 +1289,7 @@ const CardetailCard = () => {
               </svg>
               Previous
             </button>
+
             {/* Page Numbers */}
             <div className="flex items-center gap-1">
               {getVisiblePageNumbers().map((pageNum, index) => (
@@ -1215,6 +1314,7 @@ const CardetailCard = () => {
                 </div>
               ))}
             </div>
+
             {/* Next Button */}
             <button
               onClick={() => handlePageChange(currentPage + 1)}
@@ -1241,6 +1341,7 @@ const CardetailCard = () => {
               </svg>
             </button>
           </div>
+
           {/* Quick Jump */}
           {paginationData.totalPages > 10 && (
             <div className="flex items-center gap-3">
@@ -1253,7 +1354,7 @@ const CardetailCard = () => {
                 max={paginationData.totalPages}
                 value={currentPage}
                 onChange={(e) => {
-                  const page = Number.parseInt(e.target.value);
+                  const page = parseInt(e.target.value);
                   if (page >= 1 && page <= paginationData.totalPages) {
                     handlePageChange(page);
                   }
@@ -1268,6 +1369,7 @@ const CardetailCard = () => {
           )}
         </div>
       )}
+
       {/* Enquiry Modal */}
       <Modal
         dismissible
@@ -1413,5 +1515,4 @@ const CardetailCard = () => {
     </>
   );
 };
-
 export default CardetailCard;

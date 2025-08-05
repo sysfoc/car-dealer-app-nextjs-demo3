@@ -47,7 +47,7 @@ const VehicleCard = ({
         </div>
 
         {/* Tag Badge - Top Right Corner (if exists) */}
-        {vehicle.tag && vehicle.tag !== "default" && (
+        {!vehicle.sold && vehicle.tag && vehicle.tag !== "default" &&(
           <div className="absolute right-3 top-3 z-20">
             <span className="rounded-full bg-app-button px-3 py-1.5 text-xs font-semibold text-white shadow-lg">
               {vehicle.tag.toUpperCase()}
