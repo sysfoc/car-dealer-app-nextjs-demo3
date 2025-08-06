@@ -271,7 +271,6 @@
 
 // export default Header;
 
-
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
@@ -297,6 +296,7 @@ const Header = () => {
   const t = useTranslations("HomePage");
   const [darkMode, setDarkMode] = useState(false);
   const [logo, setLogo] = useState("");
+  const [logoLoading, setLogoLoading] = useState(true);
   const [topSettings, setTopSettings] = useState({
     hideDarkMode: false,
     hideFavourite: false,
@@ -305,7 +305,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
 
-  const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebar();
+  const { toggleSidebar } = useSidebar();
 
   // Optimized: Memoized quick links to prevent recreation on every render
   const quickLinks = useMemo(() => [
@@ -326,42 +326,40 @@ const Header = () => {
     document.documentElement.classList.toggle('dark', shouldBeDark);
   }, []);
 
-  // Optimized: Lazy load settings, don't block initial render
+  // Separate logo fetch with loading state
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        setLogoLoading(true);
+        const res = await fetch("/api/settings/general", { cache: "no-store" });
+        const data = await res.json();
+        setLogo(data?.settings?.logo3);
+      } catch (error) {
+        console.error("Failed to fetch logo:", error);
+      } finally {
+        setLogoLoading(false);
+      }
+    };
+    fetchLogo(); // Call immediately
+  }, []);
+
+  // Separate settings fetch
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        // Add timeout to prevent hanging
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
-        
-        const response = await fetch("/api/settings/general", { 
-          cache: "force-cache", // Use cache instead of no-store
-          signal: controller.signal 
-        });
-        
-        clearTimeout(timeoutId);
-        
+        const response = await fetch("/api/settings/general", { cache: "no-store" });
         if (response.ok) {
           const data = await response.json();
-          if (data?.settings?.logo3) {
-            setLogo(data.settings.logo3);
-          }
           setTopSettings(prev => ({
             ...prev,
             ...data.settings?.top,
           }));
         }
       } catch (error) {
-        if (error.name !== 'AbortError') {
-          console.error("Failed to fetch settings:", error);
-        }
-        // Keep defaults on error
+        console.error("Failed to fetch settings:", error);
       }
     };
-
-    // Delay to not block initial render
-    const timer = setTimeout(fetchSettings, 100);
-    return () => clearTimeout(timer);
+    fetchSettings(); // Call immediately
   }, []);
 
   // Optimized: Memoized callbacks
@@ -388,25 +386,26 @@ const Header = () => {
     router.push("/liked-cars");
   }, [router]);
 
-  // Optimized: No loading skeleton, just show fallback immediately
+  // Updated LogoComponent with loading state
   const LogoComponent = () => {
     if (!topSettings.hideLogo) {
       return (
         <Link href="/" className="flex items-center space-x-3">
-          {logo && (
+          {logoLoading ? (
+            <div className="h-12 w-14 animate-pulse rounded-xl bg-white/20"></div>
+          ) : logo ? (
             <div className="rounded-xl bg-white shadow-sm">
               <Image
                 src={logo}
                 alt="Logo"
-                width={56} // Reduced from 64
-                height={48} // Reduced from 64
+                width={56}
+                height={48}
                 className="h-12 w-14 object-contain"
-                priority={false} // Not critical for performance
-                loading="lazy"
+                priority={true}
                 onError={() => setLogo("")}
               />
             </div>
-          )}
+          ) : null}
           <div className="flex flex-col">
             <span className="bg-gradient-to-r from-white to-gray-200 bg-clip-text text-lg font-bold tracking-tight text-transparent">
               CruiseControl
@@ -430,11 +429,11 @@ const Header = () => {
             
             {/* Desktop Navigation */}
             <div className="hidden items-center space-x-6 lg:flex">
-              {quickLinks.map((link, index) => {
+              {quickLinks.map((link) => {
                 const IconComponent = link.icon;
                 return (
                   <Link
-                    key={link.href} // Use href as key for better stability
+                    key={link.href}
                     href={link.href}
                     className="group flex items-center space-x-2 rounded-lg px-3 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-app-button hover:text-white"
                   >
