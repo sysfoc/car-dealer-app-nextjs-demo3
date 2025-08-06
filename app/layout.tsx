@@ -46,8 +46,7 @@ const getHomepageSettings = async () => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ? `${process.env.NEXT_PUBLIC_BASE_URL}` : "http://localhost:3000"
     const res = await fetch(`${baseUrl}/api/homepage`, {
-      cache: "no-store",
-      next: { revalidate: 0 },
+      next: { revalidate: 3600 },
     })
     if (!res.ok) {
       console.error(`Failed to fetch homepage settings: ${res.status}`)
