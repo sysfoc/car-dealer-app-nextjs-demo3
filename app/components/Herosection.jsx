@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 
-const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+const CACHE_DURATION = 5 * 60 * 1000; // 1 hour
 const HOMEPAGE_CACHE_KEY = 'homepage_data';
 const FALLBACK_HEADING = "Website for Automotive Dealers Built to Sell Cars";
 

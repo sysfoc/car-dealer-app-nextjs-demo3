@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Avatar,
   Button,
@@ -12,29 +12,124 @@ import Image from "next/image";
 import { FiLogOut } from "react-icons/fi";
 import { useAuth } from "../context/UserContext";
 
-const Header = ({ isDarkMode }) => {
+const CACHE_DURATION = 5 * 60 * 1000;
+const CACHE_KEY = 'header_settings';
+
+const CacheManager = {
+  get: (key) => {
+    try {
+      if (typeof window === 'undefined') return null;
+      
+      const cached = localStorage.getItem(key);
+      if (!cached) return null;
+      
+      const { data, timestamp } = JSON.parse(cached);
+      const now = Date.now();
+      
+      if (now - timestamp > CACHE_DURATION) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      
+      return data;
+    } catch (error) {
+      console.warn('Cache retrieval failed:', error);
+      return null;
+    }
+  },
+
+  set: (key, data) => {
+    try {
+      if (typeof window === 'undefined') return;
+      
+      const cacheData = {
+        data,
+        timestamp: Date.now()
+      };
+      
+      localStorage.setItem(key, JSON.stringify(cacheData));
+    } catch (error) {
+      console.warn('Cache storage failed:', error);
+    }
+  }
+};
+
+const Header = () => {
   const { user } = useAuth();
   const [logo, setLogo] = useState("");
   const [loading, setLoading] = useState(true);
+  const mountedRef = useRef(true);
+
+  const fetchSettings = useCallback(async () => {
+    if (!mountedRef.current) return;
+
+    try {
+      setLoading(true);
+      
+      // Check cache first
+      const cachedData = CacheManager.get(CACHE_KEY);
+      if (cachedData) {
+        setLogo(cachedData?.settings?.logo3 || "");
+        setLoading(false);
+        return;
+      }
+
+      // Simple fetch without axios overhead
+      const response = await fetch("/api/settings/general", {
+        next: { revalidate: 600 },
+      });
+
+      if (!response.ok) {
+        throw new Error('Settings fetch failed');
+      }
+
+      const data = await response.json();
+
+      if (!mountedRef.current) return;
+
+      // Cache the response
+      CacheManager.set(CACHE_KEY, data);
+
+      setLogo(data?.settings?.logo3 || "");
+      
+    } catch (error) {
+      console.error("Failed to fetch settings:", error);
+      
+      // Try to use stale cache as fallback
+      const staleCache = localStorage.getItem(CACHE_KEY);
+      if (staleCache) {
+        try {
+          const { data } = JSON.parse(staleCache);
+          if (data?.settings) {
+            setLogo(data.settings.logo3 || "");
+          }
+        } catch (parseError) {
+          console.warn('Failed to parse stale cache data:', parseError);
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchLogo = async () => {
-      try {
-        const response = await fetch("/api/settings/general");
-        const data = await response.json();
-        if (data.settings) {
-          const { logo3 } = data.settings; 
-          const logoToDisplay = logo3;
-          setLogo(logoToDisplay);
-        }
-      } catch (error) {
-        console.error("Failed to fetch logo:", error);
-      } finally {
-        setLoading(false);
+    mountedRef.current = true;
+    
+    // Use requestIdleCallback for non-critical settings
+    const scheduleTask = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+    const taskId = scheduleTask(() => {
+      fetchSettings();
+    }, { timeout: 3000 });
+    
+    return () => {
+      mountedRef.current = false;
+      if (window.cancelIdleCallback) {
+        window.cancelIdleCallback(taskId);
+      } else {
+        clearTimeout(taskId);
       }
     };
-    fetchLogo();
-  }, []);
+  }, [fetchSettings]);
 
   return (
     <Navbar
