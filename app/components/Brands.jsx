@@ -62,20 +62,19 @@ export default function BrandsPage() {
     setCurrentPage(1)
   }, [searchTerm]) // Removed selectedCategory as it's no longer used
 
-  if (loading) {
+    if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-950 flex items-center justify-center">
-        <div className="flex items-center space-x-4 rounded-2xl border border-slate-200 bg-white px-8 py-6 shadow-2xl dark:border-gray-700 dark:bg-gray-800">
-          <Spinner aria-label="Loading brands" size="lg" className="text-blue-600" />
-          <div>
-            <span className="text-lg font-semibold text-gray-800 dark:text-gray-200">Loading brands...</span>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              Please wait while we fetch the automotive brands.
-            </p>
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-6">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex h-32 sm:h-64 items-center justify-center">
+            <div className="h-8 w-8 sm:h-12 sm:w-12 animate-spin rounded-full border-b-2 border-indigo-600 dark:border-app-button"></div>
+            <span className="ml-3 text-sm sm:text-base font-medium text-app-text dark:text-gray-100">
+              Loading brands...
+            </span>
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (

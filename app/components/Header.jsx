@@ -60,7 +60,6 @@ const CacheManager = {
   }
 };
 
-// Static fallback data to prevent loading states
 const DEFAULT_SETTINGS = {
   hideDarkMode: false,
   hideFavourite: false,
@@ -92,14 +91,12 @@ const Header = () => {
   ], [quickLinks]);
 
   useEffect(() => {
-    // Check localStorage first for faster initialization
     const savedTheme = localStorage.getItem('theme');
     const isDark = savedTheme === 'dark' || 
       (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
     
     setDarkMode(isDark);
     
-    // Apply immediately to prevent flash
     if (isDark) {
       document.documentElement.classList.add("dark");
     } else {
@@ -107,14 +104,11 @@ const Header = () => {
     }
   }, []);
 
-  // Simplified settings fetch
   const fetchSettings = useCallback(async () => {
     if (!mountedRef.current) return;
 
     try {
       setIsLoading(true);
-      
-      // Check cache first
       const cachedData = CacheManager.get(CACHE_KEY);
       if (cachedData) {
         setLogo(cachedData?.settings?.logo3 || "");
@@ -127,7 +121,6 @@ const Header = () => {
         return;
       }
 
-      // Simple fetch without axios overhead
       const response = await fetch("/api/settings/general", {
         next: { revalidate: 600 },
       });
@@ -140,7 +133,6 @@ const Header = () => {
 
       if (!mountedRef.current) return;
 
-      // Cache the response
       CacheManager.set(CACHE_KEY, data);
 
       const updates = {
