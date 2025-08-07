@@ -55,8 +55,11 @@ const AboutPage = async () => {
           }}
         />
         <div className="mt-8 border-t pt-4">
-          <p className="text-center text-sm text-gray-500 dark:text-white">© 2025 sysfoc. All rights reserved.</p>
-        </div>
+          <p className="text-center text-sm text-gray-500 dark:text-white">
+            &copy; {new Date().getFullYear()} AutomotiveWebSolutions by Sysfoc. All Rights
+            Reserved.
+          </p>
+          </div>
       </div>
     </div>
   )
