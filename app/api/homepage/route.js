@@ -4,23 +4,11 @@ import connectDB from "../../lib/mongodb";
 
 export async function GET() {
   try {
-    console.log("Starting GET /api/homepage");
-    
     await connectDB();
-    console.log("Database connected");
     const count = await Homepage.countDocuments();
-    console.log(`Total documents in Homepage collection: ${count}`);
-    
     const homepage = await Homepage.findOne();
-    console.log("Found homepage data:", !!homepage);
-    console.log("Homepage data preview:", homepage ? {
-      hasSearchSection: !!homepage.searchSection,
-      mainHeading: homepage.searchSection?.mainHeading,
-      keys: Object.keys(homepage.toObject ? homepage.toObject() : homepage)
-    } : "No data found");
     
     if (!homepage) {
-      console.log("No homepage document found in database");
       return Response.json({ 
         error: "No homepage data found",
         debug: { count, collectionExists: count >= 0 }
@@ -30,7 +18,6 @@ export async function GET() {
     return Response.json(homepage);
     
   } catch (error) {
-    console.error("GET /api/homepage error:", error);
     console.error("Error details:", {
       message: error.message,
       stack: error.stack,
@@ -177,7 +164,6 @@ export async function POST(request) {
     });
 
   } catch (error) {
-    console.error("POST /api/homepage error:", error);
     console.error("Error details:", {
       message: error.message,
       stack: error.stack,

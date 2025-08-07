@@ -27,9 +27,6 @@ import {
 // Simple Icons (react-icons/si)
 import { SiGiphy } from "react-icons/si"
 
-// Define all available social media platforms with their icon component,
-// a unique string name (matching the component name), a display name,
-// and styling properties.
 export const allSocialPlatforms = [
   {
     icon: FaFacebookSquare,
