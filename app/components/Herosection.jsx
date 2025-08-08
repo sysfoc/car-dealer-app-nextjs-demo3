@@ -211,20 +211,7 @@ const HeroSection = () => {
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
           {carImages.map((imageObj, index) => (
-            <div key={imageObj.src} className="relative h-full w-full flex-shrink-0">
-              {/* Loading placeholder */}
-              {!imagesLoaded.has(index) && !imageErrors.has(index) && (
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="flex space-x-2">
-                      <div className="h-3 w-3 bg-red-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                      <div className="h-3 w-3 bg-red-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                      <div className="h-3 w-3 bg-red-500 rounded-full animate-bounce"></div>
-                    </div>
-                  </div>
-                </div>
-              )}
-              
+            <div key={imageObj.src} className="relative h-full w-full flex-shrink-0"> 
               {/* Error placeholder */}
               {imageErrors.has(index) && (
                 <div className="absolute inset-0 bg-gradient-to-br from-gray-800 via-gray-600 to-gray-800 flex items-center justify-center">
