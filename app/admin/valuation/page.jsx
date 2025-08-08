@@ -716,7 +716,7 @@ const AdminValuationPage = () => {
                 {replyMessage}
               </div>
             )}
-            <div className="flex flex-col sm:flex-row justify-end gap-3">
+            <div className="flex flex-col sm:flex-row justify-end gap-3 pb-10">
               <button
                 onClick={() => setShowReplyModal(false)}
                 className="w-full sm:w-auto rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
