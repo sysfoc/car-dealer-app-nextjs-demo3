@@ -581,10 +581,10 @@ const AdminEnquiriesPage = () => {
           <User className="h-6 w-6 text-white" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-app-text">
+          <div className="text-2xl font-bold text-app-text">
             Reply to {selectedEnquiry?.firstName}{" "}
             {selectedEnquiry?.lastName}
-          </h3>
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             {selectedEnquiry?.email}
           </p>
@@ -676,7 +676,7 @@ const AdminEnquiriesPage = () => {
     className="backdrop-blur-sm"
   >
     <ModalHeader className="border-b border-gray-200 pb-4">
-      <h3 className="text-xl font-bold text-app-text">Delete Enquiry</h3>
+      <div className="text-xl font-bold text-app-text">Delete Enquiry</div>
     </ModalHeader>
     <ModalBody className="p-6">
       <div className="space-y-4">
