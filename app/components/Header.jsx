@@ -13,51 +13,52 @@ import {
   FaSun,
   FaMoon,
   FaTags,
+  FaUser
 } from "react-icons/fa";
 import CarSearchSidebar from "../components/Car-search-sidebar";
 import { useSidebar } from "../context/SidebarContext";
 import Image from "next/image";
 
 const CACHE_DURATION = 5 * 60 * 1000;
-const CACHE_KEY = 'header_settings';
+const CACHE_KEY = "header_settings";
 
 const CacheManager = {
   get: (key) => {
     try {
-      if (typeof window === 'undefined') return null;
-      
+      if (typeof window === "undefined") return null;
+
       const cached = localStorage.getItem(key);
       if (!cached) return null;
-      
+
       const { data, timestamp } = JSON.parse(cached);
       const now = Date.now();
-      
+
       if (now - timestamp > CACHE_DURATION) {
         localStorage.removeItem(key);
         return null;
       }
-      
+
       return data;
     } catch (error) {
-      console.warn('Cache retrieval failed:', error);
+      console.warn("Cache retrieval failed:", error);
       return null;
     }
   },
 
   set: (key, data) => {
     try {
-      if (typeof window === 'undefined') return;
-      
+      if (typeof window === "undefined") return;
+
       const cacheData = {
         data,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
-      
+
       localStorage.setItem(key, JSON.stringify(cacheData));
     } catch (error) {
-      console.warn('Cache storage failed:', error);
+      console.warn("Cache storage failed:", error);
     }
-  }
+  },
 };
 
 const DEFAULT_SETTINGS = {
@@ -79,24 +80,35 @@ const Header = () => {
 
   const { toggleSidebar } = useSidebar();
 
-  const quickLinks = useMemo(() => [
-    { name: "Find Cars", href: "/car-for-sale", icon: FaCar },
-    { name: "Car valuation", href: "/cars/valuation", icon: FaCalculator },
-    { name: "Lease deals", href: "/cars/leasing", icon: FaTags },
-    { name: "Vehicle Services", href: "/cars/about-us", icon: FaHandshake },
-  ], []);
+    const navigateToLogin = useCallback(() => {
+    router.push("/login");
+  }, [router]);
 
-  const mobileMenuLinks = useMemo(() => [
+  const quickLinks = useMemo(
+    () => [
+      { name: "Find Cars", href: "/car-for-sale", icon: FaCar },
+      { name: "Car valuation", href: "/cars/valuation", icon: FaCalculator },
+      { name: "Lease deals", href: "/cars/leasing", icon: FaTags },
+      { name: "Vehicle Services", href: "/cars/about-us", icon: FaHandshake },
+    ],
+    [],
+  );
+
+    const mobileMenuLinks = useMemo(() => [
     ...quickLinks,
+    { name: "Login", href: "/login", icon: FaUser },
   ], [quickLinks]);
 
+
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    const isDark = savedTheme === 'dark' || 
-      (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    
+    const savedTheme = localStorage.getItem("theme");
+    const isDark =
+      savedTheme === "dark" ||
+      (!savedTheme &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+
     setDarkMode(isDark);
-    
+
     if (isDark) {
       document.documentElement.classList.add("dark");
     } else {
@@ -126,7 +138,7 @@ const Header = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Settings fetch failed');
+        throw new Error("Settings fetch failed");
       }
 
       const data = await response.json();
@@ -140,16 +152,15 @@ const Header = () => {
         settings: {
           ...DEFAULT_SETTINGS,
           ...data?.settings?.top,
-        }
+        },
       };
 
       setLogo(updates.logo);
       setTopSettings(updates.settings);
       setIsSettingsLoaded(true);
-      
     } catch (error) {
       console.error("Failed to fetch settings:", error);
-      
+
       // Try to use stale cache as fallback
       const staleCache = localStorage.getItem(CACHE_KEY);
       if (staleCache) {
@@ -163,10 +174,10 @@ const Header = () => {
             });
           }
         } catch (parseError) {
-          console.warn('Failed to parse stale cache data:', parseError);
+          console.warn("Failed to parse stale cache data:", parseError);
         }
       }
-      
+
       setIsSettingsLoaded(true);
     } finally {
       setIsLoading(false);
@@ -175,13 +186,17 @@ const Header = () => {
 
   useEffect(() => {
     mountedRef.current = true;
-    
+
     // Use requestIdleCallback for non-critical settings
-    const scheduleTask = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
-    const taskId = scheduleTask(() => {
-      fetchSettings();
-    }, { timeout: 3000 });
-    
+    const scheduleTask =
+      window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+    const taskId = scheduleTask(
+      () => {
+        fetchSettings();
+      },
+      { timeout: 3000 },
+    );
+
     return () => {
       mountedRef.current = false;
       if (window.cancelIdleCallback) {
@@ -196,10 +211,10 @@ const Header = () => {
   const toggleDarkMode = useCallback(() => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
-    
+
     // Persist preference
-    localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
-    
+    localStorage.setItem("theme", newDarkMode ? "dark" : "light");
+
     // Apply immediately
     if (newDarkMode) {
       document.documentElement.classList.add("dark");
@@ -213,7 +228,7 @@ const Header = () => {
   }, [toggleSidebar]);
 
   const handleMobileMenuToggle = useCallback(() => {
-    setIsMobileMenuOpen(prev => !prev);
+    setIsMobileMenuOpen((prev) => !prev);
   }, []);
 
   const closeMobileMenu = useCallback(() => {
@@ -230,15 +245,21 @@ const Header = () => {
   }, []);
 
   // Optimized skeleton without animations to prevent CLS
-  const LogoSkeleton = useMemo(() => (
-    <div className="flex items-center space-x-3" style={{ height: '48px', width: '200px' }}>
-      <div className="h-12 w-12 rounded-lg bg-white/20"></div>
-      <div className="flex flex-col space-y-1">
-        <div className="h-4 w-20 rounded bg-white/20"></div>
-        <div className="h-3 w-24 rounded bg-white/10"></div>
+  const LogoSkeleton = useMemo(
+    () => (
+      <div
+        className="flex items-center space-x-3"
+        style={{ height: "48px", width: "200px" }}
+      >
+        <div className="h-12 w-12 rounded-lg bg-white/20"></div>
+        <div className="flex flex-col space-y-1">
+          <div className="h-4 w-20 rounded bg-white/20"></div>
+          <div className="h-3 w-24 rounded bg-white/10"></div>
+        </div>
       </div>
-    </div>
-  ), []);
+    ),
+    [],
+  );
 
   // Simplified logo component with fixed dimensions
   const LogoComponent = useMemo(() => {
@@ -247,7 +268,7 @@ const Header = () => {
     if (!isSettingsLoaded) return LogoSkeleton;
 
     const logoContent = (
-      <div className="flex ml-1 items-center space-x-3">
+      <div className="ml-1 flex items-center space-x-3">
         <div className="flex flex-col">
           <span className="text-lg font-bold tracking-tight text-white">
             CruiseControl
@@ -261,10 +282,15 @@ const Header = () => {
 
     return (
       <Link href="/" className="flex items-center space-x-3">
-        <div style={{ minHeight: '48px', display: 'flex', alignItems: 'center' }}>
+        <div
+          style={{ minHeight: "48px", display: "flex", alignItems: "center" }}
+        >
           {logo && !logoError ? (
             <>
-              <div style={{ width: '48px', height: '48px', position: 'relative' }} className="rounded-xl bg-white p-1 backdrop-blur-sm">
+              <div
+                style={{ width: "48px", height: "48px", position: "relative" }}
+                className="rounded-xl bg-white p-1 backdrop-blur-sm"
+              >
                 <Image
                   src={logo}
                   alt="Logo"
@@ -283,85 +309,116 @@ const Header = () => {
         </div>
       </Link>
     );
-  }, [topSettings.hideLogo, isSettingsLoaded, logo, logoError, LogoSkeleton, handleLogoError]);
+  }, [
+    topSettings.hideLogo,
+    isSettingsLoaded,
+    logo,
+    logoError,
+    LogoSkeleton,
+    handleLogoError,
+  ]);
 
   // Simplified navigation items
-  const DesktopNavigation = useMemo(() => (
-    <div className="hidden items-center space-x-6 lg:flex">
-      {quickLinks.map((link, index) => {
-        const IconComponent = link.icon;
-        return (
-          <Link
-            key={index}
-            href={link.href}
-            className="group flex items-center space-x-2 rounded-lg px-3 py-2 text-sm font-medium text-white hover:bg-white/10 hover:text-white"
-          >
-            <IconComponent className="h-4 w-4" />
-            <span>{link.name}</span>
-          </Link>
-        );
-      })}
-    </div>
-  ), [quickLinks]);
+  const DesktopNavigation = useMemo(
+    () => (
+      <div className="hidden items-center space-x-6 lg:flex">
+        {quickLinks.map((link, index) => {
+          const IconComponent = link.icon;
+          return (
+            <Link
+              key={index}
+              href={link.href}
+              className="group flex items-center space-x-2 rounded-lg px-3 py-2 text-sm font-medium text-white hover:bg-white/10 hover:text-white"
+            >
+              <IconComponent className="h-4 w-4" />
+              <span>{link.name}</span>
+            </Link>
+          );
+        })}
+      </div>
+    ),
+    [quickLinks],
+  );
 
   // Simplified action buttons
-  const ActionButtons = useMemo(() => (
-    <div className="flex items-center space-x-3">
-      <button
-        onClick={handleMobileMenuToggle}
-        aria-label="Open Menu"
-        className={`rounded-xl bg-white/10 p-3 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 lg:hidden ${isLoading ? 'opacity-75' : 'opacity-100'}`}
-      >
-        <svg
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-      </button>
-
-      <button
-        onClick={toggleSearchSidebar}
-        aria-label="Open Search"
-        className="hidden rounded-xl bg-white/10 p-3 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 lg:block"
-      >
-        <FaSearch className="h-5 w-5" />
-      </button>
-
-      {!topSettings.hideFavourite && (
-        <button
-          onClick={navigateToLikedCars}
-          aria-label="Liked Cars"
-          className={`hidden rounded-xl bg-white/10 p-3 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 md:flex ${isLoading ? 'opacity-75' : 'opacity-100'}`}
-        >
-          <FaHeart className="h-5 w-5" />
-        </button>
-      )}
-
+  const ActionButtons = useMemo(
+    () => (
       <div className="flex items-center space-x-3">
-        {!topSettings.hideDarkMode && (
-          <button
-            onClick={toggleDarkMode}
-            className={`rounded-xl bg-white/10 p-3 text-white backdrop-blur-sm hover:bg-white/20 ${isLoading ? 'opacity-75' : 'opacity-100'}`}
-            aria-label="Toggle dark mode"
+        <button
+          onClick={navigateToLogin}
+          aria-label="Login"
+          className={`hidden items-center space-x-2 rounded-xl bg-white/10 px-4 py-3 text-white transition-all duration-300 hover:scale-105 hover:bg-white/20 focus:outline-none focus:ring-0 lg:flex ${isLoading ? "opacity-75" : "opacity-100"}`}
+        >
+          <FaUser className="h-5 w-5" />
+          <span className="text-sm font-medium">Login</span>
+        </button>
+
+        <button
+          onClick={handleMobileMenuToggle}
+          aria-label="Open Menu"
+          className={`rounded-xl bg-white/10 p-3 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 lg:hidden ${isLoading ? "opacity-75" : "opacity-100"}`}
+        >
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            {darkMode ? (
-              <FaSun className="h-5 w-5" />
-            ) : (
-              <FaMoon className="h-5 w-5" />
-            )}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+
+        <button
+          onClick={toggleSearchSidebar}
+          aria-label="Open Search"
+          className="hidden rounded-xl bg-white/10 p-3 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 lg:block"
+        >
+          <FaSearch className="h-5 w-5" />
+        </button>
+
+        {!topSettings.hideFavourite && (
+          <button
+            onClick={navigateToLikedCars}
+            aria-label="Liked Cars"
+            className={`hidden rounded-xl bg-white/10 p-3 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 md:flex ${isLoading ? "opacity-75" : "opacity-100"}`}
+          >
+            <FaHeart className="h-5 w-5" />
           </button>
         )}
+
+        <div className="flex items-center space-x-3">
+          {!topSettings.hideDarkMode && (
+            <button
+              onClick={toggleDarkMode}
+              className={`rounded-xl bg-white/10 p-3 text-white backdrop-blur-sm hover:bg-white/20 ${isLoading ? "opacity-75" : "opacity-100"}`}
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? (
+                <FaSun className="h-5 w-5" />
+              ) : (
+                <FaMoon className="h-5 w-5" />
+              )}
+            </button>
+          )}
+        </div>
       </div>
-    </div>
-  ), [handleMobileMenuToggle, toggleSearchSidebar, navigateToLikedCars, topSettings.hideFavourite, topSettings.hideDarkMode, toggleDarkMode, darkMode, isLoading]);
+    ),
+    [
+      handleMobileMenuToggle,
+      toggleSearchSidebar,
+      navigateToLikedCars,
+      topSettings.hideFavourite,
+      topSettings.hideDarkMode,
+      toggleDarkMode,
+      darkMode,
+      isLoading,
+    ],
+  );
 
   return (
     <>
@@ -369,7 +426,7 @@ const Header = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4">
           <div className="flex h-16 items-center justify-between">
             {LogoComponent}
-            {DesktopNavigation} 
+            {DesktopNavigation}
             {ActionButtons}
           </div>
         </div>
@@ -380,17 +437,19 @@ const Header = () => {
         <div
           className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
           onClick={closeMobileMenu}
-          style={{ transform: 'translate3d(0, 0, 0)' }}
+          style={{ transform: "translate3d(0, 0, 0)" }}
         />
       )}
 
       {/* Mobile Menu */}
       <div
-        className={`fixed left-0 top-0 z-[60] h-full w-full max-w-xs transform overflow-y-auto bg-white shadow-2xl dark:bg-gray-900 scrollbar-hide lg:hidden`}
-        style={{ 
-          transform: isMobileMenuOpen ? 'translate3d(0, 0, 0)' : 'translate3d(-100%, 0, 0)',
-          transition: 'transform 0.2s ease-out',
-          willChange: 'transform'
+        className={`scrollbar-hide fixed left-0 top-0 z-[60] h-full w-full max-w-xs transform overflow-y-auto bg-white shadow-2xl dark:bg-gray-900 lg:hidden`}
+        style={{
+          transform: isMobileMenuOpen
+            ? "translate3d(0, 0, 0)"
+            : "translate3d(-100%, 0, 0)",
+          transition: "transform 0.2s ease-out",
+          willChange: "transform",
         }}
       >
         <div className="flex h-full flex-col">
