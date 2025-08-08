@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Banner from "./Banner"
 import {
   FaHeart,
   FaSearch,
@@ -423,6 +424,7 @@ const Header = () => {
   return (
     <>
       <nav className="fixed left-0 right-0 top-0 z-50 bg-app-text shadow-sm backdrop-blur-lg">
+        <Banner/>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4">
           <div className="flex h-16 items-center justify-between">
             {LogoComponent}

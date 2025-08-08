@@ -266,7 +266,7 @@ const HeroSection = () => {
 
       {/* Centered Content Overlay */}
       <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-6xl space-y-8 text-center">
+        <div className="w-full max-w-6xl space-y-8 text-center mt-32">
           {/* Badge */}
           <div className="inline-flex items-center space-x-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-md sm:px-6 sm:py-3 sm:text-base">
             <div className="h-2 w-2 animate-pulse rounded-full bg-[#DC3C22]" />

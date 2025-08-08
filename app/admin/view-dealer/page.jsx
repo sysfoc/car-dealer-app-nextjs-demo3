@@ -1,6 +1,6 @@
-"use client"
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   FaEdit,
   FaTrash,
@@ -15,74 +15,111 @@ import {
   FaUsers,
   FaEye,
   FaExclamationTriangle,
-} from "react-icons/fa"
+} from "react-icons/fa";
 
 export default function ViewDealers() {
-  const [dealers, setDealers] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [editingDealer, setEditingDealer] = useState(null)
-  const [editFormData, setEditFormData] = useState({})
-  const [errors, setErrors] = useState({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [deleteConfirm, setDeleteConfirm] = useState(null)
-  const router = useRouter()
-  const [userRole, setUserRole] = useState("")
+  const [dealers, setDealers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editingDealer, setEditingDealer] = useState(null);
+  const [editFormData, setEditFormData] = useState({});
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const router = useRouter();
+  const [userRole, setUserRole] = useState("");
 
   // Fetch user role for access control
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const res = await fetch("/api/users/me")
-        const data = await res.json()
+        const res = await fetch("/api/users/me");
+        const data = await res.json();
         if (data.user.role !== "superadmin") {
-          router.replace("/admin/dashboard")
+          router.replace("/admin/dashboard");
         } else {
-          setUserRole(data.user.role)
+          setUserRole(data.user.role);
         }
       } catch (error) {
-        console.error("Failed to fetch user role:", error)
-        router.replace("/login")
+        console.error("Failed to fetch user role:", error);
+        router.replace("/login");
       }
-    }
-    fetchUserRole()
-  }, [router])
+    };
+    fetchUserRole();
+  }, [router]);
 
   // Fetch dealers
   useEffect(() => {
     if (userRole) {
-      fetchDealers()
+      fetchDealers();
     }
-  }, [userRole])
+  }, [userRole]);
 
   const fetchDealers = async () => {
     try {
-      const response = await fetch("/api/dealor")
-      const data = await response.json()
-      setDealers(data)
+      const response = await fetch("/api/dealor");
+      const data = await response.json();
+      setDealers(data);
     } catch (error) {
-      console.error("Error fetching dealers:", error)
+      console.error("Error fetching dealers:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  // Validate Google Maps URL
+  const convertEmbedToRegularUrl = (embedUrl) => {
+    if (!embedUrl) return null;
+
+    try {
+      // If it's already a regular maps URL, return as-is
+      if (
+        embedUrl.includes("/maps/place/") ||
+        embedUrl.includes("/maps/dir/") ||
+        embedUrl.includes("/maps/@")
+      ) {
+        return embedUrl;
+      }
+
+      // If it's an embed URL, convert it
+      if (embedUrl.includes("/maps/embed")) {
+        // Extract the pb parameter which contains the location data
+        const pbMatch = embedUrl.match(/pb=([^&]+)/);
+        if (pbMatch) {
+          // Create a regular Google Maps URL with the same location data
+          return `https://www.google.com/maps?pb=${pbMatch[1]}`;
+        }
+
+        // Fallback: try to extract coordinates if pb parameter fails
+        const coordMatch = embedUrl.match(/!2d(-?\d+\.?\d*)!3d(-?\d+\.?\d*)/);
+        if (coordMatch) {
+          const lng = coordMatch[1];
+          const lat = coordMatch[2];
+          return `https://www.google.com/maps/@${lat},${lng},15z`;
+        }
+      }
+
+      return embedUrl; // Return original if no conversion possible
+    } catch (error) {
+      console.error("Error converting embed URL:", error);
+      return embedUrl;
+    }
+  };
+
   const isValidGoogleMapsUrl = (url) => {
-    if (!url || url.trim() === "") return true // Optional field
-
+    if (!url || url.trim() === "") return true;
     const googleMapsPatterns = [
       /^https:\/\/maps\.google\.com\//,
       /^https:\/\/www\.google\.com\/maps\//,
       /^https:\/\/goo\.gl\/maps\//,
       /^https:\/\/maps\.app\.goo\.gl\//,
       /^https:\/\/google\.com\/maps\//,
-    ]
+      /^https:\/\/www\.google\.com\/maps\/embed/,
+    ];
 
-    return googleMapsPatterns.some((pattern) => pattern.test(url.trim()))
-  }
+    return googleMapsPatterns.some((pattern) => pattern.test(url.trim()));
+  };
 
   const handleEdit = (dealer) => {
-    setEditingDealer(dealer)
+    setEditingDealer(dealer);
     setEditFormData({
       name: dealer.name,
       address: dealer.address,
@@ -90,65 +127,65 @@ export default function ViewDealers() {
       licence: dealer.licence,
       abn: dealer.abn,
       map: dealer.map || "",
-    })
-    setErrors({})
-  }
+    });
+    setErrors({});
+  };
 
   const handleCancelEdit = () => {
-    setEditingDealer(null)
-    setEditFormData({})
-    setErrors({})
-  }
+    setEditingDealer(null);
+    setEditFormData({});
+    setErrors({});
+  };
 
   const handleEditChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setEditFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
+    }));
 
     // Clear map error when user starts typing
     if (name === "map" && errors.map) {
       setErrors((prev) => ({
         ...prev,
         map: "",
-      }))
+      }));
     }
-  }
+  };
 
   const validateEditForm = () => {
-    const newErrors = {}
+    const newErrors = {};
 
     if (!editFormData.name?.trim()) {
-      newErrors.name = "Dealer name is required"
+      newErrors.name = "Dealer name is required";
     }
     if (!editFormData.address?.trim()) {
-      newErrors.address = "Address is required"
+      newErrors.address = "Address is required";
     }
     if (!editFormData.contact?.trim()) {
-      newErrors.contact = "Contact number is required"
+      newErrors.contact = "Contact number is required";
     }
     if (!editFormData.licence?.trim()) {
-      newErrors.licence = "Licence number is required"
+      newErrors.licence = "Licence number is required";
     }
     if (!editFormData.abn?.trim()) {
-      newErrors.abn = "ABN is required"
+      newErrors.abn = "ABN is required";
     }
 
     // Validate Google Maps URL
     if (editFormData.map && editFormData.map.trim() !== "") {
       if (!isValidGoogleMapsUrl(editFormData.map)) {
-        newErrors.map = "Please enter a valid Google Maps URL"
+        newErrors.map = "Please enter a valid Google Maps URL";
       }
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSaveEdit = async () => {
-    if (!validateEditForm() || isSubmitting) return
-    setIsSubmitting(true)
+    if (!validateEditForm() || isSubmitting) return;
+    setIsSubmitting(true);
     try {
       const response = await fetch(`/api/dealor/${editingDealer._id}`, {
         method: "PUT",
@@ -156,38 +193,38 @@ export default function ViewDealers() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(editFormData),
-      })
+      });
       if (response.ok) {
-        await fetchDealers()
-        setEditingDealer(null)
-        setEditFormData({})
-        setErrors({})
+        await fetchDealers();
+        setEditingDealer(null);
+        setEditFormData({});
+        setErrors({});
       } else {
-        const data = await response.json()
-        setErrors({ general: data.error || "Failed to update dealer" })
+        const data = await response.json();
+        setErrors({ general: data.error || "Failed to update dealer" });
       }
     } catch (error) {
-      setErrors({ general: "Failed to connect to server" })
+      setErrors({ general: "Failed to connect to server" });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const handleDelete = async (dealerId) => {
     try {
       const response = await fetch(`/api/dealor/${dealerId}`, {
         method: "DELETE",
-      })
+      });
       if (response.ok) {
-        await fetchDealers()
-        setDeleteConfirm(null)
+        await fetchDealers();
+        setDeleteConfirm(null);
       } else {
-        console.error("Failed to delete dealer")
+        console.error("Failed to delete dealer");
       }
     } catch (error) {
-      console.error("Error deleting dealer:", error)
+      console.error("Error deleting dealer:", error);
     }
-  }
+  };
 
   if (!userRole || loading) {
     return (
