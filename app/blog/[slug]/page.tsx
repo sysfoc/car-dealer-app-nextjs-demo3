@@ -63,7 +63,7 @@ const Page = async ({ params }: { params: ParamsType }) => {
   if (!blog) return null;
 
   return (
-    <section className="mx-4 my-14 sm:mx-16">
+    <section className="mx-4 my-14 mt-32 sm:mx-16">
       <div className="grid grid-cols-1 items-center gap-x-10 gap-y-5 py-5 md:grid-cols-2">
         <div className="overflow-hidden rounded-lg">
           <Image

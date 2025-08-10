@@ -43,7 +43,7 @@ const AboutPage = async () => {
   const data = await getAboutContent(baseUrl)
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 mt-10 md:mt-12 dark:bg-gray-800">
+    <div className="min-h-screen bg-gray-50 py-10 mt-28 md:mt-32 dark:bg-gray-800">
       <div className="mx-auto max-w-4xl rounded-lg bg-white p-8 shadow-md dark:bg-gray-700">
         <h1 className="mb-6 text-center text-3xl font-bold text-gray-800 dark:text-white">
           {data?.name || "About Us"}

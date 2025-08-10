@@ -78,7 +78,7 @@ const ContactUs = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-10 mt-10 md:mt-12 dark:bg-gray-800 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 py-10 mt-28 md:mt-32 dark:bg-gray-800 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-300">Loading contact information...</p>
@@ -88,7 +88,7 @@ const ContactUs = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 mt-10 md:mt-12 dark:bg-gray-800">
+    <div className="min-h-screen bg-gray-50 py-10 mt-28 md:mt-32 dark:bg-gray-800">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <h1 className="mb-10 text-center text-4xl font-bold text-gray-800 dark:text-white">{contactInfo.heading}</h1>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
