@@ -200,7 +200,7 @@ export default function Home() {
 
   if (!slug) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="flex min-h-[50vh] mt-24 items-center justify-center">
         <div className="text-center">
           <h2 className="mb-2 text-2xl font-semibold text-app-text dark:text-gray-200">
             Sorry! No Car Found
@@ -215,7 +215,7 @@ export default function Home() {
 
   if (error) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="flex min-h-[50vh] mt-24 items-center justify-center">
         <div className="text-center">
           <h2 className="mb-2 text-2xl font-semibold text-red-600 dark:text-red-400">
             An Error Occurred While Searching
@@ -231,7 +231,7 @@ export default function Home() {
   if (!car && !loading) {
     // Added !loading to ensure it's not just loading
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="flex min-h-[50vh] mt-24 items-center justify-center">
         <div className="text-center">
           <h2 className="mb-2 text-2xl font-semibold text-app-text dark:text-gray-200">
             No Car Found
