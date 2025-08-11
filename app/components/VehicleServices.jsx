@@ -171,7 +171,7 @@ export default function SellMyCar() {
                 <span className="text-sm font-medium text-gray-200">Trusted automotive services</span>
               </div>
               <div className="space-y-6">
-                <h1 className="text-5xl font-bold leading-tight text-white lg:text-6xl">
+                <h1 className="sm:text-5xl text-3xl font-bold leading-tight text-white lg:text-6xl">
                   We Sell Cars{" "}
                   <span className="bg-gradient-to-r from-app-button to-orange-400 bg-clip-text text-transparent">
                     Professionally

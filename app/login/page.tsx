@@ -56,7 +56,7 @@ export default function LoginPage() {
   }, [user]);
 
   return (
-   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex mt-14 md:mt-16">
+   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex mt-24 md:mt-32">
       {/* Left Side - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-app-text via-slate-700 to-slate-800 dark:from-app-text dark:via-slate-700 dark:to-slate-800 flex-col justify-center items-center p-12 text-white relative overflow-hidden">
         {/* Background Pattern */}
