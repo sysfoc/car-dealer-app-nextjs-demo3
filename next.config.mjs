@@ -70,7 +70,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-    serverComponentsExternalPackages: ["sharp"],
+    serverExternalPackages: ["sharp"],
   images: {
     formats: ["image/webp", "image/avif"],
     remotePatterns: [
