@@ -1,6 +1,5 @@
 import { headers } from "next/headers"
 import type { Metadata } from "next"
-import { useTranslations } from "next-intl";
 import LeaseCarListingPageContent from "../../components/LeaseCarListingPageContent" 
 
 type MetaPageData = {
@@ -32,7 +31,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Home() {
-  const t = useTranslations("carLeasing");
   return (
      <section className="mx-4 sm:mx-8">
       <LeaseCarListingPageContent />

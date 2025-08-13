@@ -1,5 +1,4 @@
 "use client";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react"; 
 import Link from 'next/link';
@@ -15,7 +14,6 @@ import {
 } from "react-icons/fa6";
 
 export default function Home() {
-  const t = useTranslations("carFinance");
   const [activeIndex, setActiveIndex] = useState(null);
 
   const faqs = [

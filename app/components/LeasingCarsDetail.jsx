@@ -44,7 +44,6 @@ const CardetailCard = () => {
   const [isPageTransitioning, setIsPageTransitioning] = useState(false);
   const [userLikedCars, setUserLikedCars] = useState([]);
   const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
   const { distance: defaultUnit, loading: distanceLoading } = useDistance();
   const [recaptchaSiteKey, setRecaptchaSiteKey] = useState(null);
   const [recaptchaStatus, setRecaptchaStatus] = useState("inactive");

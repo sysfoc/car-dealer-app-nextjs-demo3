@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 
@@ -49,7 +48,6 @@ const CacheManager = {
 };
 
 const HeroSection = () => {
-  const t = useTranslations("HomePage");
   const router = useRouter();
   const [headingData, setHeadingData] = useState(FALLBACK_HEADING);
   const [currentSlide, setCurrentSlide] = useState(0);
