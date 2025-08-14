@@ -80,3 +80,89 @@
 .no-scrollbar {
   overflow: auto; /* Keep scrolling functionality */
 }
+
+.custom-map-iframe {
+  border: 0;
+}
+
+.custom-bg-sydney {
+  background-image: url('/sydney.jpg');
+}
+
+.custom-size-header1 {
+  height: 48px;
+  width: 200px;
+}
+.custom-minheight-flex {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.random-box-a72kf {
+  width: 48px;
+  height: 48px;
+  position: relative;
+}
+.unique-slidepanel-92kdq {
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+.unique-slidepanel-92kdq.open {
+  transform: translate3d(0, 0, 0);
+}
+.unique-slidepanel-92kdq.closed {
+  transform: translate3d(-100%, 0, 0);
+}
+.random-dims-x81pz {
+  height: 90px;
+  width: 180px;
+}
+.unique-footer-h49sl {
+  min-height: 400px;
+}
+.random-mapstyle-v65nm {
+  border: 0;
+}
+.unique-imgpos-b27fk {
+  object-position: center;
+}
+.random-border-w19xz {
+  border-width: 1px;
+}
+
+.unique-iframe-b93ks {
+  border: 0;
+  width: 100%;
+}
+.random-minh-o52lv {
+  min-height: 0;
+}
+
+.unique-width-l38pn {
+  width: 100%;
+}
+.random-iframeborder-t62mk {
+  border: 0;
+}
+
+
+.unique-mapstyle-q84nz {
+  border: 0;
+}
+.random-svgtrans-p57kx {
+  transform: translate3d(0, 0, 0);
+}
+
+
+.unique-overlay-r73md {
+  transform: translate3d(0, 0, 0);
+}
+
+
+
+
+
+
+
+

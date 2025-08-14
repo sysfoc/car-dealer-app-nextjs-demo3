@@ -126,12 +126,7 @@ const Blog = () => {
                     href={`/blog/${blog.slug}`}
                     key={`${blog.slug}-${index}`}
                   >
-                    <div
-                      className="group relative flex h-[420px] transform cursor-pointer flex-col overflow-hidden rounded-2xl border border-gray-200/50 bg-white/70 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/10 dark:border-white/20 dark:bg-white/10 dark:hover:shadow-blue-500/25"
-                      style={{
-                        animationDelay: `${index * 100}ms`,
-                      }}
-                    >
+                    <div className="group relative flex h-[420px] transform cursor-pointer flex-col overflow-hidden rounded-2xl border border-gray-200/50 bg-white/70 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/10 dark:border-white/20 dark:bg-white/10 dark:hover:shadow-blue-500/25">
                       {/* Background glow effect */}
                       <div className="absolute inset-0 bg-blue-500/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:bg-blue-500/10"></div>
                       <div className="relative z-10 flex h-full flex-col">

@@ -203,7 +203,7 @@ const AdminSidebar = () => {
 
       {/* Navigation - Now with proper flex and min-height */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        <div className="flex-1 overflow-y-auto py-4" style={{ minHeight: 0 }}>
+<div className="flex-1 overflow-y-auto py-4 random-minh-o52lv">
           <nav className="space-y-2 px-4">
             {/* Single Items */}
             {sidebarItems.map((item) => (

@@ -122,12 +122,10 @@ export default function Home() {
   return (
     <>
       <section className="relative min-h-screen w-full overflow-hidden mt-20">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: "url('/sydney.jpg')",
-          }}
-        />
+       <div
+  className="absolute inset-0 bg-cover bg-center bg-no-repeat custom-bg-sydney"
+/>
+
         <div className="absolute inset-0 bg-gradient-to-br from-app-text/90 via-app-text/85 to-app-button/90" />
         <div className="relative z-10 flex min-h-screen items-center">
           <div className="container mx-auto px-4 py-8">

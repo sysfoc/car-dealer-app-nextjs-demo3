@@ -249,9 +249,9 @@ const Header = () => {
   const LogoSkeleton = useMemo(
     () => (
       <div
-        className="flex items-center space-x-3"
-        style={{ height: "48px", width: "200px" }}
-      >
+  className="flex items-center space-x-3 custom-size-header1"
+>
+
         <div className="h-12 w-12 rounded-lg bg-white/20"></div>
         <div className="flex flex-col space-y-1">
           <div className="h-4 w-20 rounded bg-white/20"></div>
@@ -283,15 +283,13 @@ const Header = () => {
 
     return (
       <Link href="/" className="flex items-center space-x-3">
-        <div
-          style={{ minHeight: "48px", display: "flex", alignItems: "center" }}
-        >
+        <div className="custom-minheight-flex">
           {logo && !logoError ? (
             <>
               <div
-                style={{ width: "48px", height: "48px", position: "relative" }}
-                className="rounded-xl bg-white p-1 backdrop-blur-sm"
-              >
+  className="rounded-xl bg-white p-1 backdrop-blur-sm random-box-a72kf"
+>
+
                 <Image
                   src={logo}
                   alt="Logo"
@@ -436,24 +434,20 @@ const Header = () => {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
-          onClick={closeMobileMenu}
-          style={{ transform: "translate3d(0, 0, 0)" }}
-        />
-      )}
+  <div
+    className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm unique-overlay-r73md"
+    onClick={closeMobileMenu}
+  />
+)}
+
 
       {/* Mobile Menu */}
-      <div
-        className={`scrollbar-hide fixed left-0 top-0 z-[60] h-full w-full max-w-xs transform overflow-y-auto bg-white shadow-2xl dark:bg-gray-900 lg:hidden`}
-        style={{
-          transform: isMobileMenuOpen
-            ? "translate3d(0, 0, 0)"
-            : "translate3d(-100%, 0, 0)",
-          transition: "transform 0.2s ease-out",
-          willChange: "transform",
-        }}
-      >
+   <div
+  className={`scrollbar-hide fixed left-0 top-0 z-[60] h-full w-full max-w-xs transform overflow-y-auto bg-white shadow-2xl dark:bg-gray-900 lg:hidden unique-slidepanel-92kdq ${
+    isMobileMenuOpen ? "open" : "closed"
+  }`}
+>
+
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between border-b border-gray-200 p-3 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">

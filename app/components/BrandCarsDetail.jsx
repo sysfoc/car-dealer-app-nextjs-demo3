@@ -24,13 +24,13 @@ const BrandCarsDetail = () => {
           <div className="shadow-md" key={index}>
             <div>
               <Image
-                src={`${vehical.image}`}
-                alt={`${vehical.name}`}
-                width={500}
-                height={300}
-                style={{ objectPosition: 'center' }}
-                className="size-full"
-              />
+  src={`${vehical.image}`}
+  alt={`${vehical.name}`}
+  width={500}
+  height={300}
+  className="size-full unique-imgpos-b27fk"
+/>
+
             </div>
             <div className="p-4">
               <div>
@@ -63,9 +63,9 @@ const BrandCarsDetail = () => {
                 </div>
               </div>
               <div
-                className="mt-2 border-gray-300"
-                style={{ borderWidth: "1px" }}
-              ></div>
+  className="mt-2 border-gray-300 random-border-w19xz"
+></div>
+
               <div className="mt-2">
                 <p>New From ${vehical.startingPrice}</p>
               </div>

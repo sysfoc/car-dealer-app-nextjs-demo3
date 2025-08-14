@@ -114,97 +114,109 @@ const BrandsList = () => {
   }
 
   return (
-    <section className="relative mx-2 sm:mx-4 my-4 sm:my-6 overflow-hidden rounded-xl sm:rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 sm:px-4 py-8 sm:py-12 shadow-lg">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -right-16 sm:-right-32 -top-20 sm:-top-40 h-48 w-48 sm:h-96 sm:w-96 animate-pulse rounded-full bg-blue-200/15 to-purple-200/15 blur-3xl dark:bg-blue-900/20 dark:to-purple-900/20"></div>
-        <div className="absolute -bottom-16 sm:-bottom-32 -left-20 sm:-left-40 h-40 w-40 sm:h-80 sm:w-80 animate-pulse rounded-full bg-orange-200/15 to-red-200/15 blur-3xl delay-1000 dark:bg-orange-900/20 dark:to-red-900/20"></div>
-      </div>
-      
-      <div className="relative mx-auto max-w-7xl translate-y-0 opacity-100 transition-all duration-1000">
-        <div className="mb-8 sm:mb-16 text-center px-2">
-          <h2 className="mb-2 sm:mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold text-app-text dark:text-gray-100">
-            {brandData?.heading || "Browse Cars by Brands"}
-          </h2>
-          <p className="mx-auto mb-4 sm:mb-8 max-w-xl sm:max-w-2xl text-center text-sm sm:text-base lg:text-lg text-app-text/80 dark:text-gray-300 px-4">
-            {brandData?.description}
-          </p>
-          
-          <div className="flex justify-center">
-            <Link href="/brands">
-              <div className="group transform rounded-xl sm:rounded-2xl bg-app-button hover:bg-app-button-hover px-4 sm:px-6 py-2.5 sm:py-3.5 text-center text-sm sm:text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
-                <div className="flex items-center justify-center gap-2">
-                  <span>View All Brands</span>
-                  <MdOutlineArrowOutward className="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
-                </div>
-              </div>
-            </Link>
-          </div>
+    <>
+      <section className="relative mx-2 sm:mx-4 my-4 sm:my-6 overflow-hidden rounded-xl sm:rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 px-2 sm:px-4 py-8 sm:py-12 shadow-lg">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -right-16 sm:-right-32 -top-20 sm:-top-40 h-48 w-48 sm:h-96 sm:w-96 animate-pulse rounded-full bg-blue-200/15 to-purple-200/15 blur-3xl dark:bg-blue-900/20 dark:to-purple-900/20"></div>
+          <div className="absolute -bottom-16 sm:-bottom-32 -left-20 sm:-left-40 h-40 w-40 sm:h-80 sm:w-80 animate-pulse rounded-full bg-orange-200/15 to-red-200/15 blur-3xl delay-1000 dark:bg-orange-900/20 dark:to-red-900/20"></div>
         </div>
         
-        <div className="relative px-6 sm:px-10">
-          <div className="overflow-hidden">
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-            >
-              {Array.from({ length: totalSlides }).map((_, slideIndex) => (
-                <div
-                  key={slideIndex}
-                  className="grid w-full flex-shrink-0 gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6"
-                >
-                  {brands
-                    .slice(
-                      slideIndex * itemsPerSlide,
-                      (slideIndex + 1) * itemsPerSlide,
-                    )
-                    .map((brand, index) => {
-                      const Icon = brand.icon;
-                      return (
-                        <Link
-                          href={`/car-for-sale?make=${encodeURIComponent(brand.name)}`}
-                          key={`${brand.name}-${index}`}
-                          className="group"
-                        >
-                          <div className="animate-fade-in-up relative flex flex-col items-center justify-center rounded-lg sm:rounded-xl border border-gray-300 hover:border-app-button dark:border-gray-600 dark:hover:border-app-button bg-white dark:bg-gray-800 p-2 sm:p-3 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-xl">
-                            <div className="relative h-10 w-10 sm:h-12 sm:w-12 lg:h-16 lg:w-16 overflow-hidden rounded-md sm:rounded-lg bg-gray-100 dark:bg-gray-700 p-2 sm:p-3 shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:shadow-md">
-                              <Icon className="h-full w-full text-gray-500 dark:text-gray-300 group-hover:text-app-button dark:group-hover:text-app-button transition-colors duration-300" />
-                            </div>
-                            <h3 className="mt-2 sm:mt-3 w-full truncate px-1 text-center text-xs sm:text-sm lg:text-base font-bold text-app-text group-hover:text-app-button dark:text-gray-100 dark:group-hover:text-app-button transition-colors duration-300">
-                              {brand.name}
-                            </h3>
-                            <div className="mx-auto mt-1 sm:mt-2 h-0.5 sm:h-1 w-0 bg-app-button rounded-full transition-all duration-500 group-hover:w-8"></div>
-                          </div>
-                        </Link>
-                      );
-                    })}
+        <div className="relative mx-auto max-w-7xl translate-y-0 opacity-100 transition-all duration-1000">
+          <div className="mb-8 sm:mb-16 text-center px-2">
+            <h2 className="mb-2 sm:mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold text-app-text dark:text-gray-100">
+              {brandData?.heading || "Browse Cars by Brands"}
+            </h2>
+            <p className="mx-auto mb-4 sm:mb-8 max-w-xl sm:max-w-2xl text-center text-sm sm:text-base lg:text-lg text-app-text/80 dark:text-gray-300 px-4">
+              {brandData?.description}
+            </p>
+            
+            <div className="flex justify-center">
+              <Link href="/brands">
+                <div className="group transform rounded-xl sm:rounded-2xl bg-app-button hover:bg-app-button-hover px-4 sm:px-6 py-2.5 sm:py-3.5 text-center text-sm sm:text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+                  <div className="flex items-center justify-center gap-2">
+                    <span>View All Brands</span>
+                    <MdOutlineArrowOutward className="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
+                  </div>
                 </div>
-              ))}
+              </Link>
             </div>
           </div>
           
-          {/* Navigation Buttons */}
-          {totalSlides > 1 && (
-            <>
-              <button
-                onClick={handlePrev}
-                className="absolute left-0 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-white dark:bg-gray-800 text-app-text dark:text-gray-100 hover:text-app-button dark:hover:text-app-button p-2 sm:p-3 shadow-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600"
-                aria-label="Previous brands"
-              >
-                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
-              </button>
-              <button
-                onClick={handleNext}
-                className="absolute right-0 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-white dark:bg-gray-800 text-app-text dark:text-gray-100 hover:text-app-button dark:hover:text-app-button p-2 sm:p-3 shadow-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600"
-                aria-label="Next brands"
-              >
-                <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
-              </button>
-            </>
-          )}
+          <div className="relative px-6 sm:px-10">
+            <div className="overflow-hidden">
+              <div className={`brands-slider-container brands-slide-${currentSlide} flex transition-transform duration-500 ease-in-out`}>
+                {Array.from({ length: totalSlides }).map((_, slideIndex) => (
+                  <div
+                    key={slideIndex}
+                    className="grid w-full flex-shrink-0 gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6"
+                  >
+                    {brands
+                      .slice(
+                        slideIndex * itemsPerSlide,
+                        (slideIndex + 1) * itemsPerSlide,
+                      )
+                      .map((brand, index) => {
+                        const Icon = brand.icon;
+                        return (
+                          <Link
+                            href={`/car-for-sale?make=${encodeURIComponent(brand.name)}`}
+                            key={`${brand.name}-${index}`}
+                            className="group"
+                          >
+                            <div className="animate-fade-in-up relative flex flex-col items-center justify-center rounded-lg sm:rounded-xl border border-gray-300 hover:border-app-button dark:border-gray-600 dark:hover:border-app-button bg-white dark:bg-gray-800 p-2 sm:p-3 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-xl">
+                              <div className="relative h-10 w-10 sm:h-12 sm:w-12 lg:h-16 lg:w-16 overflow-hidden rounded-md sm:rounded-lg bg-gray-100 dark:bg-gray-700 p-2 sm:p-3 shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:shadow-md">
+                                <Icon className="h-full w-full text-gray-500 dark:text-gray-300 group-hover:text-app-button dark:group-hover:text-app-button transition-colors duration-300" />
+                              </div>
+                              <h3 className="mt-2 sm:mt-3 w-full truncate px-1 text-center text-xs sm:text-sm lg:text-base font-bold text-app-text group-hover:text-app-button dark:text-gray-100 dark:group-hover:text-app-button transition-colors duration-300">
+                                {brand.name}
+                              </h3>
+                              <div className="mx-auto mt-1 sm:mt-2 h-0.5 sm:h-1 w-0 bg-app-button rounded-full transition-all duration-500 group-hover:w-8"></div>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Navigation Buttons */}
+            {totalSlides > 1 && (
+              <>
+                <button
+                  onClick={handlePrev}
+                  className="absolute left-0 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-white dark:bg-gray-800 text-app-text dark:text-gray-100 hover:text-app-button dark:hover:text-app-button p-2 sm:p-3 shadow-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600"
+                  aria-label="Previous brands"
+                >
+                  <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="absolute right-0 top-1/2 z-10 -translate-y-1/2 transform rounded-full bg-white dark:bg-gray-800 text-app-text dark:text-gray-100 hover:text-app-button dark:hover:text-app-button p-2 sm:p-3 shadow-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600"
+                  aria-label="Next brands"
+                >
+                  <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
+                </button>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </section>
       
       <style jsx>{`
+        /* Dynamic slide positioning - this replaces the inline transform style */
+        .brands-slide-0 { transform: translateX(0%); }
+        .brands-slide-1 { transform: translateX(-100%); }
+        .brands-slide-2 { transform: translateX(-200%); }
+        .brands-slide-3 { transform: translateX(-300%); }
+        .brands-slide-4 { transform: translateX(-400%); }
+        .brands-slide-5 { transform: translateX(-500%); }
+        .brands-slide-6 { transform: translateX(-600%); }
+        .brands-slide-7 { transform: translateX(-700%); }
+        .brands-slide-8 { transform: translateX(-800%); }
+        .brands-slide-9 { transform: translateX(-900%); }
+        .brands-slide-10 { transform: translateX(-1000%); }
+        
         @keyframes fade-in-up {
           from {
             opacity: 0;
@@ -215,12 +227,13 @@ const BrandsList = () => {
             transform: translateY(0);
           }
         }
+        
         .animate-fade-in-up {
           animation: fade-in-up 0.6s ease-out forwards;
           opacity: 0;
         }
       `}</style>
-    </section>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import Image from "next/image";
 import { FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -200,14 +200,41 @@ const HeroSection = () => {
     setImagesLoaded(prev => new Set([...prev, index]));
   }, []);
 
+  // CSS classes for dynamic positioning
+  const getCarouselTransform = (slideIndex) => {
+    const transforms = [
+      'translate-x-0',      // slide 0
+      '-translate-x-full',  // slide 1
+      '-translate-x-[200%]', // slide 2
+      '-translate-x-[300%]'  // slide 3
+    ];
+    return transforms[slideIndex] || 'translate-x-0';
+  };
+
+  const getProgressWidth = (currentSlide, totalSlides) => {
+    const widths = [
+      'w-1/4',   // 25% - slide 0
+      'w-2/4',   // 50% - slide 1
+      'w-3/4',   // 75% - slide 2
+      'w-full'   // 100% - slide 3
+    ];
+    return widths[currentSlide] || 'w-1/4';
+  };
+
   return (
     <section className="relative h-screen w-full overflow-hidden" role="banner">
+      <style jsx>{`
+        .carousel-container {
+          transform: translateX(-${currentSlide * 100}%);
+        }
+        .progress-bar {
+          width: ${((currentSlide + 1) / carImages.length) * 100}%;
+        }
+      `}</style>
+
       {/* Full-screen image carousel */}
       <div className="absolute inset-0 h-full w-full">
-        <div
-          className="flex h-full w-full transition-transform duration-1000 ease-in-out will-change-transform"
-          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-        >
+        <div className="carousel-container flex h-full w-full transition-transform duration-1000 ease-in-out will-change-transform">
           {carImages.map((imageObj, index) => (
             <div key={imageObj.src} className="relative h-full w-full flex-shrink-0"> 
               {/* Error placeholder */}
@@ -226,7 +253,7 @@ const HeroSection = () => {
                 alt={imageObj.alt}
                 fill
                 className={`
-                  object-cover transition-opacity duration-500 ease-out
+                  object-cover transition-opacity duration-500 ease-out object-center
                   ${imagesLoaded.has(index) ? 'opacity-100' : 'opacity-0'}
                 `}
                 priority={imageObj.priority}
@@ -235,7 +262,6 @@ const HeroSection = () => {
                 quality={80}
                 onLoad={() => handleImageLoad(index)}
                 onError={() => handleImageError(index)}
-                style={{ objectPosition: 'center center' }}
               />
               
               {/* Overlay gradient */}
@@ -338,12 +364,7 @@ const HeroSection = () => {
 
       {/* Progress Bar */}
       <div className="absolute bottom-0 left-0 z-30 hidden h-1 w-full bg-white/20 md:block">
-        <div
-          className="h-full bg-gradient-to-r from-[#DC3C22] via-red-500 to-orange-500 transition-all duration-1000 ease-in-out"
-          style={{
-            width: `${((currentSlide + 1) / carImages.length) * 100}%`,
-          }}
-        />
+        <div className="progress-bar h-full bg-gradient-to-r from-[#DC3C22] via-red-500 to-orange-500 transition-all duration-1000 ease-in-out" />
       </div>
     </section>
   );

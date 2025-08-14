@@ -179,14 +179,15 @@ const ContactPageModal = () => {
               <Label htmlFor="map" className="block text-sm font-medium text-gray-700 mb-2">
                 Map (iFrame Code)
               </Label>
-              <Textarea
-                id="map"
-                rows={5}
-                value={formData.map}
-                onChange={handleInputChange}
-                placeholder='<iframe src="https://www.google.com/maps/embed?pb=..." width="600" height="450" style="border:0;" allowfullscreen></iframe>'
-                className="rounded-lg border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 font-mono text-sm"
-              />
+             <Textarea
+  id="map"
+  rows={5}
+  value={formData.map}
+  onChange={handleInputChange}
+  placeholder='<iframe src="https://www.google.com/maps/embed?pb=..." width="600" height="450" class="unique-mapstyle-q84nz" allowfullscreen></iframe>'
+  className="rounded-lg border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 font-mono text-sm"
+/>
+
               <p className="text-sm text-gray-500 mt-1">Paste your Google Maps iframe code to display your location</p>
             </div>
             <div className="flex justify-end">

@@ -143,9 +143,9 @@ const CarSearchSidebar = () => {
 
   const formatPrice = (price) => {
     if (price >= 1000) {
-      return `$${(price / 1000).toFixed(0)}k`
+      return `${(price / 1000).toFixed(0)}k`
     }
-    return `$${price.toLocaleString()}`
+    return `${price.toLocaleString()}`
   }
 
   return (
@@ -286,13 +286,7 @@ const CarSearchSidebar = () => {
                     className="absolute h-2 w-full appearance-none bg-transparent [&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-20 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#DC3C22] [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-200 [&::-webkit-slider-thumb]:hover:scale-110"
                   />
                   <div className="relative h-2 rounded-full bg-gray-200 dark:bg-gray-700">
-                    <div
-                      className="absolute h-2 rounded-full bg-gradient-to-r from-[#DC3C22]/80 to-[#DC3C22] shadow-sm"
-                      style={{
-                        left: `${((minPrice - 100) / 99900) * 100}%`,
-                        width: `${((maxPrice - minPrice) / 99900) * 100}%`,
-                      }}
-                    ></div>
+                    <div className="absolute h-2 rounded-full bg-gradient-to-r from-[#DC3C22]/80 to-[#DC3C22] shadow-sm"></div>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
@@ -343,8 +337,15 @@ const CarSearchSidebar = () => {
                       key={id}
                       className={`relative h-6 w-6 rounded-full border ${
                         isSelected ? "border-white ring-2 ring-[#DC3C22]" : "border-gray-300 dark:border-gray-600"
-                      } transition-all duration-200`}
-                      style={{ backgroundColor: hex }}
+                      } transition-all duration-200 ${
+                        id === 'black' ? 'bg-black' :
+                        id === 'blue' ? 'bg-blue-500' :
+                        id === 'gray' ? 'bg-gray-500' :
+                        id === 'white' ? 'bg-white' :
+                        id === 'silver' ? 'bg-gray-400' :
+                        id === 'red' ? 'bg-red-500' :
+                        id === 'green' ? 'bg-green-500' : ''
+                      }`}
                       onClick={() => handleColorSelection(id)}
                       title={label}
                       aria-label={`${label} color ${isSelected ? 'selected' : ''}`}
