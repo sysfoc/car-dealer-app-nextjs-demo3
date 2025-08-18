@@ -148,8 +148,46 @@ const CarSearchSidebar = () => {
     return `${price.toLocaleString()}`
   }
 
+  const priceRangeStyles = {
+    left: `${((minPrice - 100) / 99900) * 100}%`,
+    width: `${((maxPrice - minPrice) / 99900) * 100}%`,
+  };
+
   return (
     <>
+    <style jsx>{`
+        .price-range-track {
+          position: absolute;
+          height: 0.5rem;
+          background: linear-gradient(to right, #22c55e, #16a34a);
+          border-radius: 0.25rem;
+          left: ${priceRangeStyles.left};
+          width: ${priceRangeStyles.width};
+        }
+        
+        .color-button-black { background-color: #000000; }
+        .color-button-blue { background-color: #3b82f6; }
+        .color-button-gray { background-color: #6b7280; }
+        .color-button-white { background-color: #ffffff; }
+        .color-button-silver { background-color: #c0c0c0; }
+        .color-button-red { background-color: #ef4444; }
+        .color-button-green { background-color: #22c55e; }
+        
+        .color-button-selected {
+          border: 2px solid white;
+          box-shadow: 0 0 0 2px rgb(139 92 246);
+        }
+        
+        .color-button-unselected {
+          border: 1px solid rgb(209 213 219);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+          .color-button-unselected {
+            border: 1px solid rgb(75 85 99);
+          }
+        }
+      `}</style>
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div
@@ -285,8 +323,8 @@ const CarSearchSidebar = () => {
                     }}
                     className="absolute h-2 w-full appearance-none bg-transparent [&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-20 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#DC3C22] [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-200 [&::-webkit-slider-thumb]:hover:scale-110"
                   />
-                  <div className="relative h-2 rounded-full bg-gray-200 dark:bg-gray-700">
-                    <div className="absolute h-2 rounded-full bg-gradient-to-r from-[#DC3C22]/80 to-[#DC3C22] shadow-sm"></div>
+                   <div className="relative h-2 rounded-full bg-gray-200 dark:bg-gray-700">
+                    <div className="price-range-track"></div>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
