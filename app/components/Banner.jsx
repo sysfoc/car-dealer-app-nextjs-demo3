@@ -42,14 +42,14 @@ const Banner = () => {
   );
 
   return (
-    <div className="bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 text-white shadow-lg">
+    <div className="bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 text-white">
       <div className="mx-auto flex h-14 max-w-7xl items-center px-2 sm:h-16 sm:px-4">
         <div className="flex w-full items-center justify-between gap-2 sm:gap-4">
           {/* Left Section - Brand and Dropdown */}
           <div className="flex min-w-0 flex-shrink-0 items-center gap-2 sm:gap-4">
             {/* Brand */}
             <div className="flex-shrink-0">
-              <h1 className="xs:text-sm text-xs font-bold tracking-wide text-white sm:text-base md:text-lg xl:text-2xl">
+              <h1 className="sm:text-sm text-xs font-semibold tracking-wide text-white xl:text-lg">
                 <span className="block text-center sm:hidden">
                     Automotiveweb
                   <br />
