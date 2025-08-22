@@ -55,7 +55,7 @@ const Banner = () => {
                   <br />
                   Solutions
                 </span>
-                <span className="hidden sm:block">Autowebsolutions</span>
+                <span className="hidden sm:block">AutomotiveWebSolutions</span>
               </h1>
             </div>
 
