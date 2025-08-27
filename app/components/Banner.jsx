@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { ChevronDown, Bell } from "lucide-react";
 import { TbSettingsCode } from "react-icons/tb";
+import Link from "next/link";
+import { FaBlog } from "react-icons/fa";
 
 const Banner = () => {
   const [selectedWebsite, setSelectedWebsite] = useState("windscreen");
@@ -48,16 +50,24 @@ const Banner = () => {
           {/* Left Section - Brand and Dropdown */}
           <div className="flex min-w-0 flex-shrink-0 items-center gap-2 sm:gap-4">
             {/* Brand */}
-            <div className="flex-shrink-0">
-              <h1 className="sm:text-sm text-xs font-semibold tracking-wide text-white xl:text-lg">
-                <span className="block text-center sm:hidden">
+            <Link
+              href="https://www.automotivewebsolutions.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="flex-shrink-0">
+                <h1 className="text-xs font-semibold tracking-wide text-white sm:text-sm xl:text-lg">
+                  <span className="block text-center sm:hidden">
                     Automotiveweb
-                  <br />
-                  Solutions
-                </span>
-                <span className="hidden sm:block">AutomotiveWebSolutions</span>
-              </h1>
-            </div>
+                    <br />
+                    Solutions
+                  </span>
+                  <span className="hidden sm:block">
+                    AutomotiveWebSolutions
+                  </span>
+                </h1>
+              </div>
+            </Link>
 
             {/* Website Selector */}
             <div className="relative flex-shrink-0">
@@ -93,17 +103,33 @@ const Banner = () => {
           </div>
 
           {/* Center Section - Theme Customization */}
-          <div className="hidden flex-shrink-0 flex-col items-center text-center lg:flex">
-            <div className="mb-0.5 flex items-center gap-1">
-              <TbSettingsCode size={30} className=" text-green-400" />
-              <h2 className="text-xl font-semibold text-white">
-                Theme Customization
-              </h2>
+          <Link
+            href="https://www.automotivewebsolutions.com/add-ons"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="hidden flex-shrink-0 flex-col items-center text-center lg:flex">
+              <div className="mb-0.5 flex items-center gap-1">
+                <TbSettingsCode size={30} className=" text-green-400" />
+                <h2 className="text-xl font-semibold text-white">
+                  Theme Customization
+                </h2>
+              </div>
+              <p className="relative -right-12 -top-2 text-xs font-medium text-green-400">
+                Get a free quote
+              </p>
             </div>
-            <p className="relative -right-12 -top-2 text-xs font-medium text-green-400">
-              Get a free quote
-            </p>
-          </div>
+          </Link>
+
+          <Link
+            href="/blogs"
+            className="hidden flex-shrink-0 flex-col items-center text-center lg:flex"
+          >
+            <div className="mb-0.5 flex items-center gap-1">
+              <FaBlog size={28} className="text-blue-300" />
+              <h2 className="text-lg font-semibold text-white">Blogs</h2>
+            </div>
+          </Link>
 
           {/* Right Section */}
           <div className="flex flex-shrink-0 items-center gap-1 sm:gap-3">
@@ -111,9 +137,14 @@ const Banner = () => {
               <p className="text-xs font-bold text-white lg:text-sm">
                 Powered by
               </p>
-              <p className="text-xs font-bold text-blue-300 md:ml-1 lg:text-sm">
+              <Link
+                href="https://sysfoc.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-300 text-xs font-bold hover:underline md:ml-1 lg:text-sm"
+              >
                 Sysfoc
-              </p>
+              </Link>
             </div>
 
             {/* Subscribe Button / Bell Icon */}
