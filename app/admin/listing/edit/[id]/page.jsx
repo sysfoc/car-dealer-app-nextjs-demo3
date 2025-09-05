@@ -20,6 +20,10 @@ const CarEditPage = ({ params }) => {
   const router = useRouter();
   const { id } = useParams();
   const [car, setCar] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [deletedImageUrls, setDeletedImageUrls] = useState([]);
   const [formData, setFormData] = useState({
     make: "",
     model: "",
@@ -82,6 +86,15 @@ const CarEditPage = ({ params }) => {
         const res = await fetch(`/api/cars/${id}`, { method: "GET" });
         if (res.ok) {
           const data = await res.json();
+
+          if (data.car.imageUrls && data.car.imageUrls.length > 0) {
+            const previewsWithIds = data.car.imageUrls.map((url) => ({
+              id: `existing-${url}`,
+              url,
+              isNew: false,
+            }));
+            setImagePreviews(previewsWithIds);
+          }
 
           setFormData({
             ...data.car,
@@ -245,41 +258,53 @@ const CarEditPage = ({ params }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isSubmitting) return;
+
+    const remainingImages = imagePreviews.length;
+    const newImages = selectedImages.length;
+
+    if (remainingImages === 0 && newImages === 0) {
+      alert("Please add at least one image before updating the car.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
     const formDataToSend = new FormData();
 
+    formDataToSend.append("deletedImageUrls", JSON.stringify(deletedImageUrls));
+
+    // Append all form fields
     for (const key in formData) {
       if (key === "_id") continue;
 
-      if (key === "images" && formData.images && formData.images.length > 0) {
-        formData.images.forEach((image, index) => {
-          if (image instanceof File) {
-            formDataToSend.append("images", image);
-          }
+      if (key === "images") {
+        // Handle image uploads - append newly selected images
+        selectedImages.forEach((image) => {
+          formDataToSend.append("images", image.file);
         });
-      } else if (key === "video" && formData.video) {
-        if (formData.video instanceof File) {
-          formDataToSend.append("video", formData.video);
-        }
+      } else if (key === "video" && formData.video instanceof File) {
+        formDataToSend.append("video", formData.video);
       } else if (key === "features") {
         formDataToSend.append(key, JSON.stringify(formData[key]));
-      } else if (key === "description") {
-        formDataToSend.append(key, formData[key] || "");
-      } else if (key === "isLease") {
-        // Handle boolean field properly
-        formDataToSend.append(key, formData[key] ? "true" : "false");
-      } else if (key === "description") {
-        formDataToSend.append(key, formData[key] || "");
-      } else if (key === "sold") {
-        // Handle boolean field properly
+      } else if (key === "isLease" || key === "sold") {
+        // Handle boolean fields
         formDataToSend.append(key, formData[key] ? "true" : "false");
       } else {
-        // Handle all other fields, including numeric ones
+        // Handle all other fields
         const value = formData[key];
         if (value !== null && value !== undefined) {
           formDataToSend.append(key, value.toString());
         }
       }
     }
+
+    imagePreviews.forEach((preview) => {
+      if (!preview.isNew) {
+        formDataToSend.append("existingImages", preview.url);
+      }
+    });
 
     try {
       const res = await fetch(`/api/cars/${id}`, {
@@ -299,8 +324,86 @@ const CarEditPage = ({ params }) => {
     } catch (error) {
       console.error("Error updating car:", error);
       alert("An error occurred while updating the car.");
+    } finally {
+      // Re-enable the submit button
+      setIsSubmitting(false);
     }
   };
+
+  // When adding new images
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files && files.length > 0) {
+      const newImages = files.map((file) => {
+        const uniqueId = `new-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        return {
+          id: uniqueId,
+          file,
+          preview: URL.createObjectURL(file),
+          isNew: true,
+        };
+      });
+
+      setSelectedImages([...selectedImages, ...newImages]);
+      setImagePreviews([
+        ...imagePreviews,
+        ...newImages.map((img) => ({
+          id: img.id,
+          url: img.preview,
+          isNew: true,
+        })),
+      ]);
+    }
+  };
+
+  const handleImageDelete = (id) => {
+    const imageToDelete = imagePreviews.find((img) => img.id === id);
+
+    if (!imageToDelete.isNew) {
+      // Existing image - add to deleted list
+      setDeletedImageUrls((prev) => [...prev, imageToDelete.url]);
+    } else {
+      // New image - remove from selectedImages and revoke object URL
+      const newSelected = selectedImages.filter((img) => img.id !== id);
+      const imageToRevoke = selectedImages.find((img) => img.id === id);
+      if (imageToRevoke) {
+        URL.revokeObjectURL(imageToRevoke.preview);
+      }
+      setSelectedImages(newSelected);
+    }
+
+    // Remove from previews
+    setImagePreviews((prev) => prev.filter((img) => img.id !== id));
+  };
+
+  // Cleanup function for object URLs
+  useEffect(() => {
+    return () => {
+      imagePreviews.forEach((preview) => {
+        if (preview.url && preview.url.startsWith("blob:")) {
+          URL.revokeObjectURL(preview.url);
+        }
+      });
+    };
+  }, [imagePreviews]);
+
+  useEffect(() => {
+    return () => {
+      // Clean up object URLs for new images
+      selectedImages.forEach((image) => {
+        if (image.preview && image.preview.startsWith("blob:")) {
+          URL.revokeObjectURL(image.preview);
+        }
+      });
+
+      // Clean up any blob URLs in imagePreviews
+      imagePreviews.forEach((preview) => {
+        if (preview.isNew && preview.url && preview.url.startsWith("blob:")) {
+          URL.revokeObjectURL(preview.url);
+        }
+      });
+    };
+  }, [selectedImages, imagePreviews]);
 
   if (!car) {
     return <div>Loading...</div>;
@@ -312,7 +415,7 @@ const CarEditPage = ({ params }) => {
         <h2 className="text-2xl font-bold text-app-text">Edit Car Listing</h2>
         <Link
           href={"/admin/listing/view"}
-          className="rounded-lg bg-app-button hover:bg-app-button-hover p-3 text-sm text-white transition-colors duration-200"
+          className="rounded-lg bg-app-button p-3 text-sm text-white transition-colors duration-200 hover:bg-app-button-hover"
         >
           View All
         </Link>
@@ -320,7 +423,9 @@ const CarEditPage = ({ params }) => {
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
           <div>
-            <Label htmlFor="make" className="text-app-text">Make:</Label>
+            <Label htmlFor="make" className="text-app-text">
+              Make:
+            </Label>
             <Select
               id="make"
               name="make"
@@ -338,7 +443,9 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="model" className="text-app-text">Model:</Label>
+            <Label htmlFor="model" className="text-app-text">
+              Model:
+            </Label>
             <Select
               id="model"
               name="model"
@@ -356,7 +463,9 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="price" className="text-app-text">Price:</Label>
+            <Label htmlFor="price" className="text-app-text">
+              Price:
+            </Label>
             <TextInput
               id="price"
               name="price"
@@ -367,7 +476,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="type" className="text-app-text">Vehicle Type:</Label>
+            <Label htmlFor="type" className="text-app-text">
+              Vehicle Type:
+            </Label>
             <Select
               id="type"
               name="type"
@@ -383,7 +494,9 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="fuelType" className="text-app-text">Fuel Type:</Label>
+            <Label htmlFor="fuelType" className="text-app-text">
+              Fuel Type:
+            </Label>
             <Select
               id="fuelType"
               name="fuelType"
@@ -411,7 +524,9 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="kms" className="text-app-text">Kilometers:</Label>
+            <Label htmlFor="kms" className="text-app-text">
+              Kilometers:
+            </Label>
             <TextInput
               id="kms"
               name="kms"
@@ -421,7 +536,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="gearbox" className="text-app-text">Gearbox:</Label>
+            <Label htmlFor="gearbox" className="text-app-text">
+              Gearbox:
+            </Label>
             <Select
               id="gearbox"
               name="gearbox"
@@ -435,7 +552,9 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="condition" className="text-app-text">Condition:</Label>
+            <Label htmlFor="condition" className="text-app-text">
+              Condition:
+            </Label>
             <Select
               id="condition"
               name="condition"
@@ -448,7 +567,9 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="year" className="text-app-text">Year:</Label>
+            <Label htmlFor="year" className="text-app-text">
+              Year:
+            </Label>
             <Select
               id="year"
               name="modelYear"
@@ -466,7 +587,9 @@ const CarEditPage = ({ params }) => {
         </div>
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
           <div>
-            <Label htmlFor="fuelTankFillPrice" className="text-app-text">Fuel Tank Fill Price:</Label>
+            <Label htmlFor="fuelTankFillPrice" className="text-app-text">
+              Fuel Tank Fill Price:
+            </Label>
             <TextInput
               id="fuelTankFillPrice"
               name="fuelTankFillPrice"
@@ -476,7 +599,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="fuelCapacityPerTank" className="text-app-text">Fuel Capacity Per Tank:</Label>
+            <Label htmlFor="fuelCapacityPerTank" className="text-app-text">
+              Fuel Capacity Per Tank:
+            </Label>
             <TextInput
               id="fuelCapacityPerTank"
               name="fuelCapacityPerTank"
@@ -486,7 +611,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="noOfGears" className="text-app-text">Number of Gears:</Label>
+            <Label htmlFor="noOfGears" className="text-app-text">
+              Number of Gears:
+            </Label>
             <TextInput
               id="noOfGears"
               name="noOfGears"
@@ -496,7 +623,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="cylinder" className="text-app-text">Cylinder:</Label>
+            <Label htmlFor="cylinder" className="text-app-text">
+              Cylinder:
+            </Label>
             <TextInput
               id="cylinder"
               name="cylinder"
@@ -506,7 +635,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="batteryRange" className="text-app-text">Battery Range:</Label>
+            <Label htmlFor="batteryRange" className="text-app-text">
+              Battery Range:
+            </Label>
             <TextInput
               id="batteryRange"
               name="batteryRange"
@@ -516,7 +647,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="chargingTime" className="text-app-text">Charging Time:</Label>
+            <Label htmlFor="chargingTime" className="text-app-text">
+              Charging Time:
+            </Label>
             <TextInput
               id="chargingTime"
               name="chargingTime"
@@ -526,7 +659,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="engineSize" className="text-app-text">Engine Size:</Label>
+            <Label htmlFor="engineSize" className="text-app-text">
+              Engine Size:
+            </Label>
             <TextInput
               id="engineSize"
               name="engineSize"
@@ -536,7 +671,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="enginePower" className="text-app-text">Engine Power:</Label>
+            <Label htmlFor="enginePower" className="text-app-text">
+              Engine Power:
+            </Label>
             <TextInput
               id="enginePower"
               name="enginePower"
@@ -546,7 +683,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="fuelConsumption" className="text-app-text">Fuel Consumption:</Label>
+            <Label htmlFor="fuelConsumption" className="text-app-text">
+              Fuel Consumption:
+            </Label>
             <TextInput
               id="fuelConsumption"
               name="fuelConsumption"
@@ -556,7 +695,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="co2Emission" className="text-app-text">CO2 Emission:</Label>
+            <Label htmlFor="co2Emission" className="text-app-text">
+              CO2 Emission:
+            </Label>
             <TextInput
               id="co2Emission"
               name="co2Emission"
@@ -566,7 +707,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="vehicleFullName" className="text-app-text">Vehicle Full Name:</Label>
+            <Label htmlFor="vehicleFullName" className="text-app-text">
+              Vehicle Full Name:
+            </Label>
             <TextInput
               id="vehicleFullName"
               name="vehicleFullName"
@@ -575,7 +718,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="sellerComments" className="text-app-text">Seller Comments:</Label>
+            <Label htmlFor="sellerComments" className="text-app-text">
+              Seller Comments:
+            </Label>
             <Textarea
               id="sellerComments"
               name="sellerComments"
@@ -584,7 +729,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="tag" className="text-app-text">Tag:</Label>
+            <Label htmlFor="tag" className="text-app-text">
+              Tag:
+            </Label>
             <Select
               id="tag"
               name="tag"
@@ -597,7 +744,9 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div className="sm:col-span-1">
-            <Label htmlFor="description" className="text-app-text">Description:</Label>
+            <Label htmlFor="description" className="text-app-text">
+              Description:
+            </Label>
             <Textarea
               id="description"
               name="description"
@@ -608,7 +757,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="location" className="text-app-text">Location:</Label>
+            <Label htmlFor="location" className="text-app-text">
+              Location:
+            </Label>
             <TextInput
               id="location"
               name="location"
@@ -617,7 +768,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="mileage" className="text-app-text">Mileage:</Label>
+            <Label htmlFor="mileage" className="text-app-text">
+              Mileage:
+            </Label>
             <TextInput
               id="mileage"
               name="mileage"
@@ -626,7 +779,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="bodyType" className="text-app-text">Body Type:</Label>
+            <Label htmlFor="bodyType" className="text-app-text">
+              Body Type:
+            </Label>
             <TextInput
               id="bodyType"
               name="bodyType"
@@ -635,7 +790,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="color" className="text-app-text">Color:</Label>
+            <Label htmlFor="color" className="text-app-text">
+              Color:
+            </Label>
             <TextInput
               id="color"
               name="color"
@@ -644,7 +801,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="driveType" className="text-app-text">Drive Type:</Label>
+            <Label htmlFor="driveType" className="text-app-text">
+              Drive Type:
+            </Label>
             <TextInput
               id="driveType"
               name="driveType"
@@ -653,7 +812,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="doors" className="text-app-text">Doors:</Label>
+            <Label htmlFor="doors" className="text-app-text">
+              Doors:
+            </Label>
             <TextInput
               id="doors"
               name="doors"
@@ -663,7 +824,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="seats" className="text-app-text">Seats:</Label>
+            <Label htmlFor="seats" className="text-app-text">
+              Seats:
+            </Label>
             <TextInput
               id="seats"
               name="seats"
@@ -673,7 +836,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="isFinance" className="text-app-text">Finance:</Label>
+            <Label htmlFor="isFinance" className="text-app-text">
+              Finance:
+            </Label>
             <Select
               id="isFinance"
               name="isFinance"
@@ -686,7 +851,9 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="unit" className="text-app-text">Unit:</Label>
+            <Label htmlFor="unit" className="text-app-text">
+              Unit:
+            </Label>
             <Select
               id="unit"
               name="unit"
@@ -698,7 +865,9 @@ const CarEditPage = ({ params }) => {
             </Select>
           </div>
           <div>
-            <Label htmlFor="registerationPlate" className="text-app-text">Registration Plate:</Label>
+            <Label htmlFor="registerationPlate" className="text-app-text">
+              Registration Plate:
+            </Label>
             <TextInput
               id="registerationPlate"
               name="registerationPlate"
@@ -707,7 +876,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="registerationExpire" className="text-app-text">Registration Expiry:</Label>
+            <Label htmlFor="registerationExpire" className="text-app-text">
+              Registration Expiry:
+            </Label>
             <TextInput
               id="registerationExpire"
               name="registerationExpire"
@@ -717,7 +888,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="year" className="text-app-text">Build Date:</Label>
+            <Label htmlFor="year" className="text-app-text">
+              Build Date:
+            </Label>
             <TextInput
               id="year"
               name="year"
@@ -726,7 +899,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="engineCapacity" className="text-app-text">Engine Capacity:</Label>
+            <Label htmlFor="engineCapacity" className="text-app-text">
+              Engine Capacity:
+            </Label>
             <TextInput
               id="engineCapacity"
               name="engineCapacity"
@@ -735,7 +910,9 @@ const CarEditPage = ({ params }) => {
             />
           </div>
           <div>
-            <Label htmlFor="dealerId" className="text-app-text">Dealer ID:</Label>
+            <Label htmlFor="dealerId" className="text-app-text">
+              Dealer ID:
+            </Label>
             <TextInput
               id="dealerId"
               name="dealerId"
@@ -810,27 +987,29 @@ const CarEditPage = ({ params }) => {
           </div>
         </div>
         <div className="mt-5">
-          <Label className="text-app-text">Existing Images:</Label>
-          <div className="flex gap-2">
-            {formData.images &&
-            Array.isArray(formData.images) &&
-            formData.images.length > 0 ? (
-              formData.images.map((image, index) => (
-                <Image
-                  key={index}
-                  src={
-                    typeof image === "string"
-                      ? image
-                      : URL.createObjectURL(image)
-                  }
-                  alt={`Car Image ${index}`}
-                  width={100}
-                  height={100}
-                  className="rounded-md"
-                />
+          <Label>Images:</Label>
+          <div className="mt-2 flex flex-wrap gap-4">
+            {imagePreviews.length > 0 ? (
+              imagePreviews.map((image) => (
+                <div key={image.id} className="relative h-24 w-24">
+                  <Image
+                    src={image.url}
+                    alt="Car Image"
+                    width={96}
+                    height={96}
+                    className="h-full w-full rounded-md object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleImageDelete(image.id)}
+                    className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white"
+                  >
+                    {/* Add your delete icon here */}✕
+                  </button>
+                </div>
               ))
             ) : (
-              <p className="text-app-text">No images available.</p>
+              <p>No images available.</p>
             )}
           </div>
         </div>
@@ -844,19 +1023,20 @@ const CarEditPage = ({ params }) => {
           )}
         </div>
         <div className="mt-5">
-          <Label htmlFor="images" className="text-app-text">Upload Images:</Label>
+          <Label htmlFor="images" className="text-app-text">
+            Upload Images:
+          </Label>
           <FileInput
             id="images"
             name="images"
             multiple
-            onChange={(e) => {
-              const files = Array.from(e.target.files);
-              setFormData((prev) => ({ ...prev, images: files }));
-            }}
+            onChange={handleImageChange}
           />
         </div>
         <div className="mt-5">
-          <Label htmlFor="video" className="text-app-text">Upload Video:</Label>
+          <Label htmlFor="video" className="text-app-text">
+            Upload Video:
+          </Label>
           <FileInput
             id="video"
             name="video"
@@ -867,8 +1047,12 @@ const CarEditPage = ({ params }) => {
           />
         </div>
         <div className="mt-5">
-          <Button type="submit" className="bg-app-button hover:bg-app-button-hover text-white transition-colors duration-200">
-            Update Car
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className={isSubmitting ? "cursor-not-allowed opacity-70" : ""}
+          >
+            {isSubmitting ? "Updating..." : "Update Car"}
           </Button>
         </div>
       </form>
@@ -877,4 +1061,3 @@ const CarEditPage = ({ params }) => {
 };
 
 export default CarEditPage;
-
