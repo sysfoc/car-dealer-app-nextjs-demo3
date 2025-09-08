@@ -25,7 +25,6 @@ async function dbConnect() {
       serverSelectionTimeoutMS: 10000, // Increased timeout
       socketTimeoutMS: 45000,
       maxPoolSize: 10, // Maintain up to 10 socket connections
-      serverSelectionRetries: 5, // Retry server selection 5 times
       heartbeatFrequencyMS: 10000, // Send a heartbeat every 10 seconds
     };
 
