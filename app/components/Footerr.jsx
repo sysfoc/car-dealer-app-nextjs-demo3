@@ -496,7 +496,7 @@ const Footerr = () => {
   }, [tradingHours, t, isDataLoaded]);
 
   return (
-    <div className="relative mt-5">
+    <div className="relative mt-5 min-h-[800px] sm:min-h-[440px]">
       {/* Optimized SVG Wave */}
       <div className="absolute left-0 top-0 w-full overflow-hidden leading-none">
        <svg

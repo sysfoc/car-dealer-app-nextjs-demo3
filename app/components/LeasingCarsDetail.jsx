@@ -40,7 +40,7 @@ const CardetailCard = () => {
   const [sortOption, setSortOption] = useState("default");
   const [sortedAndFilteredCars, setSortedAndFilteredCars] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [isPageTransitioning, setIsPageTransitioning] = useState(false);
   const [userLikedCars, setUserLikedCars] = useState([]);
   const [user, setUser] = useState(null);
@@ -842,10 +842,13 @@ const CardetailCard = () => {
                 {/* Image Section */}
                 <div
                   className={`relative flex-shrink-0 ${
-                    isGridView ? "h-44 w-full" : "h-60 sm:h-64 sm:w-80 md:w-96"
+                    isGridView ? "h-56 w-full" : "h-60 sm:h-64 sm:w-80 md:w-96"
                   }`}
                 >
                   <Carousel
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
                     slideInterval={3000}
                     className="h-full w-full overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none"
                   >
@@ -1217,10 +1220,10 @@ const CardetailCard = () => {
             </Link>
 
             <div
-               className={`absolute ${
+              className={`absolute ${
                 isGridView
                   ? "bottom-0 left-0 right-0 p-2.5"
-                  : "sm:-bottom-5 -bottom-4 right-0 p-5 sm:p-6"
+                  : "-bottom-4 right-0 p-5 sm:-bottom-5 sm:p-6"
               }`}
             >
               <button

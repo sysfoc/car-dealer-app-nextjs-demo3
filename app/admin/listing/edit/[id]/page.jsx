@@ -66,7 +66,6 @@ const CarEditPage = ({ params }) => {
     isFinance: "",
     isLease: false,
     slug: "",
-    // Add missing fields to match the schema
     year: "",
     engineCapacity: "",
     dealerId: "",
@@ -79,6 +78,31 @@ const CarEditPage = ({ params }) => {
   const [jsonData, setJsonData] = useState([]);
   const [loading, setLoading] = useState(false);
   const { currency, selectedCurrency } = useCurrency();
+
+  const featuresList = [
+    { id: "bluetooth", label: "Bluetooth connectivity" },
+    { id: "usb-ports", label: "USB ports" },
+    { id: "carplay-androidauto", label: "Apple CarPlay and Android Auto" },
+    { id: "wifi-hotspot", label: "Wi-Fi hotspot" },
+    { id: "satellite-radio", label: "Satellite radio" },
+    { id: "navigation-system", label: "Navigation system" },
+    { id: "touchscreen-display", label: "Touchscreen infotainment display" },
+    { id: "voice-recognition", label: "Voice recognition" },
+    { id: "wireless-charging", label: "Wireless charging pad" },
+    { id: "rear-seat-entertainment", label: "Rear-seat entertainment system" },
+    { id: "air-conditioning", label: "Air conditioning" },
+    { id: "climate-control", label: "Dual-zone or tri-zone climate control" },
+    { id: "heated-seats", label: "Heated and ventilated seats" },
+    { id: "power-adjustable-seats", label: "Power-adjustable seats" },
+    { id: "leather-upholstery", label: "Leather upholstery" },
+    { id: "keyless-entry", label: "Keyless entry and push-button start" },
+    { id: "remote-start", label: "Remote start" },
+    { id: "power-windows", label: "Power windows and mirrors" },
+    { id: "sunroof", label: "Sunroof or moonroof" },
+    { id: "ambient-lighting", label: "Ambient interior lighting" },
+    { id: "valid-mot", label: "Valid MOT" },
+    { id: "road-tax-paid", label: "Road Tax Paid" },
+  ];
 
   useEffect(() => {
     const fetchCarDetails = async () => {
@@ -412,7 +436,7 @@ const CarEditPage = ({ params }) => {
   return (
     <section className="my-10">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-app-text">Edit Car Listing</h2>
+        <h2 className="text-app-text text-2xl font-bold">Edit Car Listing</h2>
         <Link
           href={"/admin/listing/view"}
           className="rounded-lg bg-app-button p-3 text-sm text-white transition-colors duration-200 hover:bg-app-button-hover"
@@ -928,7 +952,7 @@ const CarEditPage = ({ params }) => {
               checked={formData.isLease || false}
               onChange={handleInputChange}
             />
-            <Label htmlFor="isLease" className="ml-2 text-app-text">
+            <Label htmlFor="isLease" className="text-app-text ml-2">
               Available for Lease
             </Label>
           </div>
@@ -939,55 +963,31 @@ const CarEditPage = ({ params }) => {
               checked={formData.sold || false}
               onChange={handleInputChange}
             />
-            <Label htmlFor="sold" className="ml-2 text-app-text">
+            <Label htmlFor="sold" className="text-app-text ml-2">
               Mark as Sold
             </Label>
           </div>
         </div>
         <div className="mt-5">
-          <h3 className="text-sm font-semibold text-app-text">Features:</h3>
+          <h3 className="text-app-text text-sm font-semibold">Features:</h3>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
-            {[
-              "Air Conditioning",
-              "Bluetooth",
-              "Backup Camera",
-              "Sunroof",
-              "Bluetooth connectivity",
-              "USB ports",
-              "Apple CarPlay and Android Auto",
-              "Wi-Fi hotspot",
-              "Satellite radio",
-              "Navigation system",
-              "Touchscreen infotainment display",
-              "Voice recognition",
-              "Wireless charging pad",
-              "Rear-seat entertainment system",
-              "Dual-zone or tri-zone climate control",
-              "Heated and ventilated seats",
-              "Power-adjustable seats",
-              "Leather upholstery",
-              "Keyless entry and push-button start",
-              "Remote start",
-              "Power windows and mirrors",
-              "Moonroof",
-              "Ambient interior lighting",
-            ].map((feature) => (
-              <div key={feature} className="flex items-center">
+            {featuresList.map((feature) => (
+              <div key={feature.id} className="flex items-center">
                 <Checkbox
-                  id={feature}
-                  value={feature}
-                  checked={formData.features.includes(feature)}
+                  id={feature.id}
+                  value={feature.label}
+                  checked={formData.features.includes(feature.label)}
                   onChange={handleFeatureChange}
                 />
-                <Label htmlFor={feature} className="ml-2 text-app-text">
-                  {feature}
+                <Label htmlFor={feature.id} className="text-app-text ml-2">
+                  {feature.label}
                 </Label>
               </div>
             ))}
           </div>
         </div>
         <div className="mt-5">
-          <Label>Images:</Label>
+          <Label className="text-app-text">Images:</Label>
           <div className="mt-2 flex flex-wrap gap-4">
             {imagePreviews.length > 0 ? (
               imagePreviews.map((image) => (
@@ -1004,12 +1004,25 @@ const CarEditPage = ({ params }) => {
                     onClick={() => handleImageDelete(image.id)}
                     className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white"
                   >
-                    {/* Add your delete icon here */}✕
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
                   </button>
                 </div>
               ))
             ) : (
-              <p>No images available.</p>
+              <p className="text-app-text">No images available.</p>
             )}
           </div>
         </div>
@@ -1024,7 +1037,7 @@ const CarEditPage = ({ params }) => {
         </div>
         <div className="mt-5">
           <Label htmlFor="images" className="text-app-text">
-            Upload Images:
+            Upload New Images:
           </Label>
           <FileInput
             id="images"
@@ -1050,7 +1063,8 @@ const CarEditPage = ({ params }) => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className={isSubmitting ? "cursor-not-allowed opacity-70" : ""}
+            color="dark"
+            className={`${isSubmitting ? "cursor-not-allowed opacity-70" : ""}`}
           >
             {isSubmitting ? "Updating..." : "Update Car"}
           </Button>

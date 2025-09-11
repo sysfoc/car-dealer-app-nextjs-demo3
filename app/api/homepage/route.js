@@ -1,23 +1,15 @@
-export const dynamic = "force-dynamic";
 import Homepage from "../../models/Homepage";
 import connectDB from "../../lib/mongodb";
 
 export async function GET() {
   try {
     await connectDB();
-    const count = await Homepage.countDocuments();
+    
     const homepage = await Homepage.findOne();
     
-    if (!homepage) {
-      return Response.json({ 
-        error: "No homepage data found",
-        debug: { count, collectionExists: count >= 0 }
-      });
-    }
-    
-    return Response.json(homepage);
-    
+    return Response.json(homepage || {});
   } catch (error) {
+    console.error("GET /api/homepage error:", error);
     console.error("Error details:", {
       message: error.message,
       stack: error.stack,
@@ -164,6 +156,7 @@ export async function POST(request) {
     });
 
   } catch (error) {
+    console.error("POST /api/homepage error:", error);
     console.error("Error details:", {
       message: error.message,
       stack: error.stack,

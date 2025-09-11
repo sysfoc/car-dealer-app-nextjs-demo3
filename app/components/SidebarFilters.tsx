@@ -218,72 +218,15 @@ const SidebarFilters = () => {
       }
     };
 
-  // New components
-  const ColorDot = ({
-    color,
-    selected,
-    onClick,
-    label,
-  }: {
-    color: string;
-    selected: boolean;
-    onClick: () => void;
-    label: string;
-  }) => (
-    <button
-      className={`${color} relative h-8 w-8 rounded-full border-2 ${selected ? "border-white" : "border-gray-300 dark:border-gray-600"} transition-all duration-200`}
-      onClick={onClick}
-      title={label}
-      aria-label={`Select ${label} color`}
-    >
-      {selected && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <svg
-            className="h-4 w-4 text-white"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
-      )}
-    </button>
-  );
-
-  const ConditionButton = ({
-    condition,
-    selected,
-    onClick,
-  }: {
-    condition: string;
-    selected: boolean;
-    onClick: () => void;
-  }) => (
-    <button
-      className={`rounded-lg px-4 py-2 font-medium transition-all duration-200 ${
-        selected
-          ? "bg-gradient-to-r from-app-button to-app-button-hover text-white shadow-lg"
-          : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-      }`}
-      onClick={onClick}
-    >
-      {condition === "new" ? "New" : "Used"}
-    </button>
-  );
-
   const colorMap = {
-    black: "bg-black",
-    blue: "bg-blue-500",
-    gray: "bg-gray-500",
-    white: "bg-white",
-    silver: "bg-gray-300",
-    red: "bg-red-500",
-    green: "bg-green-500",
-  };
+      black: "bg-black",
+      blue: "bg-blue-500",
+      gray: "bg-gray-500",
+      white: "bg-white",
+      silver: "bg-gray-300",
+      red: "bg-red-500",
+      green: "bg-green-500",
+    };
 
   const sections = [
     {
@@ -291,14 +234,13 @@ const SidebarFilters = () => {
       content: "year",
       symbol: <FaRegCalendarCheck />,
       render: (
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-3">
+        <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-1">
               <Label
                 htmlFor="minYear"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+                className="text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 From Year
               </Label>
               <TextInput
@@ -311,15 +253,14 @@ const SidebarFilters = () => {
                 onChange={(e) =>
                   handleInputChange("minYear", e.target.value, "minYear")
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 placeholder-gray-500 shadow-lg transition-all duration-300 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400 "
+                className="w-full text-sm px-2 py-1"
               />
             </div>
-            <div className="space-y-3">
+            <div className="space-y-1">
               <Label
                 htmlFor="maxYear"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+                className="text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 To Year
               </Label>
               <TextInput
@@ -332,7 +273,7 @@ const SidebarFilters = () => {
                 onChange={(e) =>
                   handleInputChange("maxYear", e.target.value, "maxYear")
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 placeholder-gray-500 shadow-lg transition-all duration-300 focus:border-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:ring-violet-900/50"
+                className="w-full text-sm px-2 py-1"
               />
             </div>
           </div>
@@ -344,14 +285,13 @@ const SidebarFilters = () => {
       content: "mileage",
       symbol: <IoIosSpeedometer />,
       render: (
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-3">
+        <div className="space-y-2">
+          <div className="grid grid-cols-1 gap-2">
+            <div className="space-y-1">
               <Label
                 htmlFor="millageFrom"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+                className="text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 {t("from")}
               </Label>
               <Select
@@ -366,7 +306,7 @@ const SidebarFilters = () => {
                     "millageFrom",
                   )
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+                className="w-full text-sm px-2 py-1"
               >
                 <option value="">Any</option>
                 <option value="25000">25,000 km</option>
@@ -374,12 +314,11 @@ const SidebarFilters = () => {
                 <option value="27000">27,000 km</option>
               </Select>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-1">
               <Label
                 htmlFor="millageTo"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+                className="text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 {t("to")}
               </Label>
               <Select
@@ -390,7 +329,7 @@ const SidebarFilters = () => {
                 onChange={(e) =>
                   handleInputChange("millageTo", e.target.value, "millageTo")
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-app-button focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+                className="w-full text-sm px-2 py-1"
               >
                 <option value="">Any</option>
                 <option value="24000">24,000 km</option>
@@ -407,29 +346,27 @@ const SidebarFilters = () => {
       content: "location",
       symbol: <FaLocationDot />,
       render: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 gap-2">
-            {["Cityville", "uk", "New York", "Berlin"].map((value) => (
-              <div key={value} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id={`location-${value}`}
-                  checked={
-                    Array.isArray(localFilters.location) &&
-                    localFilters.location.includes(value)
-                  }
-                  onChange={() => handleCheckboxChange("location", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
-                />
-                <label
-                  htmlFor={`location-${value}`}
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                >
-                  {value}
-                </label>
-              </div>
-            ))}
-          </div>
+        <div className="space-y-1">
+          {["Cityville", "uk", "New York", "Berlin"].map((value) => (
+            <div key={value} className="flex items-center">
+              <input
+                type="checkbox"
+                id={`location-${value}`}
+                checked={
+                  Array.isArray(localFilters.location) &&
+                  localFilters.location.includes(value)
+                }
+                onChange={() => handleCheckboxChange("location", value)}
+                className="h-3 w-3"
+              />
+              <label
+                htmlFor={`location-${value}`}
+                className="ml-1 text-xs text-gray-700 dark:text-gray-300"
+              >
+                {value}
+              </label>
+            </div>
+          ))}
         </div>
       ),
     },
@@ -438,15 +375,14 @@ const SidebarFilters = () => {
       content: "price",
       symbol: <IoPricetag />,
       render: (
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-3">
+        <div className="space-y-2">
+          <div className="grid grid-cols-1 gap-2">
+            <div className="space-y-1">
               <Label
                 htmlFor="minPrice"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+                className="text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-app-button"></span>
-                Minimum Price
+                Min Price
               </Label>
               <Select
                 id="minPrice"
@@ -456,7 +392,7 @@ const SidebarFilters = () => {
                 onChange={(e) =>
                   handleInputChange("minPrice", e.target.value, "minPrice")
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+                className="w-full text-xs px-2 py-1"
               >
                 <option value="">Any Min</option>
                 <option value="100">$100</option>
@@ -472,13 +408,12 @@ const SidebarFilters = () => {
                 <option value="50000">$50,000</option>
               </Select>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-1">
               <Label
                 htmlFor="maxPrice"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+                className="text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-purple-500"></span>
-                Maximum Price
+                Max Price
               </Label>
               <Select
                 id="maxPrice"
@@ -488,7 +423,7 @@ const SidebarFilters = () => {
                 onChange={(e) =>
                   handleInputChange("maxPrice", e.target.value, "maxPrice")
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+                className="w-full text-xs px-2 py-1"
               >
                 <option value="">Any Max</option>
                 <option value="500">$500</option>
@@ -514,29 +449,27 @@ const SidebarFilters = () => {
       content: "Model",
       symbol: <SiCmake />,
       render: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 gap-2">
-            {["Corolla", "sequoio", "147", "146", "159"].map((value) => (
-              <div key={value} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id={`model-${value}`}
-                  checked={
-                    Array.isArray(localFilters.model) &&
-                    localFilters.model.includes(value)
-                  }
-                  onChange={() => handleCheckboxChange("model", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
-                />
-                <label
-                  htmlFor={`model-${value}`}
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                >
-                  {value}
-                </label>
-              </div>
-            ))}
-          </div>
+        <div className="space-y-1">
+          {["Corolla", "sequoio", "147", "146", "159"].map((value) => (
+            <div key={value} className="flex items-center">
+              <input
+                type="checkbox"
+                id={`model-${value}`}
+                checked={
+                  Array.isArray(localFilters.model) &&
+                  localFilters.model.includes(value)
+                }
+                onChange={() => handleCheckboxChange("model", value)}
+                className="h-3 w-3"
+              />
+              <label
+                htmlFor={`model-${value}`}
+                className="ml-1 text-xs text-gray-700 dark:text-gray-300"
+              >
+                {value}
+              </label>
+            </div>
+          ))}
         </div>
       ),
     },
@@ -545,29 +478,27 @@ const SidebarFilters = () => {
       content: "gearbox",
       symbol: <GiGearStickPattern />,
       render: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 gap-2">
-            {["automatic", "manual"].map((value) => (
-              <div key={value} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id={`gearbox-${value}`}
-                  checked={
-                    Array.isArray(localFilters.gearBox) &&
-                    localFilters.gearBox.includes(value)
-                  }
-                  onChange={() => handleCheckboxChange("gearBox", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
-                />
-                <label
-                  htmlFor={`gearbox-${value}`}
-                  className="ml-3 text-sm capitalize text-gray-700 dark:text-gray-300"
-                >
-                  {value}
-                </label>
-              </div>
-            ))}
-          </div>
+        <div className="space-y-1">
+          {["automatic", "manual"].map((value) => (
+            <div key={value} className="flex items-center">
+              <input
+                type="checkbox"
+                id={`gearbox-${value}`}
+                checked={
+                  Array.isArray(localFilters.gearBox) &&
+                  localFilters.gearBox.includes(value)
+                }
+                onChange={() => handleCheckboxChange("gearBox", value)}
+                className="h-3 w-3"
+              />
+              <label
+                htmlFor={`gearbox-${value}`}
+                className="ml-1 text-xs capitalize text-gray-700 dark:text-gray-300"
+              >
+                {value}
+              </label>
+            </div>
+          ))}
         </div>
       ),
     },
@@ -576,36 +507,34 @@ const SidebarFilters = () => {
       content: "bodytype",
       symbol: <GiCarDoor />,
       render: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 gap-2">
-            {[
-              "convertible",
-              "coupe",
-              "estate",
-              "hatchback",
-              "saloon",
-              "suv",
-            ].map((value) => (
-              <div key={value} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id={`body-${value}`}
-                  checked={
-                    Array.isArray(localFilters.bodyType) &&
-                    localFilters.bodyType.includes(value)
-                  }
-                  onChange={() => handleCheckboxChange("bodyType", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
-                />
-                <label
-                  htmlFor={`body-${value}`}
-                  className="ml-3 text-sm capitalize text-gray-700 dark:text-gray-300"
-                >
-                  {value}
-                </label>
-              </div>
-            ))}
-          </div>
+        <div className="space-y-1">
+          {[
+            "convertible",
+            "coupe",
+            "estate",
+            "hatchback",
+            "saloon",
+            "suv",
+          ].map((value) => (
+            <div key={value} className="flex items-center">
+              <input
+                type="checkbox"
+                id={`body-${value}`}
+                checked={
+                  Array.isArray(localFilters.bodyType) &&
+                  localFilters.bodyType.includes(value)
+                }
+                onChange={() => handleCheckboxChange("bodyType", value)}
+                className="h-3 w-3"
+              />
+              <label
+                htmlFor={`body-${value}`}
+                className="ml-1 text-xs capitalize text-gray-700 dark:text-gray-300"
+              >
+                {value}
+              </label>
+            </div>
+          ))}
         </div>
       ),
     },
@@ -614,8 +543,8 @@ const SidebarFilters = () => {
       content: "doors",
       symbol: <GiCarDoor />,
       render: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-2">
+        <div className="space-y-1">
+          <div className="grid grid-cols-2 gap-1">
             {["2", "3", "4", "5"].map((value) => (
               <div key={value} className="flex items-center">
                 <input
@@ -626,11 +555,11 @@ const SidebarFilters = () => {
                     localFilters.doors.includes(value)
                   }
                   onChange={() => handleCheckboxChange("doors", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
+                  className="h-3 w-3"
                 />
                 <label
                   htmlFor={`doors-${value}`}
-                  className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                  className="ml-1 text-xs text-gray-700 dark:text-gray-300"
                 >
                   {value} Doors
                 </label>
@@ -645,8 +574,8 @@ const SidebarFilters = () => {
       content: "Seats",
       symbol: <GiCarSeat />,
       render: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-2">
+        <div className="space-y-1">
+          <div className="grid grid-cols-2 gap-1">
             {["2", "3", "4", "5", "7"].map((value) => (
               <div key={value} className="flex items-center">
                 <input
@@ -657,11 +586,11 @@ const SidebarFilters = () => {
                     localFilters.seats.includes(value)
                   }
                   onChange={() => handleCheckboxChange("seats", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
+                  className="h-3 w-3"
                 />
                 <label
                   htmlFor={`seats-${value}`}
-                  className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                  className="ml-1 text-xs text-gray-700 dark:text-gray-300"
                 >
                   {value} Seats
                 </label>
@@ -676,31 +605,29 @@ const SidebarFilters = () => {
       content: "fueltype",
       symbol: <GiGasPump />,
       render: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 gap-2">
-            {["petrol", "diesel", "electric", "hybrid", "bi-fuel"].map(
-              (value) => (
-                <div key={value} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id={`fuel-${value}`}
-                    checked={
-                      Array.isArray(localFilters.fuel) &&
-                      localFilters.fuel.includes(value)
-                    }
-                    onChange={() => handleCheckboxChange("fuel", value)}
-                    className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
-                  />
-                  <label
-                    htmlFor={`fuel-${value}`}
-                    className="ml-3 text-sm capitalize text-gray-700 dark:text-gray-300"
-                  >
-                    {value}
-                  </label>
-                </div>
-              ),
-            )}
-          </div>
+        <div className="space-y-1">
+          {["petrol", "diesel", "electric", "hybrid", "bi-fuel"].map(
+            (value) => (
+              <div key={value} className="flex items-center">
+                <input
+                  type="checkbox"
+                  id={`fuel-${value}`}
+                  checked={
+                    Array.isArray(localFilters.fuel) &&
+                    localFilters.fuel.includes(value)
+                  }
+                  onChange={() => handleCheckboxChange("fuel", value)}
+                  className="h-3 w-3"
+                />
+                <label
+                  htmlFor={`fuel-${value}`}
+                  className="ml-1 text-xs capitalize text-gray-700 dark:text-gray-300"
+                >
+                  {value}
+                </label>
+              </div>
+            ),
+          )}
         </div>
       ),
     },
@@ -709,12 +636,11 @@ const SidebarFilters = () => {
       content: "battery",
       symbol: <GiBatteryPack />,
       render: (
-        <div className="space-y-3">
+        <div className="space-y-1">
           <Label
             htmlFor="battery"
-            className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+            className="text-xs font-medium text-gray-700 dark:text-gray-300"
           >
-            <span className="h-2 w-2 rounded-full bg-app-button"></span>
             Select Range
           </Label>
           <Select
@@ -724,7 +650,7 @@ const SidebarFilters = () => {
             onChange={(e) =>
               handleInputChange("battery", e.target.value, "battery")
             }
-            className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+            className="w-full text-sm px-2 py-1"
           >
             <option value="Any">Any Range</option>
             <option value="100">0-100 Miles</option>
@@ -739,13 +665,12 @@ const SidebarFilters = () => {
       content: "charging",
       symbol: <GiElectric />,
       render: (
-        <div className="space-y-3">
+        <div className="space-y-1">
           <Label
             htmlFor="charging"
-            className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+            className="text-xs font-medium text-gray-700 dark:text-gray-300"
           >
-            <span className="h-2 w-2 rounded-full bg-app-button"></span>
-            Maximum Charging Rate
+            Max Charging Rate
           </Label>
           <Select
             id="charging"
@@ -754,7 +679,7 @@ const SidebarFilters = () => {
             onChange={(e) =>
               handleInputChange("charging", e.target.value, "charging")
             }
-            className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+            className="w-full text-sm px-2 py-1"
           >
             <option value="Any">Any Speed</option>
             <option value="100">Standard (0-50kW)</option>
@@ -769,14 +694,13 @@ const SidebarFilters = () => {
       content: "engine-size",
       symbol: <SiGoogleearthengine />,
       render: (
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-3">
+        <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-1">
               <Label
                 htmlFor="engine-from"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+                className="text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 {t("from")}
               </Label>
               <Select
@@ -790,7 +714,7 @@ const SidebarFilters = () => {
                     "engineSizeFrom",
                   )
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+                className="w-full text-sm px-2 py-1"
               >
                 <option value="">Any</option>
                 <option value="0">0.0L</option>
@@ -798,12 +722,11 @@ const SidebarFilters = () => {
                 <option value="2">2.0L</option>
               </Select>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-1">
               <Label
                 htmlFor="engine-to"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+                className="text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-purple-500"></span>
                 {t("to")}
               </Label>
               <Select
@@ -817,7 +740,7 @@ const SidebarFilters = () => {
                     "engineSizeTo",
                   )
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+                className="w-full text-sm px-2 py-1"
               >
                 <option value="">Any</option>
                 <option value="0">0.0L</option>
@@ -834,14 +757,13 @@ const SidebarFilters = () => {
       content: "engine-power",
       symbol: <GiPowerLightning />,
       render: (
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-3">
+        <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-1">
               <Label
                 htmlFor="engine-power-from"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+                className="text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-app-button"></span>
                 {t("from")}
               </Label>
               <Select
@@ -855,7 +777,7 @@ const SidebarFilters = () => {
                     "enginePowerFrom",
                   )
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+                className="w-full text-sm px-2 py-1"
               >
                 <option value="Any">Any</option>
                 <option value="50">50 bhp</option>
@@ -863,12 +785,11 @@ const SidebarFilters = () => {
                 <option value="150">150 bhp</option>
               </Select>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-1">
               <Label
                 htmlFor="engine-power-to"
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+                className="text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                <span className="h-2 w-2 rounded-full bg-purple-500"></span>
                 {t("to")}
               </Label>
               <Select
@@ -882,7 +803,7 @@ const SidebarFilters = () => {
                     "enginePowerTo",
                   )
                 }
-                className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+                className="w-full text-sm px-2 py-1"
               >
                 <option value="Any">Any</option>
                 <option value="50">50 bhp</option>
@@ -899,12 +820,11 @@ const SidebarFilters = () => {
       content: "fuel-comsumption",
       symbol: <FaHourglassEnd />,
       render: (
-        <div className="space-y-3">
+        <div className="space-y-1">
           <Label
             htmlFor="fuel-comsumption"
-            className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+            className="text-xs font-medium text-gray-700 dark:text-gray-300"
           >
-            <span className="h-2 w-2 rounded-full bg-app-button"></span>
             Minimum MPG
           </Label>
           <Select
@@ -918,7 +838,7 @@ const SidebarFilters = () => {
                 "fuelConsumption",
               )
             }
-            className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+            className="w-full text-sm px-2 py-1"
           >
             <option value="Any">Any MPG</option>
             <option value="30">30+ MPG</option>
@@ -934,13 +854,12 @@ const SidebarFilters = () => {
       content: "c02-emission",
       symbol: <MdOutlineCo2 />,
       render: (
-        <div className="space-y-3">
+        <div className="space-y-1">
           <Label
             htmlFor="c02-emission"
-            className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
+            className="text-xs font-medium text-gray-700 dark:text-gray-300"
           >
-            <span className="h-2 w-2 rounded-full bg-app-button"></span>
-            Maximum CO2 Output
+            Max CO2 Output
           </Label>
           <Select
             id="c02-emission"
@@ -949,7 +868,7 @@ const SidebarFilters = () => {
             onChange={(e) =>
               handleInputChange("co2Emission", e.target.value, "co2Emission")
             }
-            className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
+            className="w-full text-sm px-2 py-1"
           >
             <option value="Any">Any Emission</option>
             <option value="30">Up to 30 g/km CO2</option>
@@ -957,6 +876,7 @@ const SidebarFilters = () => {
             <option value="100">Up to 100 g/km CO2</option>
             <option value="110">Up to 110 g/km CO2</option>
             <option value="120">Up to 120 g/km CO2</option>
+            <option value="130">Up to 130 g/km CO2</option>
           </Select>
         </div>
       ),
@@ -966,33 +886,31 @@ const SidebarFilters = () => {
       content: "drive-type",
       symbol: <GiCarWheel />,
       render: (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 gap-2">
-            {["four", "front", "rear"].map((value) => (
-              <div key={value} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id={`drive-${value}`}
-                  checked={
-                    Array.isArray(localFilters.driveType) &&
-                    localFilters.driveType.includes(value)
-                  }
-                  onChange={() => handleCheckboxChange("driveType", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
-                />
-                <label
-                  htmlFor={`drive-${value}`}
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                >
-                  {value === "four"
-                    ? "Four Wheel Drive"
-                    : value === "front"
-                      ? "Front Wheel Drive"
-                      : "Rear Wheel Drive"}
-                </label>
-              </div>
-            ))}
-          </div>
+        <div className="space-y-1">
+          {["four", "front", "rear"].map((value) => (
+            <div key={value} className="flex items-center">
+              <input
+                type="checkbox"
+                id={`drive-${value}`}
+                checked={
+                  Array.isArray(localFilters.driveType) &&
+                  localFilters.driveType.includes(value)
+                }
+                onChange={() => handleCheckboxChange("driveType", value)}
+                className="h-3 w-3"
+              />
+              <label
+                htmlFor={`drive-${value}`}
+                className="ml-1 text-xs text-gray-700 dark:text-gray-300"
+              >
+                {value === "four"
+                  ? "Four Wheel Drive"
+                  : value === "front"
+                    ? "Front Wheel Drive"
+                    : "Rear Wheel Drive"}
+              </label>
+            </div>
+          ))}
         </div>
       ),
     },
@@ -1008,18 +926,18 @@ const SidebarFilters = () => {
     }
   }, [])
   return (
-   <div className="max-h-screen overflow-y-auto no-scrollbar rounded-xl bg-white p-6 shadow-lg dark:bg-gray-900">
-     <h2 className="mb-6 border-b border-gray-200 pb-4 text-2xl font-bold text-gray-800 dark:border-gray-800 dark:text-white">
+   <div className="max-h-screen overflow-y-auto no-scrollbar rounded-lg bg-white p-3 shadow dark:bg-gray-900">
+     <h2 className="mb-3 border-b border-gray-200 pb-2 text-lg font-bold text-gray-800 dark:border-gray-800 dark:text-white">
         Filter Vehicles
       </h2>
 
       {/* Keyword Search */}
-      <div className="mb-4">
-        <div className="mb-4 flex items-center gap-3">
-          <VscSymbolKeyword className="text-xl text-app-button" />
+      <div className="mb-3">
+        <div className="mb-1 flex items-center gap-2">
+          <VscSymbolKeyword className="text-sm text-app-button" />
           <label
             htmlFor="keyword"
-            className="text-lg font-semibold text-gray-800 dark:text-gray-200"
+            className="text-sm font-medium text-gray-800 dark:text-gray-200"
           >
             {t("keyword")}
           </label>
@@ -1035,74 +953,79 @@ const SidebarFilters = () => {
             onChange={(e) =>
               handleInputChange("keyword", e.target.value, "keyword")
             }
-            className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-gray-800 placeholder-gray-500 focus:border-violet-500 focus:focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:ring-violet-900/50"
+            className="w-full text-sm px-2 py-1"
           />
-          <VscSymbolKeyword className="absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-500 dark:text-gray-400" />
         </div>
       </div>
 
       {/* Condition Toggle Buttons */}
-      <div className="mb-6">
-        <div className="mb-3 flex items-center gap-3">
-          <FaRecycle className="text-xl text-app-button" />
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+      <div className="mb-3">
+        <div className="mb-1 flex items-center gap-2">
+          <FaRecycle className="text-sm text-app-button" />
+          <h3 className="text-sm font-medium text-gray-800 dark:text-gray-200">
             {t("condition")}
           </h3>
         </div>
-        <div className="flex gap-3">
-          <ConditionButton
-            condition="new"
-            selected={
+        <div className="flex gap-2">
+          <button
+            className={`rounded px-2 py-1 text-xs font-medium ${
               Array.isArray(localFilters.condition) &&
               localFilters.condition.includes("new")
-            }
+                ? "bg-gradient-to-r from-app-button to-app-button-hover text-white"
+                : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+            }`}
             onClick={() => handleCheckboxChange("condition", "new")}
-          />
-          <ConditionButton
-            condition="used"
-            selected={
+          >
+            New
+          </button>
+          <button
+            className={`rounded px-2 py-1 text-xs font-medium ${
               Array.isArray(localFilters.condition) &&
               localFilters.condition.includes("used")
-            }
+                ? "bg-gradient-to-r from-app-button to-app-button-hover text-white"
+                : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+            }`}
             onClick={() => handleCheckboxChange("condition", "used")}
-          />
+          >
+            Used
+          </button>
         </div>
       </div>
 
       {!isLeasingPage && (
-        <div className="mb-6 border-b border-gray-200 pb-4 last:border-0 dark:border-gray-800">
+        <div className="mb-3 border-b border-gray-200 pb-3 last:border-0 dark:border-gray-800">
           <button
-            className="group mb-4 flex w-full items-center justify-between"
+            className="group mb-2 flex w-full items-center justify-between"
             onClick={() => toggleSection("lease")}
           >
-            <div className="flex items-center gap-3">
-              <FaHandshake className="text-app-button dark:text-app-button-hover" />
-              <h3 className="text-left font-semibold text-gray-800 dark:text-gray-200">
+            <div className="flex items-center gap-2">
+              <FaHandshake className="text-sm text-app-button" />
+              <h3 className="text-sm font-medium text-gray-800 dark:text-gray-200">
                 Lease
               </h3>
             </div>
-            <div className="text-gray-500 group-hover:text-app-button dark:text-gray-400 dark:group-hover:text-app-button-hover">
+            <div className="text-gray-500 group-hover:text-app-button dark:text-gray-400">
               {openSections.includes("lease") ? (
-                <IoArrowUpSharp className="h-5 w-5" />
+                <IoArrowUpSharp className="h-3 w-3" />
               ) : (
-                <IoArrowDownSharp className="h-5 w-5" />
+                <IoArrowDownSharp className="h-3 w-3" />
               )}
             </div>
           </button>
 
           {openSections.includes("lease") && (
-            <div className="pl-9 space-y-4">
+            <div className="pl-6 space-y-2">
               <div className="flex items-center">
                 <input
                   type="checkbox"
                   id="lease-filter"
                   checked={localFilters.lease === "true"}
                   onChange={handleLeaseChange}
-                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
+                  className="h-3 w-3"
                 />
                 <label
                   htmlFor="lease-filter"
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                  className="ml-1 text-xs text-gray-700 dark:text-gray-300"
                 >
                   Show Lease Cars Only
                 </label>
@@ -1113,45 +1036,45 @@ const SidebarFilters = () => {
       )}
 
       {/* Filter Sections */}
-      <div className="space-y-6">
+      <div className="space-y-3">
         {visibleSections.map((section, index) => (
           <div
             key={index}
-            className="border-b border-gray-200 pb-4 last:border-0 dark:border-gray-800"
+            className="border-b border-gray-200 pb-3 last:border-0 dark:border-gray-800"
           >
             <button
-              className="group mb-4 flex w-full items-center justify-between"
+              className="group mb-2 flex w-full items-center justify-between"
               onClick={() => toggleSection(section.content)}
             >
-              <div className="flex items-center gap-3">
-                <div className="text-app-button dark:text-app-button-hover">
+              <div className="flex items-center gap-2">
+                <div className="text-app-button text-sm">
                   {section.symbol}
                 </div>
-                <h3 className="text-left font-semibold text-gray-800 dark:text-gray-200">
+                <h3 className="text-sm font-medium text-gray-800 dark:text-gray-200">
                   {section.label}
                 </h3>
               </div>
-              <div className="text-gray-500 group-hover:text-app-button dark:text-gray-400 dark:group-hover:text-app-button-hover">
+              <div className="text-gray-500 group-hover:text-app-button dark:text-gray-400">
                 {openSections.includes(section.content) ? (
-                  <IoArrowUpSharp className="h-5 w-5" />
+                  <IoArrowUpSharp className="h-3 w-3" />
                 ) : (
-                  <IoArrowDownSharp className="h-5 w-5" />
+                  <IoArrowDownSharp className="h-3 w-3" />
                 )}
               </div>
             </button>
 
             {openSections.includes(section.content) && (
-              <div className="pl-9">{section.render}</div>
+              <div className="pl-6">{section.render}</div>
             )}
           </div>
         ))}
       </div>
-        <div className="mb-4">
-        <div className="mb-3 flex items-center gap-3">
-          <div className="text-xl text-app-button">
+        <div className="mb-3">
+        <div className="mb-1 flex items-center gap-2">
+          <div className="text-sm text-app-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-3 w-3"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -1162,12 +1085,12 @@ const SidebarFilters = () => {
               />
             </svg>
           </div>
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+          <h3 className="text-sm font-medium text-gray-800 dark:text-gray-200">
             Colors
           </h3>
         </div>
-        <div className="flex flex-wrap gap-3">
-          {Object.entries(colorMap).map(([id, bgClass]) => {   
+        <div className="flex flex-wrap gap-1">
+          {Object.entries(colorMap).map(([id, bgClass]) => {
             const label = id.charAt(0).toUpperCase() + id.slice(1);
             const isSelected =
               Array.isArray(localFilters.color) &&
@@ -1176,7 +1099,7 @@ const SidebarFilters = () => {
             return (
               <button
                 key={id}
-                className={`${bgClass} relative h-8 w-8 rounded-full border-2 ${isSelected ? "border-white ring-text-app-button" : "border-gray-300 dark:border-gray-600"} transition-all duration-200`}
+                className={`${bgClass} relative h-5 w-5 rounded-full border ${isSelected ? "border-white" : "border-gray-300 dark:border-gray-600"}`}
                 onClick={() => handleCheckboxChange("color", id)}
                 title={label}
                 aria-label={`Select ${label} color`}
@@ -1184,7 +1107,7 @@ const SidebarFilters = () => {
                 {isSelected && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <svg
-                      className={`h-4 w-4 ${isLightColor(id) ? "text-black" : "text-white"}`}
+                      className={`h-2 w-2 ${isLightColor(id) ? "text-black" : "text-white"}`}
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
