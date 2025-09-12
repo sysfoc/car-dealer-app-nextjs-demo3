@@ -8,7 +8,7 @@ import LanguageSwitching from "../components/LanguageSwitching";
 import { useTranslations } from "next-intl";
 import { iconComponentsMap, allSocialPlatforms } from "../lib/social-icons";
 
-const CACHE_DURATION = 5 * 60 * 1000; // 1 hour
+const CACHE_DURATION = 5 * 60 * 1000;
 const CACHE_KEYS = {
   FOOTER_SETTINGS: 'footer_settings',
   HOMEPAGE_DATA: 'footer_homepage',

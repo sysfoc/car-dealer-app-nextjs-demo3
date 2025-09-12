@@ -4,7 +4,7 @@ import { FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 
-const CACHE_DURATION = 5 * 60 * 1000; // 1 hour
+const CACHE_DURATION = 5 * 60 * 1000;
 const HOMEPAGE_CACHE_KEY = "homepage_data";
 const FALLBACK_HEADING = "Website for Automotive Dealers Built to Sell Cars";
 
@@ -332,9 +332,9 @@ const HeroSection = () => {
 
       {/* Centered Content Overlay */}
       <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="mt-16 sm:mt-32 w-full max-w-6xl space-y-8 text-center">
+        <div className="mt-16 w-full max-w-6xl space-y-8 text-center sm:mt-32">
           {/* Badge */}
-          <div className=" hidden sm:inline-flex items-center space-x-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-md sm:px-6 sm:py-3 sm:text-base">
+          <div className=" hidden items-center space-x-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-md sm:inline-flex sm:px-6 sm:py-3 sm:text-base">
             <div className="h-2 w-2 animate-pulse rounded-full bg-[#DC3C22]" />
             <span>Revolutionary Automotive Solutions</span>
           </div>
@@ -342,7 +342,6 @@ const HeroSection = () => {
           {/* Main Heading with loading state */}
           <div className="space-y-6">
             {!isDataLoaded ? (
-              // Skeleton loader
               <div className="space-y-4">
                 <div className="mx-auto h-16 w-3/4 animate-pulse rounded-lg bg-white/20"></div>
                 <div className="mx-auto h-16 w-5/6 animate-pulse rounded-lg bg-white/10"></div>
@@ -367,7 +366,7 @@ const HeroSection = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col gap-4 pt-8 pb-16 sm:flex-row sm:justify-center">
+          <div className="flex flex-col gap-4 pb-16 pt-8 sm:flex-row sm:justify-center">
             <button
               onClick={handleExploreVehicles}
               className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl border border-red-500/20 bg-gradient-to-r from-[#DC3C22] via-red-600 to-red-700 px-8 py-4 text-base font-semibold text-white shadow-2xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:from-[#c23319] hover:via-red-700 hover:to-red-800 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-[#DC3C22]/50 sm:px-10 sm:py-5 sm:text-lg"

@@ -18,7 +18,6 @@ export default function Home() {
       <VehicalsList loadingState={loading} />
       <BrandsList />
       <BrowseCars />
-      {/* <Services /> */}
       <Blog />
     </div>
   )
