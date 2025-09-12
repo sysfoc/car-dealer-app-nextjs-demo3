@@ -1,50 +1,89 @@
-// "use client";
+"use client";
 import Image from "next/image";
 import { FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 
 const CACHE_DURATION = 5 * 60 * 1000; // 1 hour
-const HOMEPAGE_CACHE_KEY = 'homepage_data';
+const HOMEPAGE_CACHE_KEY = "homepage_data";
 const FALLBACK_HEADING = "Website for Automotive Dealers Built to Sell Cars";
 
 const CacheManager = {
   get: (key) => {
     try {
-      if (typeof window === 'undefined') return null;
-      
+      if (typeof window === "undefined") return null;
+
       const cached = localStorage.getItem(key);
       if (!cached) return null;
-      
+
       const { data, timestamp } = JSON.parse(cached);
       const now = Date.now();
-      
+
       if (now - timestamp > CACHE_DURATION) {
         localStorage.removeItem(key);
         return null;
       }
-      
+
       return data;
     } catch (error) {
-      console.warn('Cache retrieval failed:', error);
+      console.warn("Cache retrieval failed:", error);
       return null;
     }
   },
 
   set: (key, data) => {
     try {
-      if (typeof window === 'undefined') return;
-      
+      if (typeof window === "undefined") return;
+
       const cacheData = {
         data,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
-      
+
       localStorage.setItem(key, JSON.stringify(cacheData));
     } catch (error) {
-      console.warn('Cache storage failed:', error);
+      console.warn("Cache storage failed:", error);
     }
-  }
+  },
+};
+
+const ImageCacheManager = {
+  cache: new Map(),
+
+  preloadImage: (src) => {
+    return new Promise((resolve, reject) => {
+      if (ImageCacheManager.cache.has(src)) {
+        resolve(ImageCacheManager.cache.get(src));
+        return;
+      }
+
+      const img = new Image();
+      img.onload = () => {
+        ImageCacheManager.cache.set(src, {
+          src,
+          loaded: true,
+          timestamp: Date.now(),
+        });
+        resolve(img);
+      };
+      img.onerror = reject;
+      img.src = src;
+    });
+  },
+
+  preloadBatch: async (imageSources) => {
+    try {
+      const promises = imageSources.map((src) =>
+        ImageCacheManager.preloadImage(src),
+      );
+      await Promise.allSettled(promises);
+      console.log("Hero images cached successfully");
+    } catch (error) {
+      console.warn("Image preloading failed:", error);
+    }
+  },
+
+  isImageCached: (src) => ImageCacheManager.cache.has(src),
 };
 
 const HeroSection = () => {
@@ -57,12 +96,15 @@ const HeroSection = () => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const mountedRef = useRef(true);
 
-  const carImages = useMemo(() => [
-    { src: "/abc1.webp", alt: "Premium Luxury Vehicle", priority: true },
-    { src: "/abc3.webp", alt: "Sports Car Collection", priority: false },
-    { src: "/abc4.webp", alt: "Executive Sedan", priority: false },
-    { src: "/abc5.webp", alt: "High-Performance Vehicle", priority: false },
-  ], []);
+  const carImages = useMemo(
+    () => [
+      { src: "/abc1.webp", alt: "Premium Luxury Vehicle", priority: true },
+      { src: "/abc3.webp", alt: "Sports Car Collection", priority: false },
+      { src: "/abc4.webp", alt: "Executive Sedan", priority: false },
+      { src: "/abc5.webp", alt: "High-Performance Vehicle", priority: false },
+    ],
+    [],
+  );
 
   // Simplified homepage data fetch
   const fetchHomepageData = useCallback(async () => {
@@ -70,7 +112,7 @@ const HeroSection = () => {
 
     try {
       setIsLoading(true);
-      
+
       // Check cache first
       const cachedData = CacheManager.get(HOMEPAGE_CACHE_KEY);
       if (cachedData?.searchSection?.mainHeading) {
@@ -81,12 +123,12 @@ const HeroSection = () => {
       }
 
       // Simple fetch without axios overhead
-      const response = await fetch('/api/homepage', {
+      const response = await fetch("/api/homepage", {
         next: { revalidate: 600 },
       });
 
       if (!response.ok) {
-        throw new Error('Homepage fetch failed');
+        throw new Error("Homepage fetch failed");
       }
 
       const data = await response.json();
@@ -96,16 +138,17 @@ const HeroSection = () => {
       // Cache the entire response
       CacheManager.set(HOMEPAGE_CACHE_KEY, data);
 
-      if (data?.searchSection?.mainHeading && 
-          data.searchSection.mainHeading !== FALLBACK_HEADING) {
+      if (
+        data?.searchSection?.mainHeading &&
+        data.searchSection.mainHeading !== FALLBACK_HEADING
+      ) {
         setHeadingData(data.searchSection.mainHeading);
       }
 
       setIsDataLoaded(true);
-      
     } catch (error) {
       console.error("Error fetching homepage data:", error);
-      
+
       // Try stale cache as fallback
       const staleCache = localStorage.getItem(HOMEPAGE_CACHE_KEY);
       if (staleCache) {
@@ -116,7 +159,7 @@ const HeroSection = () => {
             setIsDataLoaded(true);
           }
         } catch (parseError) {
-          console.warn('Failed to parse stale cache:', parseError);
+          console.warn("Failed to parse stale cache:", parseError);
         }
       }
     } finally {
@@ -127,12 +170,16 @@ const HeroSection = () => {
   // Initialize component
   useEffect(() => {
     mountedRef.current = true;
-    
+
     // Use requestIdleCallback for non-critical data
-    const scheduleTask = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
-    const taskId = scheduleTask(() => {
-      fetchHomepageData();
-    }, { timeout: 3000 });
+    const scheduleTask =
+      window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+    const taskId = scheduleTask(
+      () => {
+        fetchHomepageData();
+      },
+      { timeout: 3000 },
+    );
 
     return () => {
       mountedRef.current = false;
@@ -143,6 +190,11 @@ const HeroSection = () => {
       }
     };
   }, [fetchHomepageData]);
+
+  useEffect(() => {
+    const imageUrls = carImages.map((img) => img.src);
+    ImageCacheManager.preloadBatch(imageUrls);
+  }, [carImages]);
 
   // Optimized slider functionality
   const nextSlide = useCallback(() => {
@@ -169,12 +221,13 @@ const HeroSection = () => {
       return {
         firstTwo: "Website for",
         nextTwo: "Automotive Dealers",
-        remaining: "Built to Sell Cars"
+        remaining: "Built to Sell Cars",
       };
     }
-    
+
     const words = headingData.split(" ");
-    if (words.length <= 2) return { firstTwo: headingData, nextTwo: "", remaining: "" };
+    if (words.length <= 2)
+      return { firstTwo: headingData, nextTwo: "", remaining: "" };
 
     const firstTwo = words.slice(0, 2).join(" ");
     const nextTwo = words.slice(2, 4).join(" ");
@@ -193,33 +246,19 @@ const HeroSection = () => {
   }, [router]);
 
   const handleImageError = useCallback((index) => {
-    setImageErrors(prev => new Set([...prev, index]));
+    setImageErrors((prev) => new Set([...prev, index]));
   }, []);
 
-  const handleImageLoad = useCallback((index) => {
-    setImagesLoaded(prev => new Set([...prev, index]));
-  }, []);
-
-  // CSS classes for dynamic positioning
-  const getCarouselTransform = (slideIndex) => {
-    const transforms = [
-      'translate-x-0',      // slide 0
-      '-translate-x-full',  // slide 1
-      '-translate-x-[200%]', // slide 2
-      '-translate-x-[300%]'  // slide 3
-    ];
-    return transforms[slideIndex] || 'translate-x-0';
-  };
-
-  const getProgressWidth = (currentSlide, totalSlides) => {
-    const widths = [
-      'w-1/4',   // 25% - slide 0
-      'w-2/4',   // 50% - slide 1
-      'w-3/4',   // 75% - slide 2
-      'w-full'   // 100% - slide 3
-    ];
-    return widths[currentSlide] || 'w-1/4';
-  };
+  const handleImageLoad = useCallback(
+    (index) => {
+      const src = carImages[index].src;
+      if (!ImageCacheManager.isImageCached(src)) {
+        ImageCacheManager.preloadImage(src);
+      }
+      setImagesLoaded((prev) => new Set([...prev, index]));
+    },
+    [carImages],
+  );
 
   return (
     <section className="relative h-screen w-full overflow-hidden" role="banner">
@@ -236,25 +275,28 @@ const HeroSection = () => {
       <div className="absolute inset-0 h-full w-full">
         <div className="carousel-container flex h-full w-full transition-transform duration-1000 ease-in-out will-change-transform">
           {carImages.map((imageObj, index) => (
-            <div key={imageObj.src} className="relative h-full w-full flex-shrink-0"> 
+            <div
+              key={imageObj.src}
+              className="relative h-full w-full flex-shrink-0"
+            >
               {/* Error placeholder */}
               {imageErrors.has(index) && (
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-800 via-gray-600 to-gray-800 flex items-center justify-center">
-                  <div className="text-white/70 text-center">
-                    <div className="text-2xl mb-2">🚗</div>
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-800 via-gray-600 to-gray-800">
+                  <div className="text-center text-white/70">
+                    <div className="mb-2 text-2xl">🚗</div>
                     <p>Image unavailable</p>
                   </div>
                 </div>
               )}
-              
+
               {/* Optimized image */}
               <Image
                 src={imageObj.src}
                 alt={imageObj.alt}
                 fill
                 className={`
-                  object-cover transition-opacity duration-500 ease-out object-center
-                  ${imagesLoaded.has(index) ? 'opacity-100' : 'opacity-0'}
+                  object-cover object-center transition-opacity duration-500 ease-out
+                  ${imagesLoaded.has(index) ? "opacity-100" : "opacity-0"}
                 `}
                 priority={imageObj.priority}
                 loading={imageObj.priority ? "eager" : "lazy"}
@@ -263,7 +305,7 @@ const HeroSection = () => {
                 onLoad={() => handleImageLoad(index)}
                 onError={() => handleImageError(index)}
               />
-              
+
               {/* Overlay gradient */}
               <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
             </div>
@@ -290,7 +332,7 @@ const HeroSection = () => {
 
       {/* Centered Content Overlay */}
       <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-6xl space-y-8 text-center mt-32">
+        <div className="mt-32 w-full max-w-6xl space-y-8 text-center">
           {/* Badge */}
           <div className="inline-flex items-center space-x-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-md sm:px-6 sm:py-3 sm:text-base">
             <div className="h-2 w-2 animate-pulse rounded-full bg-[#DC3C22]" />
@@ -302,20 +344,24 @@ const HeroSection = () => {
             {!isDataLoaded ? (
               // Skeleton loader
               <div className="space-y-4">
-                <div className="h-16 w-3/4 mx-auto bg-white/20 rounded-lg animate-pulse"></div>
-                <div className="h-16 w-5/6 mx-auto bg-white/10 rounded-lg animate-pulse"></div>
+                <div className="mx-auto h-16 w-3/4 animate-pulse rounded-lg bg-white/20"></div>
+                <div className="mx-auto h-16 w-5/6 animate-pulse rounded-lg bg-white/10"></div>
               </div>
             ) : (
-              <h1 className={`
+              <h1
+                className={`
                 text-center text-4xl font-bold leading-tight text-white drop-shadow-2xl 
-                sm:text-5xl lg:text-6xl xl:text-7xl transition-opacity duration-300
-                ${isLoading ? 'opacity-75' : 'opacity-100'}
-              `}>
+                transition-opacity duration-300 sm:text-5xl lg:text-6xl xl:text-7xl
+                ${isLoading ? "opacity-75" : "opacity-100"}
+              `}
+              >
                 {processedHeading.firstTwo}{" "}
                 <span className="bg-gradient-to-r from-[#DC3C22] via-red-600 to-orange-600 bg-clip-text text-transparent">
                   {processedHeading.nextTwo}
                 </span>
-                {processedHeading.remaining ? ` ${processedHeading.remaining}` : ""}
+                {processedHeading.remaining
+                  ? ` ${processedHeading.remaining}`
+                  : ""}
               </h1>
             )}
           </div>
@@ -351,10 +397,11 @@ const HeroSection = () => {
             onClick={() => goToSlide(index)}
             className={`
               h-3 w-3 rounded-full border border-white/30 backdrop-blur-sm 
-              transition-all duration-500 sm:h-4 sm:w-4 hover:scale-110
-              ${currentSlide === index
-                ? "scale-125 bg-white shadow-lg ring-2 ring-white/50"
-                : "bg-white/30 hover:bg-white/60"
+              transition-all duration-500 hover:scale-110 sm:h-4 sm:w-4
+              ${
+                currentSlide === index
+                  ? "scale-125 bg-white shadow-lg ring-2 ring-white/50"
+                  : "bg-white/30 hover:bg-white/60"
               }
             `}
             aria-label={`Go to slide ${index + 1}`}
