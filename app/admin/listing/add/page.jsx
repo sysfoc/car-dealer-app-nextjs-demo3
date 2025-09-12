@@ -109,7 +109,9 @@ const Page = () => {
     if (!apiMake || !jsonData.length) return "";
 
     // Try exact match first
-    const exactMatch = jsonData.find((item) => item.Maker.toLowerCase() === apiMake.toLowerCase());
+    const exactMatch = jsonData.find(
+      (item) => item.Maker.toLowerCase() === apiMake.toLowerCase(),
+    );
     if (exactMatch) return exactMatch.Maker;
 
     // Try partial match
@@ -124,10 +126,14 @@ const Page = () => {
   const findMatchingModel = (apiModel, makeData) => {
     if (!apiModel || !makeData || !makeData["model "]) return "";
 
-    const modelArray = makeData["model "].split(",").map((model) => model.trim());
+    const modelArray = makeData["model "]
+      .split(",")
+      .map((model) => model.trim());
 
     // Try exact match first
-    const exactMatch = modelArray.find((model) => model.toLowerCase() === apiModel.toLowerCase());
+    const exactMatch = modelArray.find(
+      (model) => model.toLowerCase() === apiModel.toLowerCase(),
+    );
     if (exactMatch) return exactMatch;
 
     // Try partial match and handle format variations (F-150 vs F150)
@@ -146,7 +152,11 @@ const Page = () => {
 
   const fetchVehicleData = async () => {
     if (!vehicleIdentifier.trim() || !selectedCountry) {
-      Swal.fire("Error!", "Please enter a VIN/Registration number and select a country.", "error");
+      Swal.fire(
+        "Error!",
+        "Please enter a VIN/Registration number and select a country.",
+        "error",
+      );
       return;
     }
 
@@ -165,7 +175,10 @@ const Page = () => {
 
       const result = await response.json();
 
-      console.log("[v0] Complete Raw API Response:", JSON.stringify(result, null, 2));
+      console.log(
+        "[v0] Complete Raw API Response:",
+        JSON.stringify(result, null, 2),
+      );
 
       if (result.data) {
         console.group("🚗 Vehicle API Debug Information");
@@ -188,16 +201,31 @@ const Page = () => {
 
         if (result.data.make) {
           const matchedMake = findMatchingMake(result.data.make);
-          console.log("[v0] API Make:", result.data.make, "-> Matched Make:", matchedMake);
+          console.log(
+            "[v0] API Make:",
+            result.data.make,
+            "-> Matched Make:",
+            matchedMake,
+          );
 
           if (matchedMake) {
             setSelectedMake(matchedMake);
 
             // Find matching model after make is set
             if (result.data.model) {
-              const makeData = jsonData.find((item) => item.Maker === matchedMake);
-              const matchedModel = findMatchingModel(result.data.model, makeData);
-              console.log("[v0] API Model:", result.data.model, "-> Matched Model:", matchedModel);
+              const makeData = jsonData.find(
+                (item) => item.Maker === matchedMake,
+              );
+              const matchedModel = findMatchingModel(
+                result.data.model,
+                makeData,
+              );
+              console.log(
+                "[v0] API Model:",
+                result.data.model,
+                "-> Matched Model:",
+                matchedModel,
+              );
 
               if (matchedModel) {
                 // Set model after a brief delay to ensure make dropdown updates first
@@ -209,13 +237,26 @@ const Page = () => {
           }
         }
 
-        Swal.fire("Success!", "Vehicle data fetched and form auto-filled successfully!", "success");
+        Swal.fire(
+          "Success!",
+          "Vehicle data fetched and form auto-filled successfully!",
+          "success",
+        );
       } else {
-        Swal.fire("Error!", result.error || "No vehicle data found. Please complete the form manually.", "error");
+        Swal.fire(
+          "Error!",
+          result.error ||
+            "No vehicle data found. Please complete the form manually.",
+          "error",
+        );
       }
     } catch (error) {
       console.error("Error fetching vehicle data:", error);
-      Swal.fire("Error!", "Failed to fetch vehicle data. Please complete the form manually.", "error");
+      Swal.fire(
+        "Error!",
+        "Failed to fetch vehicle data. Please complete the form manually.",
+        "error",
+      );
     } finally {
       setIsFetching(false);
     }
@@ -264,7 +305,7 @@ const Page = () => {
     // Convert feature array to feature object for form checkboxes
     if (apiData.features && Array.isArray(apiData.features)) {
       mapped.features = {};
-      apiData.features.forEach(featureId => {
+      apiData.features.forEach((featureId) => {
         mapped.features[featureId] = true;
       });
     }
@@ -337,7 +378,9 @@ const Page = () => {
         const response = await fetch("/api/users/api-access");
         if (response.ok) {
           const data = await response.json();
-          setUserApiAccess(data.apiAccess || { uk: false, usa: false, au: false });
+          setUserApiAccess(
+            data.apiAccess || { uk: false, usa: false, au: false },
+          );
         }
       } catch (error) {
         console.error("Error fetching user API access:", error);
@@ -370,7 +413,9 @@ const Page = () => {
       const makeData = jsonData.find((item) => item.Maker === selectedMake);
       if (makeData && makeData["model "]) {
         // Split models string into array and trim whitespace
-        const modelArray = makeData["model "].split(",").map((model) => model.trim());
+        const modelArray = makeData["model "]
+          .split(",")
+          .map((model) => model.trim());
         setModels(modelArray);
       } else {
         setModels([]);
@@ -536,9 +581,12 @@ const Page = () => {
       <h2 className="text-xl font-semibold text-app-text">Add Listing</h2>
 
       <div className="mb-8 mt-5 rounded-lg border border-gray-300 bg-gray-50 p-4">
-        <h3 className="mb-4 text-lg font-semibold text-app-text">Auto-Fill Vehicle Data</h3>
+        <h3 className="mb-4 text-lg font-semibold text-app-text">
+          Auto-Fill Vehicle Data
+        </h3>
         <p className="mb-4 text-sm text-gray-600">
-          Enter a VIN (USA) or Registration Number (UK/AU) to automatically fetch and fill vehicle details.
+          Enter a VIN (USA) or Registration Number (UK/AU) to automatically
+          fetch and fill vehicle details.
         </p>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -576,7 +624,9 @@ const Page = () => {
           <div className="flex items-end">
             <Button
               onClick={fetchVehicleData}
-              disabled={isFetching || !vehicleIdentifier.trim() || !selectedCountry}
+              disabled={
+                isFetching || !vehicleIdentifier.trim() || !selectedCountry
+              }
               color="dark"
               className="w-full"
             >
@@ -587,7 +637,8 @@ const Page = () => {
 
         {Object.values(userApiAccess).every((access) => !access) && (
           <div className="mt-4 rounded border border-yellow-400 bg-yellow-100 p-3 text-sm text-yellow-800">
-            No API access enabled. Contact your administrator to enable vehicle data fetching for specific countries.
+            No API access enabled. Contact your administrator to enable vehicle
+            data fetching for specific countries.
           </div>
         )}
       </div>
@@ -1077,15 +1128,15 @@ const Page = () => {
                 <Label htmlFor="batteryRange" className="text-app-text">
                   Battery Range:
                 </Label>
-              <Input
-  id="batteryRange"
-  name="batteryRange"
-  type="text"
-  value={formData.batteryRange}
-  onChange={handleChange}
-  placeholder="e.g., 200km, 300 miles, 200-400km"
-  className="mt-1"
-/>
+                <TextInput
+                  id="batteryRange"
+                  name="batteryRange"
+                  type="text"
+                  value={formData.batteryRange}
+                  onChange={handleChange}
+                  placeholder="e.g., 200km, 300 miles, 200-400km"
+                  className="mt-1"
+                />
               </div>
               <div>
                 <Label htmlFor="chargingTime" className="text-app-text">
