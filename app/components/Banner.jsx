@@ -120,7 +120,7 @@ const websiteOptions = [
 
           {/* Right Section */}
           <div className="flex flex-shrink-0 items-center gap-1 sm:gap-3">
-            <div className="flex flex-col items-center md:flex-row md:items-start">
+            <div className="hidden sm:flex flex-col items-center md:flex-row md:items-start">
               <p className="text-xs font-bold text-white lg:text-sm">
                 Powered by
               </p>

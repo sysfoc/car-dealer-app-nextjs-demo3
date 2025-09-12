@@ -261,7 +261,7 @@ const HeroSection = () => {
   );
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden" role="banner">
+    <section className="relative h-screen w-full overflow-hidden" role="banner">
       <style jsx>{`
         .carousel-container {
           transform: translateX(-${currentSlide * 100}%);
@@ -316,7 +316,7 @@ const HeroSection = () => {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 z-30 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:hidden"
+        className="absolute left-1 top-1/2 z-30 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:hidden"
         aria-label="Previous image"
       >
         <FaChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -324,7 +324,7 @@ const HeroSection = () => {
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 z-30 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:hidden"
+        className="absolute right-1 top-1/2 z-30 -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-3 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 sm:hidden"
         aria-label="Next image"
       >
         <FaChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -332,9 +332,9 @@ const HeroSection = () => {
 
       {/* Centered Content Overlay */}
       <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="mt-32 w-full max-w-6xl space-y-8 text-center">
+        <div className="mt-16 sm:mt-32 w-full max-w-6xl space-y-8 text-center">
           {/* Badge */}
-          <div className="inline-flex items-center space-x-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-md sm:px-6 sm:py-3 sm:text-base">
+          <div className=" hidden sm:inline-flex items-center space-x-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-md sm:px-6 sm:py-3 sm:text-base">
             <div className="h-2 w-2 animate-pulse rounded-full bg-[#DC3C22]" />
             <span>Revolutionary Automotive Solutions</span>
           </div>
@@ -350,8 +350,8 @@ const HeroSection = () => {
             ) : (
               <h1
                 className={`
-                text-center text-4xl font-bold leading-tight text-white drop-shadow-2xl 
-                transition-opacity duration-300 sm:text-5xl lg:text-6xl xl:text-7xl
+                text-center text-3xl font-bold leading-tight text-white drop-shadow-2xl 
+                transition-opacity duration-300 sm:text-4xl lg:text-5xl xl:text-6xl
                 ${isLoading ? "opacity-75" : "opacity-100"}
               `}
               >
@@ -367,7 +367,7 @@ const HeroSection = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col gap-4 pt-8 sm:flex-row sm:justify-center">
+          <div className="flex flex-col gap-4 pt-8 pb-16 sm:flex-row sm:justify-center">
             <button
               onClick={handleExploreVehicles}
               className="group relative inline-flex items-center justify-center overflow-hidden rounded-xl border border-red-500/20 bg-gradient-to-r from-[#DC3C22] via-red-600 to-red-700 px-8 py-4 text-base font-semibold text-white shadow-2xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:from-[#c23319] hover:via-red-700 hover:to-red-800 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-[#DC3C22]/50 sm:px-10 sm:py-5 sm:text-lg"
