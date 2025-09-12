@@ -52,31 +52,6 @@ const Page = () => {
     { id: "road-tax-paid", label: "Road Tax Paid" },
   ];
 
-  const batteryRangeOptions = {
-    km: [
-      "Up to 100 km",
-      "101–200 km",
-      "201–300 km",
-      "301–400 km",
-      "401–500 km",
-      "501–600 km",
-      "601–700 km",
-      "701–800 km",
-      "800+ km",
-    ],
-    miles: [
-      "Up to 62 miles",
-      "63–124 miles",
-      "125–186 miles",
-      "187–249 miles",
-      "250–311 miles",
-      "312–373 miles",
-      "374–435 miles",
-      "436–497 miles",
-      "497+ miles",
-    ],
-  };
-
   const [formData, setFormData] = useState({
     make: "",
     model: "",
@@ -1102,20 +1077,15 @@ const Page = () => {
                 <Label htmlFor="batteryRange" className="text-app-text">
                   Battery Range:
                 </Label>
-                <Select
-                  id="batteryRange"
-                  name="batteryRange"
-                  value={formData.batteryRange}
-                  onChange={handleChange}
-                  className="mt-1 focus:border-app-button focus:ring-app-button"
-                >
-                  <option value="">Select Battery Range</option>
-{batteryRangeOptions[formData.unit]?.map((range, index) => (
-                    <option key={index} value={range}>
-                      {range}
-                    </option>
-                  )) || <option disabled>No ranges available</option>}
-                </Select>
+              <Input
+  id="batteryRange"
+  name="batteryRange"
+  type="text"
+  value={formData.batteryRange}
+  onChange={handleChange}
+  placeholder="e.g., 200km, 300 miles, 200-400km"
+  className="mt-1"
+/>
               </div>
               <div>
                 <Label htmlFor="chargingTime" className="text-app-text">

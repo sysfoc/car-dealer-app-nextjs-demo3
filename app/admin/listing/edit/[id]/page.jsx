@@ -436,7 +436,7 @@ const CarEditPage = ({ params }) => {
   return (
     <section className="my-10">
       <div className="flex items-center justify-between">
-        <h2 className="text-app-text text-2xl font-bold">Edit Car Listing</h2>
+        <h2 className="text-2xl font-bold text-app-text">Edit Car Listing</h2>
         <Link
           href={"/admin/listing/view"}
           className="rounded-lg bg-app-button p-3 text-sm text-white transition-colors duration-200 hover:bg-app-button-hover"
@@ -665,9 +665,10 @@ const CarEditPage = ({ params }) => {
             <TextInput
               id="batteryRange"
               name="batteryRange"
-              type="number"
+              type="text"
               value={formData.batteryRange}
               onChange={handleInputChange}
+              placeholder="e.g., 200km, 300 miles, 200-400km"
             />
           </div>
           <div>
@@ -952,7 +953,7 @@ const CarEditPage = ({ params }) => {
               checked={formData.isLease || false}
               onChange={handleInputChange}
             />
-            <Label htmlFor="isLease" className="text-app-text ml-2">
+            <Label htmlFor="isLease" className="ml-2 text-app-text">
               Available for Lease
             </Label>
           </div>
@@ -963,13 +964,13 @@ const CarEditPage = ({ params }) => {
               checked={formData.sold || false}
               onChange={handleInputChange}
             />
-            <Label htmlFor="sold" className="text-app-text ml-2">
+            <Label htmlFor="sold" className="ml-2 text-app-text">
               Mark as Sold
             </Label>
           </div>
         </div>
         <div className="mt-5">
-          <h3 className="text-app-text text-sm font-semibold">Features:</h3>
+          <h3 className="text-sm font-semibold text-app-text">Features:</h3>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
             {featuresList.map((feature) => (
               <div key={feature.id} className="flex items-center">
@@ -979,7 +980,7 @@ const CarEditPage = ({ params }) => {
                   checked={formData.features.includes(feature.label)}
                   onChange={handleFeatureChange}
                 />
-                <Label htmlFor={feature.id} className="text-app-text ml-2">
+                <Label htmlFor={feature.id} className="ml-2 text-app-text">
                   {feature.label}
                 </Label>
               </div>
