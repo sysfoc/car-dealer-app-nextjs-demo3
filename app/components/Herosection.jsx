@@ -261,7 +261,7 @@ const HeroSection = () => {
   );
 
   return (
-    <section className="relative h-screen w-full overflow-hidden" role="banner">
+    <section className="relative min-h-screen w-full overflow-hidden" role="banner">
       <style jsx>{`
         .carousel-container {
           transform: translateX(-${currentSlide * 100}%);
@@ -387,26 +387,6 @@ const HeroSection = () => {
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 z-30 hidden -translate-x-1/2 space-x-3 md:flex">
-        {carImages.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`
-              h-3 w-3 rounded-full border border-white/30 backdrop-blur-sm 
-              transition-all duration-500 hover:scale-110 sm:h-4 sm:w-4
-              ${
-                currentSlide === index
-                  ? "scale-125 bg-white shadow-lg ring-2 ring-white/50"
-                  : "bg-white/30 hover:bg-white/60"
-              }
-            `}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
       </div>
 
       {/* Progress Bar */}
