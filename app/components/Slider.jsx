@@ -44,7 +44,12 @@ const Slider = ({ loadingState, carData }) => {
                 <video
                   src={media.src}
                   controls
-                  className="size-full object-cover"
+                  muted
+                  autoPlay
+                  playsInline
+                  preload="metadata"
+                  className="size-full object-contain z-99"
+                  onError={(e) => console.error("Video error:", e)}
                 />
               </div>
             );
