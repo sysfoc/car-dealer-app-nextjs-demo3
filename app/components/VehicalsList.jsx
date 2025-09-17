@@ -47,7 +47,7 @@ const VehicleCard = ({
         </div>
 
         {/* Tag Badge - Top Right Corner (if exists) */}
-        {!vehicle.sold && vehicle.tag && vehicle.tag !== "default" &&(
+        {!vehicle.sold && vehicle.tag && vehicle.tag !== "default" && (
           <div className="absolute right-3 top-3 z-20">
             <span className="rounded-full bg-app-button px-3 py-1.5 text-xs font-semibold text-white shadow-lg">
               {vehicle.tag.toUpperCase()}
@@ -55,17 +55,16 @@ const VehicleCard = ({
           </div>
         )}
         <div className="absolute left-5 top-20 z-10">
-  <div
-    className={`origin-bottom-left -translate-x-6 -translate-y-5 -rotate-45 transform shadow-lg ${
-      vehicle.sold ? "bg-red-500" : "bg-green-500"
-    }`}
-  >
-    <div className="w-32 px-0 py-2 text-center text-xs font-bold text-white">
-      {vehicle.sold ? "SOLD" : "AVAILABLE"}
-    </div>
-  </div>
-</div>
-
+          <div
+            className={`origin-bottom-left -translate-x-6 -translate-y-5 -rotate-45 transform shadow-lg ${
+              vehicle.sold ? "bg-red-700" : "bg-green-700"
+            }`}
+          >
+            <div className="w-32 px-0 py-2 text-center text-xs font-bold text-white">
+              {vehicle.sold ? "SOLD" : "AVAILABLE"}
+            </div>
+          </div>
+        </div>
 
         <button
           onClick={(e) => {
@@ -73,6 +72,11 @@ const VehicleCard = ({
             e.stopPropagation();
             handleLikeToggle(vehicle._id);
           }}
+          aria-label={
+            userLikedCars?.includes(vehicle._id)
+              ? "Remove from liked cars"
+              : "Add to liked cars"
+          }
           className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:shadow-xl dark:bg-slate-800/95"
         >
           {userLikedCars &&
@@ -308,7 +312,7 @@ const VehicalsList = ({ loadingState }) => {
     <section className="my-7 rounded-xl bg-slate-50 py-7 dark:bg-slate-900 sm:mx-8 md:my-10 md:py-10">
       <div className="mb-16">
         <div className="mx-auto max-w-4xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-app-button/10 px-4 py-2 text-sm font-medium text-app-button dark:bg-app-button/20 dark:text-app-button">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-app-button/30 px-4 py-2 text-sm font-medium text-app-button dark:bg-app-button/20 dark:text-app-button">
             <BiTachometer className="h-4 w-4" />
             <span>Premium Collection</span>
           </div>

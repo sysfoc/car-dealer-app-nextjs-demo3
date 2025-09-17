@@ -278,17 +278,17 @@ const CarSearchSidebar = () => {
                   <span>{t("priceRange")}</span>
                 </span>
               </div>
-              <div id="priceRangeOne" className="rounded-xl border-2 border-gray-200 bg-white/60 p-4 shadow-sm backdrop-blur-sm dark:border-gray-600 dark:bg-gray-800/60">
+              <div id="priceRangeOne" className="rounded-xl border-2 border-gray-300 bg-white/80 p-4 shadow-sm backdrop-blur-sm dark:border-gray-500 dark:bg-gray-800/80">
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <div className="rounded-lg bg-[#DC3C22]/10 px-3 py-1 dark:bg-[#DC3C22]/20">
-                      <span className="text-sm font-bold text-[#DC3C22]">
+                    <div className="rounded-lg bg-[#DC3C22] px-3 py-1 dark:bg-[#DC3C22]">
+                      <span className="text-sm font-bold text-white">
                         {formatPrice(minPrice)}
                       </span>
                     </div>
                     <span className="text-gray-400">-</span>
-                    <div className="rounded-lg bg-[#DC3C22]/10 px-3 py-1 dark:bg-[#DC3C22]/20">
-                      <span className="text-sm font-bold text-[#DC3C22]">
+                    <div className="rounded-lg bg-[#DC3C22] px-3 py-1 dark:bg-[#DC3C22]">
+                      <span className="text-sm font-bold text-white">
                         {formatPrice(maxPrice)}
                       </span>
                     </div>
@@ -323,7 +323,7 @@ const CarSearchSidebar = () => {
                     }}
                     className="absolute h-2 w-full appearance-none bg-transparent [&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-20 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#DC3C22] [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-200 [&::-webkit-slider-thumb]:hover:scale-110"
                   />
-                   <div className="relative h-2 rounded-full bg-gray-200 dark:bg-gray-700">
+                   <div className="relative h-2 rounded-full bg-gray-400 dark:bg-gray-600">
                     <div className="price-range-track"></div>
                   </div>
                 </div>

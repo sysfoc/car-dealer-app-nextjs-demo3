@@ -93,6 +93,7 @@ const websiteOptions = [
           <Link
             href="https://www.automotivewebsolutions.com/add-ons"
             target="_blank"
+            aria-label="Theme Customization - Get a free quote"
             rel="noopener noreferrer"
           >
             <div className="hidden flex-shrink-0 flex-col items-center text-center lg:flex">
@@ -141,6 +142,7 @@ const websiteOptions = [
                 href="https://www.automotivewebsolutions.com/pricing"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Subscribe to pricing plans"
                 className="hidden items-center rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-purple-700 lg:inline-flex"
               >
                 Subscribe Now
@@ -151,6 +153,7 @@ const websiteOptions = [
                 href="https://www.automotivewebsolutions.com/pricing"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Subscribe to pricing plans"
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-600 transition-colors duration-200 hover:bg-purple-700 sm:h-9 sm:w-9 lg:hidden"
               >
                 <Bell className="h-3.5 w-3.5 text-white sm:h-4 sm:w-4" />
