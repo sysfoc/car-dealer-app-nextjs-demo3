@@ -1,6 +1,5 @@
 "use client"
 import { useState, useEffect } from "react"
-import BrandsList from "./BrandsList"
 import ChooseUs from "./ChooseUs"
 import { TextInput } from "flowbite-react"
 import { AiOutlineDollar } from "react-icons/ai"
@@ -347,7 +346,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <BrandsList />
       <ChooseUs />
     </>
   )
