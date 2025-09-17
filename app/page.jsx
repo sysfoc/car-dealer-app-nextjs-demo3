@@ -16,7 +16,7 @@ export default function Home() {
         <Herosection />
       </MainLayout>
       <VehicalsList loadingState={loading} />
-      <BrandsList />
+      {/* <BrandsList /> */}
       <BrowseCars />
       <Blog />
     </div>
