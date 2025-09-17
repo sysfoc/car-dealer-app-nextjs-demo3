@@ -1,7 +1,6 @@
 "use client"
 import Herosection from "./components/Herosection"
 import VehicalsList from "./components/VehicalsList"
-import BrandsList from "./components/BrandsList"
 import BrowseCars from "./components/BrowseCars"
 import Blog from "./components/Blog"
 import { useState } from "react"
@@ -16,7 +15,6 @@ export default function Home() {
         <Herosection />
       </MainLayout>
       <VehicalsList loadingState={loading} />
-      {/* <BrandsList /> */}
       <BrowseCars />
       <Blog />
     </div>
