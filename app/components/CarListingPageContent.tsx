@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
-import { HiMenu } from "react-icons/hi"
+import { Menu } from 'lucide-react'
 import SidebarFilters from "./SidebarFilters"
 import CardetailCard from "./CardetailCard"
 
@@ -36,7 +36,7 @@ const CarListingPageContent = () => {
           onClick={() => setIsMobileFiltersOpen(!isMobileFiltersOpen)}
           className="fixed top-36 left-6 z-40 flex items-center gap-2 rounded-full bg-blue-600 px-4 py-3 font-semibold text-white shadow-lg transition-all hover:bg-blue-700 md:hidden"
         >
-          <HiMenu className="h-5 w-5" />
+          <Menu className="h-5 w-5" />
           Filters
         </button>
       )}
