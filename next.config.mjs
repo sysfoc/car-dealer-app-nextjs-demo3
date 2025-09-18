@@ -51,21 +51,12 @@ const nextConfig = {
   },
   serverExternalPackages: ["sharp"],
   
-  // Performance optimizations
+  // Simple performance optimizations
   compress: true,
   poweredByHeader: false,
   
   experimental: {
     optimizeCss: true,
-    optimizeServerReact: true,
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
   },
   
   compiler: {
@@ -92,16 +83,7 @@ const nextConfig = {
         hostname: "localhost",
       },
     ],
-    // Remove this if you want Next.js image optimization
     // unoptimized: true,
-  },
-  
-  // Bundle splitting
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.optimization.splitChunks.cacheGroups.default.minChunks = 2;
-    }
-    return config;
   },
 }
 
