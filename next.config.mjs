@@ -10,53 +10,32 @@
 //   typescript: {
 //     ignoreBuildErrors: true,
 //   },
-//   experimental: {
-//     serverComponentsExternalPackages: ["sharp"],
-//   },
+//     serverExternalPackages: ["sharp"],
 //   images: {
 //     formats: ["image/webp", "image/avif"],
-//     domains: [
-//       "petbazar.com.pk",
-//       "localhost",
-//       "43b24cf828f8d050d3e88450e8d58837.r2.cloudflarestorage.com"
-//     ],
 //     remotePatterns: [
 //       {
 //         protocol: "https",
+//         hostname: "*.r2.dev",
+//       },
+//       {
+//         protocol: "https",
+//         hostname: "*.r2.cloudflarestorage.com",
+//       },
+//       {
+//         protocol: "https",
 //         hostname: "petbazar.com.pk",
-//         port: "",
-//         pathname: "/**",
 //       },
 //       {
 //         protocol: "http",
 //         hostname: "localhost",
-//         port: "",
-//         pathname: "/**",
-//       },
-//       {
-//         protocol: "https",
-//         hostname: "43b24cf828f8d050d3e88450e8d58837.r2.cloudflarestorage.com",
-//         port: "",
-//         pathname: "/**",
 //       },
 //     ],
-//     dangerouslyAllowSVG: true,
-//     contentDispositionType: 'attachment',
-//     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
 //     unoptimized: true,
-//   },
-//   async rewrites() {
-//     return [
-//       {
-//         source: "/uploads/:path*",
-//         destination: "/uploads/:path*",
-//       },
-//     ]
 //   },
 // }
 
-// export default withNextIntl(() => nextConfig)
-
+// export default withNextIntl(nextConfig)
 
 import createNextIntlPlugin from "next-intl/plugin"
 
@@ -70,7 +49,29 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-    serverExternalPackages: ["sharp"],
+  serverExternalPackages: ["sharp"],
+  
+  // Performance optimizations
+  compress: true,
+  poweredByHeader: false,
+  
+  experimental: {
+    optimizeCss: true,
+    optimizeServerReact: true,
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
+  },
+  
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  
   images: {
     formats: ["image/webp", "image/avif"],
     remotePatterns: [
@@ -91,7 +92,16 @@ const nextConfig = {
         hostname: "localhost",
       },
     ],
-    unoptimized: true,
+    // Remove this if you want Next.js image optimization
+    // unoptimized: true,
+  },
+  
+  // Bundle splitting
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization.splitChunks.cacheGroups.default.minChunks = 2;
+    }
+    return config;
   },
 }
 
