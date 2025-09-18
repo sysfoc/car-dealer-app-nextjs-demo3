@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import {React, useEffect, useState, useMemo, useCallback } from "react";
+import React from "react";
+import {useEffect, useState, useMemo, useCallback } from "react";
 import { FaHeart } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import { useCurrency } from "../context/CurrencyContext";
