@@ -1,19 +1,13 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { useEffect, useState, useMemo, useCallback } from "react";
-import { MdOutlineArrowOutward } from "react-icons/md";
-import { IoSpeedometer } from "react-icons/io5";
-import { GiGasPump } from "react-icons/gi";
-import { TbManualGearbox } from "react-icons/tb";
+import {React, useEffect, useState, useMemo, useCallback } from "react";
 import { FaHeart } from "react-icons/fa";
-import { BiTachometer } from "react-icons/bi";
 import { useTranslations } from "next-intl";
 import { useCurrency } from "../context/CurrencyContext";
 import { useDistance } from "../context/DistanceContext";
 import { FaRegHeart } from "react-icons/fa6";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowUpRight, Gauge, Fuel, Settings, ChevronDown, ChevronUp } from "lucide-react";
 
 // Optimized skeleton with fixed dimensions to prevent CLS
 const SimpleSkeleton = ({ className = "", height = "h-4", width = "w-full" }) => (
@@ -123,7 +117,7 @@ const VehicleCard = React.memo(({
         <div className="grid grid-cols-3 gap-3 text-center min-h-[6rem]">
           <div className="flex flex-col items-center">
             <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
-              <IoSpeedometer className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+              <Gauge className="h-4 w-4 text-gray-600 dark:text-gray-300" />
             </div>
             <div className="text-sm font-semibold text-gray-800 dark:text-white">
               {convertedValues.kms}
@@ -135,7 +129,7 @@ const VehicleCard = React.memo(({
 
           <div className="flex flex-col items-center">
             <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
-              <GiGasPump className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+              <Fuel className="h-4 w-4 text-gray-600 dark:text-gray-300" />
             </div>
             <div className="text-sm font-semibold text-gray-800 dark:text-white line-clamp-1 sm:line-clamp-2">
               {vehicle && vehicle.fuelType}
@@ -145,7 +139,7 @@ const VehicleCard = React.memo(({
 
           <div className="flex flex-col items-center">
             <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
-              <TbManualGearbox className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+              <Settings className="h-4 w-4 text-gray-600 dark:text-gray-300" />
             </div>
             <div className="text-sm font-semibold text-gray-800 dark:text-white">
               {vehicle && vehicle.gearbox}
@@ -397,7 +391,7 @@ const VehicalsList = ({ loadingState }) => {
       <div className="mb-16 min-h-[200px] flex flex-col justify-center">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-app-button/30 px-4 py-2 text-sm font-medium text-app-button dark:bg-app-button/20 dark:text-app-button">
-            <BiTachometer className="h-4 w-4" />
+            <Gauge className="h-4 w-4" />
             <span>Premium Collection</span>
           </div>
           <h2 className="mb-6 bg-gradient-to-br from-app-text via-app-text/90 to-app-text/70 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:via-slate-100 dark:to-slate-300 md:text-5xl lg:text-6xl">
@@ -406,7 +400,7 @@ const VehicalsList = ({ loadingState }) => {
           <Link href={"/car-for-sale"}>
             <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-button to-app-button/90 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-button-hover hover:to-app-button-hover hover:shadow-2xl dark:from-app-button dark:to-app-button/90 dark:hover:from-app-button-hover dark:hover:to-app-button-hover">
               <span>{t("viewAll")}</span>
-              <MdOutlineArrowOutward className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
+              <ArrowUpRight className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
             </div>
           </Link>
         </div>

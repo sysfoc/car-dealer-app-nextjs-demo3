@@ -60,6 +60,7 @@ const HeroSection = () => {
           fill
           className="object-cover"
           priority
+          fetchPriority="high"
           quality={85}
           sizes="100vw"
         />
