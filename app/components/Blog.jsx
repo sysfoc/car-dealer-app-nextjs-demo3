@@ -1,9 +1,93 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { ArrowUpRight, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+
+// Optimized skeleton with fixed dimensions to prevent CLS
+const BlogSkeleton = () => (
+  <div className="group relative flex h-[420px] transform cursor-pointer flex-col overflow-hidden rounded-2xl border border-gray-200/50 bg-white/70 backdrop-blur-md dark:border-white/20 dark:bg-white/10">
+    <div className="relative overflow-hidden">
+      <div className="relative h-48 bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+    </div>
+    <div className="flex flex-1 flex-col justify-between p-6">
+      <div className="space-y-3">
+        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 animate-pulse"></div>
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full animate-pulse"></div>
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 animate-pulse"></div>
+      </div>
+      <div className="flex items-center justify-between pt-4">
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-20 animate-pulse"></div>
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-16 animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+)
+
+// Memoized blog card component to prevent unnecessary re-renders
+const BlogCard = ({ blog, index, isLCP = false }) => {
+  return (
+    <Link href={`/blog/${blog.slug}`} key={`${blog.slug}-${index}`}>
+      <div className="group relative flex h-[420px] transform cursor-pointer flex-col overflow-hidden rounded-2xl border border-gray-200/50 bg-white/70 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/10 dark:border-white/20 dark:bg-white/10 dark:hover:shadow-blue-500/25">
+        {/* Background glow effect */}
+        <div className="absolute inset-0 bg-blue-500/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:bg-blue-500/10"></div>
+        <div className="relative z-10 flex h-full flex-col">
+          <div className="relative overflow-hidden">
+            <div className="relative h-48">
+              <Image
+                src={blog.image || "/sydney.jpg"}
+                alt={blog.metaTitle || blog.h1 || "Blog post"}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                priority={isLCP}
+                loading={isLCP ? "eager" : "lazy"}
+                fetchPriority={isLCP ? "high" : "auto"}
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+            </div>
+          </div>
+          <div className="flex flex-1 flex-col justify-between p-6">
+            <div className="space-y-3">
+              <h3 className="line-clamp-2 text-lg font-bold leading-tight text-gray-800 transition-colors duration-300 hover:text-app-button dark:text-gray-100 dark:hover:text-app-button md:text-xl">
+                {blog.h1 || blog.metaTitle}
+              </h3>
+
+              {blog.metaDescription && (
+                <p className="line-clamp-3 text-sm leading-relaxed text-app-text/70 dark:text-gray-300/80">
+                  {blog.metaDescription}
+                </p>
+              )}
+            </div>
+
+            <div className="flex items-center justify-between pt-4">
+              <div className="text-xs text-app-text/60 dark:text-gray-400">
+                {new Date(blog.createdAt).toLocaleDateString(
+                  "en-US",
+                  {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  },
+                )}
+              </div>
+
+              <div className="flex translate-x-2 transform items-center space-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                <div className="h-0.5 w-6 rounded-full bg-app-button"></div>
+                <span className="text-xs font-medium text-app-button">
+                  View Detail
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+};
 
 const Blog = () => {
   const t = useTranslations("HomePage");
@@ -13,51 +97,125 @@ const Blog = () => {
   const [showAll, setShowAll] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const INITIAL_DISPLAY_COUNT = 3; // Show 6 blogs initially (2 rows of 3)
+  const INITIAL_DISPLAY_COUNT = 3;
+
+  // Enhanced cache with Map for better performance
+  const [blogCache, setBlogCache] = useState(new Map());
+
+  // Optimized fetch with better error handling and timeout
+  const fetchBlogs = useCallback(async () => {
+    const cacheKey = 'homepage-blogs'
+    const cached = blogCache.get(cacheKey)
+    
+    // Check cache first (5 minute cache)
+    if (cached && Date.now() - cached.timestamp < 300000) {
+      setBlogs(cached.data)
+      setLoading(false)
+      return
+    }
+
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 8000) // 8s timeout
+
+    try {
+      const response = await fetch("/api/blog", {
+        signal: controller.signal,
+        next: { revalidate: 300 } // 5 minutes cache
+      })
+      
+      clearTimeout(timeoutId)
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch blogs: ${response.status} ${response.statusText}`)
+      }
+      
+      const data = await response.json()
+      
+      // Validate data structure
+      const blogsData = Array.isArray(data.blogs) ? data.blogs : []
+      
+      // Cache the response
+      setBlogCache(prev => new Map(prev).set(cacheKey, {
+        data: blogsData,
+        timestamp: Date.now()
+      }))
+      
+      setBlogs(blogsData)
+    } catch (err) {
+      clearTimeout(timeoutId)
+      
+      if (err.name === 'AbortError') {
+        setError("Request timeout - please check your connection")
+      } else {
+        setError(err instanceof Error ? err.message : "Failed to fetch blogs")
+      }
+      
+      // Try to use cached data if available, even if expired
+      const cached = blogCache.get(cacheKey)
+      if (cached && cached.data) {
+        setBlogs(cached.data)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }, [blogCache])
 
   useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await fetch("/api/blog");
-        if (!response.ok) {
-          throw new Error("Failed to fetch blogs");
-        }
-        const data = await response.json();
-        setBlogs(data.blogs);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to fetch blogs");
-      } finally {
-        setLoading(false);
-      }
-    };
+    let mounted = true
+    
+    const loadBlogs = async () => {
+      if (!mounted) return
+      await fetchBlogs()
+    }
 
-    fetchBlogs();
-  }, []);
+    // Defer API call to not block initial render
+    const timeoutId = setTimeout(loadBlogs, 50)
+    
+    return () => {
+      mounted = false
+      clearTimeout(timeoutId)
+    }
+  }, [fetchBlogs])
 
-  const handleToggleView = () => {
+  const handleToggleView = useCallback(() => {
     setIsTransitioning(true);
     setTimeout(() => {
       setShowAll(!showAll);
       setIsTransitioning(false);
     }, 150);
-  };
+  }, [showAll]);
 
-  const displayedBlogs = showAll
-    ? blogs
-    : blogs.slice(0, INITIAL_DISPLAY_COUNT);
-  const hasMoreBlogs = blogs.length > INITIAL_DISPLAY_COUNT;
+  // Memoize blog data to prevent unnecessary recalculations
+  const { displayedBlogs, hasMoreBlogs } = useMemo(() => {
+    const displayed = showAll ? blogs : blogs.slice(0, INITIAL_DISPLAY_COUNT);
+    const hasMore = blogs.length > INITIAL_DISPLAY_COUNT;
+    return {
+      displayedBlogs: displayed,
+      hasMoreBlogs: hasMore
+    };
+  }, [blogs, showAll, INITIAL_DISPLAY_COUNT]);
 
-  if (error) {
+  // Error state with fixed dimensions
+  if (error && blogs.length === 0) {
     return (
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-[400px]">
         <div className="dark:to-gray-850 absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-950 dark:via-gray-900"></div>
         <div className="relative px-4 py-12 sm:px-8">
           <div className="mx-auto max-w-7xl text-center">
-            <div className="rounded-3xl border border-red-200/50 bg-red-50/70 p-6 backdrop-blur-md dark:border-red-500/20 dark:bg-red-950/20">
-              <h3 className="mb-2 text-xl font-semibold text-app-button">
+            <div className="rounded-3xl border border-red-200/50 bg-red-50/70 p-6 backdrop-blur-md dark:border-red-500/20 dark:bg-red-950/20 max-w-2xl mx-auto">
+              <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-white text-2xl">!</span>
+              </div>
+              <h3 className="mb-2 text-xl font-semibold text-red-600 dark:text-red-400">
                 Error Loading Blogs
               </h3>
-              <p className="text-app-text/80 dark:text-red-300">{error}</p>
+              <p className="text-red-500 dark:text-red-300">{error}</p>
+              <button 
+                onClick={fetchBlogs}
+                className="mt-4 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+              >
+                Retry
+              </button>
             </div>
           </div>
         </div>
@@ -70,14 +228,14 @@ const Blog = () => {
       {/* Background with gradient and pattern */}
       <div className="dark:to-gray-850 absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-950 dark:via-gray-900"></div>
 
-      {/* Animated background elements */}
-      <div className="absolute left-0 top-0 h-72 w-72 animate-pulse rounded-full bg-blue-500/10 blur-3xl dark:bg-gray-700/10"></div>
-      <div className="absolute bottom-0 right-0 h-96 w-96 animate-pulse rounded-full bg-purple-500/10 blur-3xl delay-1000 dark:bg-gray-800/10"></div>
+      {/* Simplified background effects - removed heavy animations */}
+      <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl dark:bg-gray-700/10"></div>
+      <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-purple-500/10 blur-3xl dark:bg-gray-800/10"></div>
 
       <div className="relative px-4 py-12 sm:px-8 md:py-16">
         <div className="mx-auto max-w-7xl">
-          {/* Header Section */}
-          <div className="mb-12 space-y-4">
+          {/* Header Section with fixed height to prevent CLS */}
+          <header className="mb-12 space-y-4 min-h-[120px]">
             <div className="flex flex-wrap items-center justify-between gap-6">
               <div className="space-y-3">
                 <div className="inline-block">
@@ -99,139 +257,99 @@ const Blog = () => {
               </Link>
             </div>
             <div className="h-1 w-24 rounded-full bg-app-button"></div>
-          </div>
+          </header>
 
-          {/* Loading State */}
-          {loading && (
-            <div className="flex items-center justify-center py-16">
-              <div className="relative">
-                <div className="h-20 w-20 animate-spin rounded-full border-4 border-app-button/30 border-t-app-button"></div>
-                <div className="absolute inset-0 h-20 w-20 animate-ping rounded-full border-4 border-transparent border-t-app-button/50"></div>
-              </div>
-            </div>
-          )}
-
-          {/* Blog Grid */}
-          {!loading && blogs.length > 0 && (
-            <div className="space-y-8">
-              <div
-                className={`grid grid-cols-1 gap-6 transition-all duration-500 ease-in-out md:grid-cols-2 lg:grid-cols-3 ${
-                  isTransitioning
-                    ? "scale-98 transform opacity-50"
-                    : "scale-100 transform opacity-100"
-                }`}
-              >
-                {displayedBlogs.map((blog, index) => (
-                  <Link
-                    href={`/blog/${blog.slug}`}
-                    key={`${blog.slug}-${index}`}
-                  >
-                    <div className="group relative flex h-[420px] transform cursor-pointer flex-col overflow-hidden rounded-2xl border border-gray-200/50 bg-white/70 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/10 dark:border-white/20 dark:bg-white/10 dark:hover:shadow-blue-500/25">
-                      {/* Background glow effect */}
-                      <div className="absolute inset-0 bg-blue-500/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:bg-blue-500/10"></div>
-                      <div className="relative z-10 flex h-full flex-col">
-                        <div className="relative overflow-hidden">
-                          <div className="relative h-48">
-                            <Image
-                              src={blog.image || "/sydney.jpg"}
-                              alt={blog.metaTitle || blog.h1 || "Blog post"}
-                              fill
-                              className="object-cover transition-transform duration-700 group-hover:scale-110"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-                          </div>
-                        </div>
-                        <div className="flex flex-1 flex-col justify-between p-6">
-                          <div className="space-y-3">
-                            <h3 className="line-clamp-2 text-lg font-bold leading-tight text-gray-800 transition-colors duration-300 hover:text-app-button dark:text-gray-100 dark:hover:text-app-button md:text-xl">
-                              {blog.h1 || blog.metaTitle}
-                            </h3>
-
-                            {blog.metaDescription && (
-                              <p className="line-clamp-3 text-sm leading-relaxed text-app-text/70 dark:text-gray-300/80">
-                                {blog.metaDescription}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="flex items-center justify-between pt-4">
-                            <div className="text-xs text-app-text/60 dark:text-gray-400">
-                              {new Date(blog.createdAt).toLocaleDateString(
-                                "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                },
-                              )}
-                            </div>
-
-                            <div className="flex translate-x-2 transform items-center space-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
-                              <div className="h-0.5 w-6 rounded-full bg-app-button"></div>
-                              <span className="text-xs font-medium text-app-button">
-                                View Detail
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
+          {/* Content area with consistent min-height */}
+          <div className="min-h-[400px]">
+            {/* Loading State with fixed dimensions */}
+            {loading && (
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {[...Array(INITIAL_DISPLAY_COUNT)].map((_, i) => (
+                  <BlogSkeleton key={i} />
                 ))}
               </div>
+            )}
 
-              {/* Show More/Less Button */}
-              {hasMoreBlogs && (
-                <div className="flex justify-center pt-8">
-                  <button
-                    onClick={handleToggleView}
-                    disabled={isTransitioning}
-                    className="group flex transform items-center gap-3 rounded-2xl bg-app-button px-8 py-4 font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-app-button-hover hover:shadow-xl disabled:transform-none disabled:cursor-not-allowed disabled:opacity-70"
+            {/* Blog Grid */}
+            {!loading && blogs.length > 0 && (
+              <div className="space-y-8">
+                <div
+                  className={`grid grid-cols-1 gap-6 transition-all duration-500 ease-in-out md:grid-cols-2 lg:grid-cols-3 ${
+                    isTransitioning
+                      ? "scale-98 transform opacity-50"
+                      : "scale-100 transform opacity-100"
+                  }`}
+                >
+                  {displayedBlogs.map((blog, index) => (
+                    <BlogCard
+                      key={`${blog.slug}-${index}`}
+                      blog={blog}
+                      index={index}
+                      isLCP={index === 0} // First blog gets LCP optimization
+                    />
+                  ))}
+                </div>
+
+                {/* Show More/Less Button */}
+                {hasMoreBlogs && (
+                  <div className="flex justify-center pt-8">
+                    <button
+                      onClick={handleToggleView}
+                      disabled={isTransitioning}
+                      className="group flex transform items-center gap-3 rounded-2xl bg-app-button px-8 py-4 font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-app-button-hover hover:shadow-xl disabled:transform-none disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                      <span>
+                        {showAll
+                          ? "Show Less"
+                          : `Show More (${blogs.length - INITIAL_DISPLAY_COUNT} more)`}
+                      </span>
+                      {showAll ? (
+                        <ChevronUp className="transition-transform duration-300 group-hover:-translate-y-1" />
+                      ) : (
+                        <ChevronDown className="transition-transform duration-300 group-hover:translate-y-1" />
+                      )}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* No blogs state with fixed dimensions */}
+            {!loading && blogs.length === 0 && (
+              <div className="py-16 text-center min-h-[400px] flex flex-col justify-center">
+                <div className="mx-auto max-w-2xl rounded-3xl border border-gray-200/50 bg-white/70 p-10 backdrop-blur-md dark:border-white/20 dark:bg-white/10">
+                  <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-app-button">
+                    <svg
+                      className="h-10 w-10 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="mb-4 text-2xl font-bold text-app-text dark:text-gray-100">
+                    No Blogs Available
+                  </h3>
+                  <p className="text-lg text-app-text/80 dark:text-blue-100/80">
+                    We are working on bringing you fresh content. Check back soon!
+                  </p>
+                  <button 
+                    onClick={fetchBlogs}
+                    className="mt-6 px-6 py-3 bg-app-button text-white rounded-xl hover:bg-app-button-hover transition-all duration-300"
                   >
-                    <span>
-                      {showAll
-                        ? "Show Less"
-                        : `Show More (${blogs.length - INITIAL_DISPLAY_COUNT} more)`}
-                    </span>
-                    {showAll ? (
-                      <ChevronUp className="transition-transform duration-300 group-hover:-translate-y-1" />
-                    ) : (
-                      <ChevronDown className="transition-transform duration-300 group-hover:translate-y-1" />
-                    )}
+                    Refresh
                   </button>
                 </div>
-              )}
-            </div>
-          )}
-
-          {/* No blogs state */}
-          {!loading && blogs.length === 0 && (
-            <div className="py-16 text-center">
-              <div className="mx-auto max-w-2xl rounded-3xl border border-gray-200/50 bg-white/70 p-10 backdrop-blur-md dark:border-white/20 dark:bg-white/10">
-                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-app-button">
-                  <svg
-                    className="h-10 w-10 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="mb-4 text-2xl font-bold text-app-text dark:text-gray-100">
-                  No Blogs Available
-                </h3>
-                <p className="text-lg text-app-text/80 dark:text-blue-100/80">
-                  We are working on bringing you fresh content. Check back soon!
-                </p>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
