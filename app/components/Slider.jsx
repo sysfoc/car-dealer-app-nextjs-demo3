@@ -31,7 +31,7 @@ const Slider = ({ loadingState, carData }) => {
   ].filter(Boolean);
 
   return (
-    <div className="mt-3 h-56 sm:h-72 xl:h-80 2xl:h-96">
+    <div className="h-56 sm:h-72 xl:h-80 2xl:h-96">
       <Carousel slideInterval={3000}>
         {mediaItems.map((media, index) => {
           if (loading) {
