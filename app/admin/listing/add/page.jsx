@@ -617,7 +617,8 @@ const Page = () => {
               <option value="">Select Country</option>
               {userApiAccess.uk && <option value="uk">United Kingdom</option>}
               {userApiAccess.usa && <option value="usa">United States</option>}
-              {userApiAccess.au && <option value="au">Australia</option>}
+              {/* {userApiAccess.au && <option value="au">Australia</option>} */}
+
             </Select>
           </div>
 
